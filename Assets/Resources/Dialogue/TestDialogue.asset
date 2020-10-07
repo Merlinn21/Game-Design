@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6a00bafd5d49b74083c9ee5563a18b3, type: 3}
+  m_Name: TestDialogue
+  m_EditorClassIdentifier: 
+  charLeft: {fileID: 11400000, guid: 73af8b4e13f862545ba58a2ac71784f7, type: 2}
+  charRight: {fileID: 11400000, guid: ff8b56cc87a6e9b4b8c9be98ee833694, type: 2}
+  lines:
+  - character: {fileID: 11400000, guid: 73af8b4e13f862545ba58a2ac71784f7, type: 2}
+    text: TestDialogue1
+  - character: {fileID: 11400000, guid: 73af8b4e13f862545ba58a2ac71784f7, type: 2}
+    text: TestDialogue2
+  - character: {fileID: 11400000, guid: ff8b56cc87a6e9b4b8c9be98ee833694, type: 2}
+    text: TestResponse1
+  freeRoam: 1
