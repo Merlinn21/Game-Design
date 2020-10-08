@@ -7,5 +7,7 @@ using UnityEngine;
 public class GhostParty : ScriptableObject
 {
     public GhostBase[] ghostParty;
+    public int minLvl;
+    public int maxLvl;
 
 }

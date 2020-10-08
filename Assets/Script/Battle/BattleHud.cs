@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System;
 
 public class BattleHud : MonoBehaviour
 {
-    public Text ghostName;
+    public TMP_Text lvlText;
 
     public void SetData(Ghost ghost)
     {
         if(ghost != null)
         {
-            ghostName.text = ghost.Base.getName();
-            
+            lvlText.text = ghost.Level.ToString();
         }
     }
+
 }

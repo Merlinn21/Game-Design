@@ -6,7 +6,6 @@ public class DialogueEvent : MonoBehaviour
 {
     public Dialogue dialogue;
     [SerializeField] private DialogueTrigger trigger;
-    public GhostParty ghostParty;
 
     public void Deactivate()
     {

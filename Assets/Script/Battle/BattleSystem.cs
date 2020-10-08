@@ -42,10 +42,11 @@ public class BattleSystem : MonoBehaviour
     private void RandomizeGhost()
     {
         int random = Mathf.FloorToInt(UnityEngine.Random.Range(0, party.Length));
-
+        Debug.Log(party[random].name);
         for(int i = 0; i < party[random].ghostParty.Length; i++)
         {
-            enemies[i].Setup(party[random].ghostParty[i]);
+            int ghostLvl = UnityEngine.Random.Range(party[random].minLvl, party[random].maxLvl + 1);
+            enemies[i].Setup(party[random].ghostParty[i], ghostLvl);
         }
     }
 
@@ -53,7 +54,8 @@ public class BattleSystem : MonoBehaviour
     {
         for (int i = 0; i < eventParty.ghostParty.Length; i++)
         {
-            enemies[i].Setup(eventParty.ghostParty[i]);
+            int ghostLvl = UnityEngine.Random.Range(party[i].minLvl, party[i].maxLvl);
+            enemies[i].Setup(eventParty.ghostParty[i], ghostLvl);
         }
     }
 }

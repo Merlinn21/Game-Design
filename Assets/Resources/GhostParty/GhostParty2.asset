@@ -16,3 +16,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6296bd57af1d9854894e52cc59f56fff, type: 2}
   - {fileID: 11400000, guid: 6296bd57af1d9854894e52cc59f56fff, type: 2}
   - {fileID: 11400000, guid: 6296bd57af1d9854894e52cc59f56fff, type: 2}
+  minLvl: 1
+  maxLvl: 3

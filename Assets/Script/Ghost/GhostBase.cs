@@ -8,15 +8,25 @@ public class GhostBase : ScriptableObject
     [SerializeField] private string ghostName;
     [SerializeField] private Sprite sprite;
 
-    [SerializeField] private float maxHP;
-    [SerializeField] private float atk;
-    [SerializeField] private float def;
-    [SerializeField] private float speed;
+    [SerializeField] private int maxHP;
+    [SerializeField] private int maxMana;
+    [SerializeField] private int atk;
+    [SerializeField] private int def;
+
+    [SerializeField] private List<Move> moveList;
 
     public string getName() { return ghostName; }
     public Sprite getSprite() { return sprite; }
-    public float getMaxHp() { return maxHP; }
-    public float getAtk() { return atk; }
-    public float getDef() { return def; }
-    public float getSpeed() { return speed; }
+    public int getMaxHp() { return maxHP; }
+    public int getMaxMana() { return maxMana; }
+    public int getAtk() { return atk; }
+    public int getDef() { return def; }
+    public List<Move> getMoveList() { return moveList; }
+}
+[System.Serializable]
+public class Move
+{
+    [SerializeField] GhostMoveBase moveBase;
+
+    public GhostMoveBase getMoveBase() { return moveBase; }
 }
