@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Script\Battle\BattleDialogue.cs" />
     <Compile Include="Assets\Script\Battle\BattleHud.cs" />
     <Compile Include="Assets\Script\Battle\BattleSystem.cs" />
     <Compile Include="Assets\Script\Battle\BattleUnit.cs" />
@@ -78,6 +79,10 @@
     <Compile Include="Assets\Script\Ghost\GhostParty.cs" />
     <Compile Include="Assets\Script\Movement\CollisionDetector.cs" />
     <Compile Include="Assets\Script\Movement\GridMovement.cs" />
+    <Compile Include="Assets\Script\Player\PlayerHud.cs" />
+    <Compile Include="Assets\Script\Player\PlayerMoveSet.cs" />
+    <Compile Include="Assets\Script\Player\PlayerStat.cs" />
+    <Compile Include="Assets\Script\Player\StatModifier.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />

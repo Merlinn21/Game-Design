@@ -17,4 +17,5 @@ MonoBehaviour:
   acc: 100
   cost: 5
   costType: 0
-  type: 1
+  targetType: 1
+  moveType: 6

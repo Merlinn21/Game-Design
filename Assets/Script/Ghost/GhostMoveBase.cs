@@ -6,13 +6,25 @@ public enum targetType
 {
     Friendly,
     Enemy,
-    Self
+    Self,
+    Aoe
 }
 
 public enum costType
 {
     Hp,
     Mana
+}
+
+public enum moveType
+{
+    Fire,
+    Water,
+    Earth,
+    Wind,
+    Dark,
+    Light,
+    Physical
 }
 
 [CreateAssetMenu(fileName = "Ghost", menuName = "Ghost/Create new Move")]
@@ -23,12 +35,14 @@ public class GhostMoveBase : ScriptableObject
     [SerializeField] private float acc;
     [SerializeField] private float cost;
     [SerializeField] private costType costType;
-    [SerializeField] private targetType type;
+    [SerializeField] private targetType targetType;
+    [SerializeField] private moveType moveType;
 
     public string getMoveName() { return moveName; }
     public float getBaseDmg() { return baseDmg; }
     public float getAcc() { return acc; }
     public float getCost() { return cost; }
     public costType getCostType() { return costType; }
-    public targetType getTargetType() { return type; }
+    public targetType getTargetType() { return targetType; }
+    public moveType GetMoveType() { return moveType; }
 }

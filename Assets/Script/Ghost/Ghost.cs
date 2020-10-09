@@ -7,6 +7,7 @@ public class Ghost
     public GhostBase Base { get; set; }
     public int Level { get; set; }
     public int HP { get; set; }
+    public bool alive = true;
 
     public List<GhostMove> moveList { get; set; }
 
@@ -25,7 +26,7 @@ public class Ghost
 
     public int MaxHp()
     {
-        return Mathf.FloorToInt(Base.getMaxHp() * Level / 5);
+        return Mathf.FloorToInt(Base.getMaxHp());
     }
 
     public int Attack()
@@ -40,7 +41,32 @@ public class Ghost
 
     public int MaxMana()
     {
-        return Mathf.FloorToInt(Base.getMaxMana() * Level / 5);
+        return Mathf.FloorToInt(Base.getMaxMana());
     }
 
+    public int TakeDmg(GhostMoveBase move)
+    {
+        int dmg = (int)move.getBaseDmg();
+        HP -= dmg;
+        if(HP <= 0)
+        {
+            Debug.Log("darah abis");
+        }
+        return dmg;
+    }
+
+    public GhostMove getRandomMove()
+    {
+        int random = Random.Range(0, moveList.Count);
+        return moveList[random];
+    }
+
+    public int GiveDmg(GhostMoveBase move)
+    {
+        int dmg = (int)move.getBaseDmg();
+        PlayerStat.health -= dmg;
+
+
+        return dmg;
+    }
 }
