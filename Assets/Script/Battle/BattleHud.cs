@@ -46,4 +46,10 @@ public class BattleHud : MonoBehaviour
         lvl.SetActive(false);
         hp.SetActive(false);
     }
+    public void Alive()
+    {
+        this.gameObject.GetComponent<Image>().enabled = true;
+        lvl.SetActive(true);
+        hp.SetActive(true);
+    }
 }

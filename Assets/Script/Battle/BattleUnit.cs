@@ -24,9 +24,4 @@ public class BattleUnit : MonoBehaviour
             this.gameObject.SetActive(false);
         }
     }
-
-    public void ClearGhost()
-    {
-        Ghost = new Ghost(null, 0);
-    }
 }

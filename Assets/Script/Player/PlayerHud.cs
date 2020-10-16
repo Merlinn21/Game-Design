@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class PlayerHud : MonoBehaviour
 {
@@ -32,6 +33,13 @@ public class PlayerHud : MonoBehaviour
     public UnityEvent onSkillOpen;
     public UnityEvent onSkillClose;
 
+    [Space]
+    [Header("Button List")]
+    [Space]
+    [SerializeField] private List<Button> actionList;
+    [SerializeField] private List<Button> fightList;
+    [SerializeField] private List<Button> moveList;
+
     public void SetPlayerData()
     {
         playerHP.text = PlayerStat.health.ToString();
@@ -55,5 +63,49 @@ public class PlayerHud : MonoBehaviour
     {
         playerHP.text = PlayerStat.health.ToString();
         playerMP.text = PlayerStat.mana.ToString();
+    }
+
+    public void UpdateChooseAction(int index)
+    {
+        for(int i = 0; i<actionList.Count; i++)
+        {
+            if (i == index)
+            {
+                actionList[i].GetComponentInChildren<TMP_Text>().color = Color.blue;
+            }
+            else
+            {
+                actionList[i].GetComponentInChildren<TMP_Text>().color = Color.black;
+            }
+        }
+    }
+
+    public void UpdateBattleAction(int index){
+        for (int i = 0; i < actionList.Count; i++)
+        {
+            if (i == index)
+            {
+                fightList[i].GetComponentInChildren<TMP_Text>().color = Color.blue;
+            }
+            else
+            {
+                fightList[i].GetComponentInChildren<TMP_Text>().color = Color.black;
+            }
+        }
+    }
+
+    public void UpdateBattleMoveAction(int index)
+    {
+        for (int i = 0; i < actionList.Count; i++)
+        {
+            if (i == index)
+            {
+                moveList[i].GetComponentInChildren<TMP_Text>().color = Color.blue;
+            }
+            else
+            {
+                moveList[i].GetComponentInChildren<TMP_Text>().color = Color.black;
+            }
+        }
     }
 }

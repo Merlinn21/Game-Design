@@ -2729,18 +2729,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 341347924}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 968344905}
-        m_MethodName: Fight
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &341347924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3610,7 +3599,7 @@ GameObject:
   m_Component:
   - component: {fileID: 442466217}
   m_Layer: 0
-  m_Name: Action
+  m_Name: ChooseAction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3724,7 +3713,7 @@ GameObject:
   m_Component:
   - component: {fileID: 505983658}
   m_Layer: 0
-  m_Name: AttackAction
+  m_Name: BattleAction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5216,18 +5205,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 653176946}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 968344904}
-        m_MethodName: RunAway
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &653176946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5796,18 +5774,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 802500937}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 968344905}
-        m_MethodName: CloseFight
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &802500937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6503,9 +6470,11 @@ MonoBehaviour:
   - {fileID: 350126046}
   playerHud: {fileID: 968344905}
   moveSet: {fileID: 1281456746}
+  dialogueBox: {fileID: 382874626}
   waitDialogue: 0.4
   noGhost: {fileID: 0}
-  dialogueBox: {fileID: 382874626}
+  confirmBtn: 102
+  backBtn: 120
 --- !u!114 &968344905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6627,6 +6596,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  actionList:
+  - {fileID: 341347923}
+  - {fileID: 970915464}
+  - {fileID: 1752342763}
+  - {fileID: 1845437772}
+  fightList:
+  - {fileID: 57359014}
+  - {fileID: 558666585}
+  - {fileID: 653176945}
+  - {fileID: 802500936}
+  moveList:
+  - {fileID: 1976225439}
+  - {fileID: 2121973944}
+  - {fileID: 1472053392}
+  - {fileID: 803389891}
 --- !u!1 &970915462
 GameObject:
   m_ObjectHideFlags: 0
@@ -11501,18 +11485,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1752342764}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 968344904}
-        m_MethodName: RunAway
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1752342764
 MonoBehaviour:
   m_ObjectHideFlags: 0
