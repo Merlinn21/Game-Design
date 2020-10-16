@@ -51,7 +51,6 @@ public class Ghost
         if(HP <= 0)
         {
             HP = 0;
-            Debug.Log("darah abis");
         }
         return dmg;
     }

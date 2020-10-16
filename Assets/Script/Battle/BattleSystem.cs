@@ -6,7 +6,7 @@ using System;
 
 public enum BattleState
 {
-    Start, PlayerChoose, PlayerMove, PlayerBattle, EnemyMove, Busy
+    Start, PlayerChoose, PlayerMove, PlayerBattle, EnemyMove, Busy, ChooseTarget
 }
 
 public class BattleSystem : MonoBehaviour
@@ -14,13 +14,12 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private GhostParty[] party;
     [SerializeField] private GhostParty eventParty;
     [SerializeField] private BattleUnit[] enemies;
-    [SerializeField] private BattleHud[] battleHuds;
     [SerializeField] private PlayerHud playerHud;
     [SerializeField] private PlayerMoveSet moveSet;
     [SerializeField] private BattleDialogue dialogueBox;
 
-    private int targetNum;
-    private List<Ghost> ghostTarget;
+    private List<BattleUnit> ghostTarget;
+    private List<int> targetNumber;
     public float waitDialogue = 1f;
     public GhostBase noGhost;
 
@@ -31,6 +30,7 @@ public class BattleSystem : MonoBehaviour
     private int currentAction = 0;
     private int currentActionBattle = 0;
     private int currentActionBattleMove = 0;
+    private int currentChooseTarget;
 
     public event Action<bool> onBattleOver;
 
@@ -44,17 +44,26 @@ public class BattleSystem : MonoBehaviour
 
     public IEnumerator SetupBattle()
     {
-        targetNum = 0;
+        currentAction = 0;
+        currentActionBattle = 0;
+        currentActionBattleMove = 0;
+        currentChooseTarget = 0;
         dialogueBox.ActivateDialogue();
         state = BattleState.Start;
-        ghostTarget = new List<Ghost>();
+
+        ghostTarget = new List<BattleUnit>();
+        targetNumber = new List<int>();
         for (int i = 0; i < enemies.Length; i++)
         {
-            battleHuds[i].SetData(enemies[i].Ghost);
-            battleHuds[i].Alive();
-            ghostTarget.Add(enemies[i].Ghost);
-        }
-        battleHuds[targetNum].ActivateTarget();
+            enemies[i].GetComponent<BattleHud>().SetData(enemies[i].Ghost);
+            enemies[i].GetComponent<BattleHud>().Alive();
+
+            if(enemies[i].Ghost.Base.getName() != "NoGhost")
+            {
+                ghostTarget.Add(enemies[i]);
+                targetNumber.Add(i);
+            }
+        }        
 
         yield return dialogueBox.TypeDialogue("Evil spirit gathered");
         yield return new WaitForSeconds(waitDialogue);
@@ -118,33 +127,27 @@ public class BattleSystem : MonoBehaviour
         var move = moveSet.getCurrentMoves()[moveNumber];
         dialogueBox.ActivateDialogue();
 
-        int dmg = enemies[targetNum].Ghost.TakeDmg(move.getMoveBase());
+        int dmg = enemies[currentChooseTarget].Ghost.TakeDmg(move.getMoveBase());
+        enemies[currentChooseTarget].GetComponent<BattleHud>().UpdateUI(enemies[currentChooseTarget].Ghost);
         yield return dialogueBox.TypeDialogue($"You used {move.getMoveBase().getMoveName()} for {dmg.ToString()} Damage");
-        
-        battleHuds[targetNum].UpdateUI(enemies[targetNum].Ghost);
+
+        //enemies[currentChooseTarget].GetComponent<BattleHud>().ActivateTarget();
         yield return new WaitForSeconds(waitDialogue);
 
         dialogueBox.CloseDialogue();
 
-        if (enemies[targetNum].Ghost.HP <= 0)
+        if (enemies[currentChooseTarget].Ghost.HP <= 0)
         {
             dialogueBox.ActivateDialogue();
-            yield return dialogueBox.TypeDialogue($"{enemies[targetNum].Ghost.Base.getName()} go brrrrrr");
+            yield return dialogueBox.TypeDialogue($"{enemies[currentChooseTarget].Ghost.Base.getName()} go brrrrrr");
             dialogueBox.CloseDialogue();
-            yield return DeadEnemies(targetNum);
+            yield return DeadEnemies(currentChooseTarget);
         }
 
         StartCoroutine(EnemyMove());
         
     }
 
-    public void ChangeTarget(int number)
-    {
-        battleHuds[targetNum].DeactivateTarget();
-        targetNum = number;
-        Debug.Log(ghostTarget[number].Base.getName());
-        battleHuds[targetNum].ActivateTarget();
-    }
 
     IEnumerator EnemyMove()
     {
@@ -154,6 +157,7 @@ public class BattleSystem : MonoBehaviour
         {
             if (enemies[i].Ghost.Base.getName() == "NoGhost" || enemies[i].Ghost.alive == false)
             {
+                // cek kalo hantu mati atau engga, kalo mati skip 1 loop
                 continue;
             }
             //-------------------------------------Ghost Move-------------------------------------------
@@ -179,28 +183,29 @@ public class BattleSystem : MonoBehaviour
         {
             yield return dialogueBox.TypeDialogue("Ded");
         }
-        else
-        {
-            state = BattleState.PlayerMove;
-        }
-        
+
+        state = BattleState.PlayerMove;
+        playerHud.OpenSkill();
+        currentChooseTarget = 0;
+
     }
 
     IEnumerator DeadEnemies(int number)
     {
         enemies[number].Ghost.alive = false;
-        battleHuds[number].Dead();
+        enemies[currentChooseTarget].GetComponent<BattleHud>().Dead();
         ghostTarget.RemoveAt(number);
+        targetNumber.RemoveAt(number);
         
         for(int i = 0; i< ghostTarget.Count; i++)
         {
-            if(ghostTarget[i].alive != false)
+            if(ghostTarget[i].Ghost.alive != false)
             {
-                ChangeTarget(i);
+                
             }
         }
         
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(1f);
     }
 
     private void Update()
@@ -216,6 +221,10 @@ public class BattleSystem : MonoBehaviour
         else if(state == BattleState.PlayerMove)
         {
             HandleBattleMoveSelection();
+        }
+        else if(state == BattleState.ChooseTarget)
+        {
+            HandleChooseTargetSelection();
         }
     }
 
@@ -341,7 +350,8 @@ public class BattleSystem : MonoBehaviour
 
         if (Input.GetKeyDown(confirmBtn))
         {
-            PlayerMove(currentActionBattleMove);
+            state = BattleState.ChooseTarget;
+            //PlayerMove(currentActionBattleMove);
         }
         else if (Input.GetKeyDown(backBtn))
         {
@@ -350,5 +360,59 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
+    private void HandleChooseTargetSelection()
+    {
+        if(ghostTarget.Count != 1)
+        {
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                if(currentChooseTarget < targetNumber.Count - 1)
+                    currentChooseTarget++;
+                /*if (currentChooseTarget == ghostTarget.Count - 1)
+                    currentChooseTarget = targetNumber[0];
+                else if (currentChooseTarget < ghostTarget.Count)
+                    currentChooseTarget = targetNumber[currentChooseTarget + 1];*/
+            }
+            else if (Input.GetKeyDown(KeyCode.A))
+            {
+                if (currentChooseTarget > 0)
+                    currentChooseTarget--;
+                /*if (currentChooseTarget == 0)
+                    currentChooseTarget = targetNumber[targetNumber.Count - 1];
+                else if (currentChooseTarget > 0)
+                    currentChooseTarget = targetNumber[currentChooseTarget - 1];*/
+            }
+        }
+        else
+        {
+            currentChooseTarget = 0;
+        }
+        Debug.Log("currentChooseTarget " + currentChooseTarget.ToString());
+        Debug.Log(ghostTarget[currentChooseTarget].name);
+
+        /*
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            if (i == currentChooseTarget)
+            {
+                ghostTarget[currentChooseTarget].GetComponent<BattleHud>().ActivateTarget();
+                Debug.Log(ghostTarget[currentChooseTarget].name);
+            }
+            else
+            {
+                ghostTarget[currentChooseTarget].GetComponent<BattleHud>().DeactivateTarget();
+            }
+        }
+        */
+        if (Input.GetKeyDown(confirmBtn))
+        {
+            PlayerMove(currentActionBattleMove);
+        }
+        else if (Input.GetKeyDown(backBtn))
+        {
+            state = BattleState.PlayerMove;
+            
+        }
+    }
 
 }
