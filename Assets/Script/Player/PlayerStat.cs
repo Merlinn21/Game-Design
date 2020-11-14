@@ -5,13 +5,23 @@ using UnityEngine;
 
 public class PlayerStat :MonoBehaviour
 {
-    static public int health = 100;
-    static public int maxHealth = 100;
-    static public int mana = 100;
-    static public int maxMana = 100;
-    static public int lvl = 1;
-    static public int atk;
-    static public int def;
+    static int baseAtk = 200;
+    static int baseSAtk = 200;
+    static int baseSDef = 200;
+    static int baseDef = 200;
+    static int baseHealth = 300;
+    static int baseMana = 300;
+    static public int lvl = 5;
+
+    static public int maxHealth = (((((baseHealth + 10) * 2) + 1) * lvl) / 100) + lvl + 10;
+    static public int health = maxHealth;
+    static public int maxMana = (((((baseMana + 10) * 2) + 1) * lvl) / 100) + lvl + 10;
+    static public int mana = maxMana;
+    static public int atk = (((((baseAtk + 10) * 2) + 1) * lvl) / 100) + 5;
+    static public int satk = (((((baseSAtk + 10) * 2) + 1) * lvl) / 100) + 5;
+    static public int def = (((((baseDef + 10) * 2) + 1) * lvl) / 100) + 5;
+    static public int sdef = (((((baseSDef + 10) * 2) + 1) * lvl) / 100) + 5;
+
     static public int move1 = 0;
     static public int move2 = 1;
     static public int move3 = 2;

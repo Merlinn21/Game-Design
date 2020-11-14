@@ -1,0 +1,39 @@
+# Blender MTL File: 'roof.blend'
+# Material Count: 3
+
+newmtl Matal_solid_paint_white
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd B:\\veci na prodej TS\\auta\\materialy\\Matal_solid_paint_white\\Matal_solid_paint_white_Base Color.png
+map_Ks B:\\veci na prodej TS\\auta\\materialy\\Matal_solid_paint_white\\Matal_solid_paint_white_Specular.png
+map_Ns B:\\veci na prodej TS\\auta\\materialy\\Matal_solid_paint_white\\Matal_solid_paint_white_Roughness.png
+refl B:\\veci na prodej TS\\auta\\materialy\\Matal_solid_paint_white\\Matal_solid_paint_white_Metallic.png
+
+newmtl Material
+Ns 323.999994
+Ka 1.000000 1.000000 1.000000
+Kd 0.069978 0.069978 0.069978
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 3
+
+newmtl White_concrete
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:\\3)My photo-materials\\White Concrete\\White Concrete_BaseColor.png
+map_Ns D:\\3)My photo-materials\\White Concrete\\White Concrete_Roughness.png
+refl D:\\3)My photo-materials\\White Concrete\\White Concrete_Metallic.png

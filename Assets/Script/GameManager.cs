@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     {
         state = GameState.Battle;
         battleSystem.gameObject.SetActive(true);
+        battleSystem.transform.GetChild(0).gameObject.SetActive(true);
+        battleSystem.transform.GetChild(1).gameObject.SetActive(true);
         mainCamera.gameObject.SetActive(false);
 
         battleSystem.StartBattle(randomBattle);
@@ -60,6 +62,8 @@ public class GameManager : MonoBehaviour
         {
             state = GameState.Battle;
             battleSystem.gameObject.SetActive(true);
+            battleSystem.transform.GetChild(0).gameObject.SetActive(true);
+            battleSystem.transform.GetChild(1).gameObject.SetActive(true);
             mainCamera.gameObject.SetActive(false);
             playerMove.onEventFalse();
             battleSystem.StartEventBattle(ghostParty);

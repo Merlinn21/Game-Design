@@ -9,14 +9,15 @@ public class BattleHud : MonoBehaviour
 {
     [SerializeField] private TMP_Text lvlText;
     [SerializeField] private TMP_Text hpText;
-    [SerializeField] private TMP_Text targetText;
     [SerializeField] private GameObject lvl;
     [SerializeField] private GameObject hp;
+    [SerializeField] private Image arrowTarget;
+    [SerializeField] private Color originalColor;
+    [SerializeField] private Color highlighColor;
 
 
     public void SetData(Ghost ghost)
     {
-        targetText.enabled = false;
         if(ghost != null)
         {
             lvlText.text = ghost.Level.ToString();
@@ -26,12 +27,15 @@ public class BattleHud : MonoBehaviour
 
     public void ActivateTarget()
     {
-        targetText.enabled = true;
+        arrowTarget.enabled = true;
+        this.gameObject.GetComponent<Image>().color = highlighColor;
     }
 
     public void DeactivateTarget()
     {
-        targetText.enabled = false;
+        arrowTarget.enabled = false;
+        this.gameObject.GetComponent<Image>().color = originalColor;
+
     }
 
     public void UpdateUI(Ghost ghost)
@@ -41,8 +45,8 @@ public class BattleHud : MonoBehaviour
 
     public void Dead()
     {
+        DeactivateTarget();
         this.gameObject.GetComponent<Image>().enabled = false;
-        targetText.enabled = false;
         lvl.SetActive(false);
         hp.SetActive(false);
     }
@@ -50,6 +54,7 @@ public class BattleHud : MonoBehaviour
     {
         this.gameObject.GetComponent<Image>().enabled = true;
         lvl.SetActive(true);
+        arrowTarget.enabled = false;
         hp.SetActive(true);
     }
 }

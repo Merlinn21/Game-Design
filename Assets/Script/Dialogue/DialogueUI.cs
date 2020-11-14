@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class DialogueUI : MonoBehaviour
 {
-    [SerializeField] private Text fullName;
-    [SerializeField] private Text dialogue;
+    [SerializeField] private TMP_Text fullName;
+    [SerializeField] private TMP_Text dialogue;
     [SerializeField] private Image portrait;
-
+    [SerializeField] private float typeSpeed = 4f;
+    [SerializeField] private DialogueTrigger trigger;
     private Character speaker;
 
     public Character Speaker
@@ -22,9 +24,9 @@ public class DialogueUI : MonoBehaviour
         }
     }
 
-    public string Dialogue
+    public void Dialogue(string value)
     {
-        set { dialogue.text = value; }
+        StartCoroutine(TypeDialogue(value));
     }
 
     public bool HasSpeaker()
@@ -45,5 +47,17 @@ public class DialogueUI : MonoBehaviour
     public void HideUI()
     {
         gameObject.SetActive(false);
+    }
+
+    public IEnumerator TypeDialogue(string dialogueText)
+    {
+        dialogue.text = "";
+        foreach (var letter in dialogueText.ToCharArray())
+        {
+            dialogue.text += letter;
+            yield return new WaitForSeconds(1f / typeSpeed);
+        }
+        yield return new WaitForSeconds(0.5f);
+        trigger.typingState = TypingState.Finished;
     }
 }

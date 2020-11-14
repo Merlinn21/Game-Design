@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ghostParty:
   - {fileID: 11400000, guid: 67abf5b45249313429a5dd649656d73c, type: 2}
+  - {fileID: 11400000, guid: 1a52029381879ee40b6e943b45154d9c, type: 2}
   - {fileID: 11400000, guid: 6296bd57af1d9854894e52cc59f56fff, type: 2}
-  - {fileID: 11400000, guid: 6296bd57af1d9854894e52cc59f56fff, type: 2}
-  minLvl: 1
-  maxLvl: 3
+  minLvl: 3
+  maxLvl: 5

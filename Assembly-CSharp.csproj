@@ -62,6 +62,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Pixelation\Example\Scripts\ImageEffectBase.cs" />
+    <Compile Include="Assets\Pixelation\Example\Scripts\Plane.cs" />
+    <Compile Include="Assets\Pixelation\Example\Scripts\PointLight.cs" />
+    <Compile Include="Assets\Pixelation\Scripts\Chunky.cs" />
+    <Compile Include="Assets\Pixelation\Scripts\Pixelation.cs" />
     <Compile Include="Assets\Script\Battle\BattleDialogue.cs" />
     <Compile Include="Assets\Script\Battle\BattleHud.cs" />
     <Compile Include="Assets\Script\Battle\BattleSystem.cs" />
@@ -74,19 +79,25 @@
     <Compile Include="Assets\Script\GameManager.cs" />
     <Compile Include="Assets\Script\Ghost\Ghost.cs" />
     <Compile Include="Assets\Script\Ghost\GhostBase.cs" />
+    <Compile Include="Assets\Script\Ghost\GhostDialogueBase.cs" />
     <Compile Include="Assets\Script\Ghost\GhostMove.cs" />
     <Compile Include="Assets\Script\Ghost\GhostMoveBase.cs" />
     <Compile Include="Assets\Script\Ghost\GhostParty.cs" />
     <Compile Include="Assets\Script\Movement\CollisionDetector.cs" />
     <Compile Include="Assets\Script\Movement\GridMovement.cs" />
+    <Compile Include="Assets\Script\Object\ObjectTrigger.cs" />
+    <Compile Include="Assets\Script\Player\Interact.cs" />
     <Compile Include="Assets\Script\Player\PlayerHud.cs" />
+    <Compile Include="Assets\Script\Player\PlayerItem.cs" />
     <Compile Include="Assets\Script\Player\PlayerMoveSet.cs" />
     <Compile Include="Assets\Script\Player\PlayerStat.cs" />
     <Compile Include="Assets\Script\Player\StatModifier.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\Pixelation\Shaders\Chunky.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\Pixelation\Shaders\Pixelation.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
@@ -94,7 +105,9 @@
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\Pixelation\Readme.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\Asset\3D\note.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />

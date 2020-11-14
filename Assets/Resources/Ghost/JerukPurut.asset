@@ -14,10 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ghostName: Jeruk Purut
   sprite: {fileID: 21300000, guid: 7e69e35cfa6196e43a35d8eb01eff8e5, type: 3}
-  maxHP: 40
+  maxHP: 160
   maxMana: 70
   atk: 25
+  satk: 0
   def: 10
+  sdef: 0
   moveList:
   - moveBase: {fileID: 11400000, guid: 78f823e82917efd4697367ad8d7fd7b8, type: 2}
   - moveBase: {fileID: 11400000, guid: 337075d1251165a42bf4e68f30ef31bf, type: 2}
+  ghostDialogues: []
+  bonusStatType: 1
+  bonusValue: 4
+  giveMove:
+    moveBase: {fileID: 11400000, guid: 78f823e82917efd4697367ad8d7fd7b8, type: 2}

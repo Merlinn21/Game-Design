@@ -4,10 +4,11 @@ using UnityEngine;
 
 public enum targetType
 {
-    Friendly,
     Enemy,
     Self,
-    Aoe
+    Aoe,
+    Buff,
+    Debuff
 }
 
 public enum costType
@@ -18,12 +19,7 @@ public enum costType
 
 public enum moveType
 {
-    Fire,
-    Water,
-    Earth,
-    Wind,
-    Dark,
-    Light,
+    Magic,
     Physical
 }
 

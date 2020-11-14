@@ -24,6 +24,18 @@ public class BattleDialogue : MonoBehaviour
             dialogueText.text += letter;
             yield return new WaitForSeconds(1f / typeSpeed);
         }
+        yield return new WaitForSeconds(0.5f);
+        CloseDialogue();
+    }
+
+    public IEnumerator TypeGhostDialogue(string dialogue)
+    {
+        dialogueText.text = "";
+        foreach (var letter in dialogue.ToCharArray())
+        {
+            dialogueText.text += letter;
+            yield return new WaitForSeconds(1f / typeSpeed);
+        }
     }
 
 

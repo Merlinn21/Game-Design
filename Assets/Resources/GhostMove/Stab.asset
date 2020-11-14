@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Stab
   m_EditorClassIdentifier: 
   moveName: Stab
-  baseDmg: 10
-  acc: 100
-  cost: 2
+  baseDmg: 50
+  acc: 90
+  cost: 1
   costType: 0
-  targetType: 1
-  moveType: 6
+  targetType: 0
+  moveType: 1

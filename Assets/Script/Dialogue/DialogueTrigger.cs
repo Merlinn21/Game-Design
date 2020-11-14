@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+public enum TypingState { Typing, Finished}
 public class DialogueTrigger : MonoBehaviour
 {
     private Dialogue dialogue;
@@ -15,7 +16,9 @@ public class DialogueTrigger : MonoBehaviour
 
     private int activeLineIndex = 0;
     public event Action<bool, GhostParty> onDialogueOver;
+    public KeyCode confirmButton = KeyCode.F;
 
+    public TypingState typingState; 
 
     public void SetDialogue(Dialogue _dialogue)
     {
@@ -37,7 +40,7 @@ public class DialogueTrigger : MonoBehaviour
 
     public void HandleUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(confirmButton) && typingState == TypingState.Finished)
             NextLine();
     }
 
@@ -80,14 +83,15 @@ public class DialogueTrigger : MonoBehaviour
         {
             SetDialogue(UIright, UIleft, line.text);
         }
+
         activeLineIndex++;
     }
 
     private void SetDialogue(DialogueUI show, DialogueUI hide, string text)
     {
-        show.Dialogue = text;
         show.ShowUI();
-
         hide.HideUI();
+        show.Dialogue(text);
+        typingState = TypingState.Typing;
     }
 }

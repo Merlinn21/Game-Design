@@ -6,7 +6,9 @@ using System;
 
 public enum BattleState
 {
-    Start, PlayerChoose, PlayerMove, PlayerBattle, EnemyMove, Busy, ChooseTarget
+    Start, PlayerChoose, PlayerMove, PlayerBattle, EnemyMove,
+    Busy, ChooseTarget, ChooseTalkTarget, GhostDialogue, MultiChoice,
+    ChooseBonus
 }
 
 public class BattleSystem : MonoBehaviour
@@ -18,12 +20,9 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private PlayerMoveSet moveSet;
     [SerializeField] private BattleDialogue dialogueBox;
 
-    private List<BattleUnit> ghostTarget;
-    private List<int> targetNumber;
+    [SerializeField]private List<BattleUnit> ghostTarget;
     public float waitDialogue = 1f;
-    public GhostBase noGhost;
-
-    private BattleState state;
+    public BattleState state;
     private bool change = false;
 
     //Untuk UI
@@ -31,11 +30,21 @@ public class BattleSystem : MonoBehaviour
     private int currentActionBattle = 0;
     private int currentActionBattleMove = 0;
     private int currentChooseTarget;
+    private int currentDialogue = 0;
+    private int currentTalkTarget;
+    private int currentMultiChoice;
 
     public event Action<bool> onBattleOver;
 
     public KeyCode confirmBtn;
     public KeyCode backBtn;
+
+    private bool eventBattle;
+    private bool talkToGhost;
+    private bool failToPersuade = false;
+
+    private GhostDialogueBase dialogueBase;
+    private int dialogueIndex = 0;
 
     public void Awake()
     {
@@ -48,11 +57,12 @@ public class BattleSystem : MonoBehaviour
         currentActionBattle = 0;
         currentActionBattleMove = 0;
         currentChooseTarget = 0;
+        currentTalkTarget = 0;
+        talkToGhost = false;
         dialogueBox.ActivateDialogue();
         state = BattleState.Start;
 
         ghostTarget = new List<BattleUnit>();
-        targetNumber = new List<int>();
         for (int i = 0; i < enemies.Length; i++)
         {
             enemies[i].GetComponent<BattleHud>().SetData(enemies[i].Ghost);
@@ -61,7 +71,6 @@ public class BattleSystem : MonoBehaviour
             if(enemies[i].Ghost.Base.getName() != "NoGhost")
             {
                 ghostTarget.Add(enemies[i]);
-                targetNumber.Add(i);
             }
         }        
 
@@ -73,6 +82,7 @@ public class BattleSystem : MonoBehaviour
 
     public void StartBattle(bool _randomBattle)
     {
+        eventBattle = false;
         playerHud.SetPlayerData();
         RandomizeGhost();
         StartCoroutine(SetupBattle());
@@ -80,6 +90,7 @@ public class BattleSystem : MonoBehaviour
 
     public void StartEventBattle(GhostParty _ghostParty)
     {
+        eventBattle = true;
         playerHud.SetPlayerData();
         eventParty = _ghostParty;
         SetEventParty();
@@ -96,7 +107,7 @@ public class BattleSystem : MonoBehaviour
         int random = Mathf.FloorToInt(UnityEngine.Random.Range(0, party.Length));
         for(int i = 0; i < party[random].ghostParty.Length; i++)
         {
-            int ghostLvl = UnityEngine.Random.Range(party[random].minLvl, party[random].maxLvl + 1);
+            int ghostLvl = UnityEngine.Random.Range(PlayerStat.lvl - 2, PlayerStat.lvl + 3);
             enemies[i].Setup(party[random].ghostParty[i], ghostLvl);
         }
     }
@@ -105,7 +116,7 @@ public class BattleSystem : MonoBehaviour
     {
         for (int i = 0; i < eventParty.ghostParty.Length; i++)
         {
-            int ghostLvl = UnityEngine.Random.Range(party[i].minLvl, party[i].maxLvl);
+            int ghostLvl = eventParty.eventPartyLevels[i];
             enemies[i].Setup(eventParty.ghostParty[i], ghostLvl);
         }
     }
@@ -120,6 +131,7 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(PerformPlayerMove(move));
     }
 
+    //-----------------------------Battle------------------------------------------
     IEnumerator PerformPlayerMove(int moveNumber)
     {
         state = BattleState.Busy;
@@ -127,23 +139,58 @@ public class BattleSystem : MonoBehaviour
         var move = moveSet.getCurrentMoves()[moveNumber];
         dialogueBox.ActivateDialogue();
 
-        int dmg = enemies[currentChooseTarget].Ghost.TakeDmg(move.getMoveBase());
-        enemies[currentChooseTarget].GetComponent<BattleHud>().UpdateUI(enemies[currentChooseTarget].Ghost);
-        yield return dialogueBox.TypeDialogue($"You used {move.getMoveBase().getMoveName()} for {dmg.ToString()} Damage");
+        //------------------------Player Move-------------------------------
 
-        //enemies[currentChooseTarget].GetComponent<BattleHud>().ActivateTarget();
-        yield return new WaitForSeconds(waitDialogue);
-
-        dialogueBox.CloseDialogue();
-
-        if (enemies[currentChooseTarget].Ghost.HP <= 0)
+        if (move.getMoveBase().getTargetType() == targetType.Enemy)
         {
-            dialogueBox.ActivateDialogue();
-            yield return dialogueBox.TypeDialogue($"{enemies[currentChooseTarget].Ghost.Base.getName()} go brrrrrr");
-            dialogueBox.CloseDialogue();
-            yield return DeadEnemies(currentChooseTarget);
+            int dmg = ghostTarget[currentChooseTarget].Ghost.TakeDmg(move.getMoveBase());
+            ghostTarget[currentChooseTarget].GetComponent<BattleHud>().UpdateUI(ghostTarget[currentChooseTarget].Ghost);
+
+            if (move.getMoveBase().getMoveName() != "Attack")
+            {               
+                yield return dialogueBox.TypeDialogue($"You used {move.getMoveBase().getMoveName()} for {dmg.ToString()} Damage");
+            }
+            else
+            {
+                yield return dialogueBox.TypeDialogue($"You Attack the enemies for {dmg.ToString()} Damage");
+            }
         }
 
+        if(move.getMoveBase().getTargetType() == targetType.Aoe)
+        {
+            int dmg = 0;
+            for(int i = 0; i < ghostTarget.Count; i++)
+            {
+                dmg = ghostTarget[i].Ghost.TakeDmg(move.getMoveBase());
+                ghostTarget[i].GetComponent<BattleHud>().UpdateUI(ghostTarget[i].Ghost);
+            }
+
+            yield return dialogueBox.TypeDialogue($"AOE DEEPS {move.getMoveBase().getMoveName()} for {dmg.ToString()} Damage");
+
+        }
+
+        //------------------------Player Move-------------------------------
+
+        var moveBase = moveSet.getCurrentMoves()[moveNumber].getMoveBase();
+        if (moveBase.getCostType() == costType.Mana)
+        {
+            PlayerStat.mana -= (int)moveBase.getCost();
+        }
+        else
+        {
+            var cost = Mathf.Round((moveBase.getCost() + 1 * PlayerStat.health / 100));
+
+            PlayerStat.health -= (int)cost;
+        }
+
+        if (ghostTarget[currentChooseTarget].Ghost.HP <= 0)
+        {
+            dialogueBox.ActivateDialogue();
+            yield return dialogueBox.TypeDialogue($"{ghostTarget[currentChooseTarget].Ghost.Base.getName()} go brrrrrr");
+            yield return DeadEnemies();
+        }
+
+        yield return new WaitForSeconds(waitDialogue);
         StartCoroutine(EnemyMove());
         
     }
@@ -153,21 +200,28 @@ public class BattleSystem : MonoBehaviour
     {
         state = BattleState.EnemyMove;
         
-        for (int i = 0; i < enemies.Length; i++)
+        for (int i = 0; i < ghostTarget.Count; i++)
         {
-            if (enemies[i].Ghost.Base.getName() == "NoGhost" || enemies[i].Ghost.alive == false)
+            if (ghostTarget[i].Ghost.Base.getName() == "NoGhost" || enemies[i].Ghost.alive == false)
             {
-                // cek kalo hantu mati atau engga, kalo mati skip 1 loop
                 continue;
             }
             //-------------------------------------Ghost Move-------------------------------------------
-            var move = enemies[i].Ghost.getRandomMove();
+            var move = ghostTarget[i].Ghost.getRandomMove();
             
+            //AOE or Single
             if(move.Base.getTargetType() == targetType.Enemy || move.Base.getTargetType() == targetType.Aoe)
             {
-                int dmg = enemies[i].Ghost.GiveDmg(move.Base);
+                int dmg = ghostTarget[i].Ghost.GiveDmg(move.Base);
                 dialogueBox.ActivateDialogue();
-                yield return dialogueBox.TypeDialogue($"{enemies[i].Ghost.Base.getName()} used {move.Base.getMoveName()} for {dmg.ToString()} Damage");
+                yield return dialogueBox.TypeDialogue($"{ghostTarget[i].Ghost.Base.getName()} used {move.Base.getMoveName()} for {dmg.ToString()} Damage");
+            }
+
+            if(move.Base.getTargetType() == targetType.Self)
+            {
+                int heal = ghostTarget[i].Ghost.GiveHeal(move.Base);
+                dialogueBox.ActivateDialogue();
+                yield return dialogueBox.TypeDialogue($"{ghostTarget[i].Ghost.Base.getName()} used {move.Base.getMoveName()} and healed {heal.ToString()} HP");
             }
 
 
@@ -175,59 +229,91 @@ public class BattleSystem : MonoBehaviour
             //-------------------------------------Ghost Move-------------------------------------------
 
             playerHud.UpdateUI();
+            ghostTarget[i].GetComponent<BattleHud>().UpdateUI(ghostTarget[i].Ghost);
             yield return new WaitForSeconds(waitDialogue);
             dialogueBox.CloseDialogue();
         }
 
         if (PlayerStat.health <= 0)
         {
+            dialogueBox.ActivateDialogue();
             yield return dialogueBox.TypeDialogue("Ded");
+            onBattleOver(false);
         }
 
-        state = BattleState.PlayerMove;
-        playerHud.OpenSkill();
+        state = BattleState.PlayerBattle;
+        ghostTarget[currentChooseTarget].GetComponent<BattleHud>().DeactivateTarget();
+        playerHud.Fight();
+        playerHud.CloseSkill();
+        ghostTarget[currentChooseTarget].gameObject.GetComponent<BattleHud>().DeactivateTarget();
         currentChooseTarget = 0;
 
     }
 
-    IEnumerator DeadEnemies(int number)
+    IEnumerator DeadEnemies()
     {
-        enemies[number].Ghost.alive = false;
-        enemies[currentChooseTarget].GetComponent<BattleHud>().Dead();
-        ghostTarget.RemoveAt(number);
-        targetNumber.RemoveAt(number);
-        
-        for(int i = 0; i< ghostTarget.Count; i++)
+        ghostTarget[currentChooseTarget].Ghost.alive = false;
+        ghostTarget[currentChooseTarget].GetComponent<BattleHud>().Dead();
+        ghostTarget.RemoveAt(currentChooseTarget);
+        if (ghostTarget.Count != 0)
+            currentChooseTarget = 0;
+        else
         {
-            if(ghostTarget[i].Ghost.alive != false)
-            {
-                
-            }
+            //TODO: SHOW +EXP 
+            currentAction = 0;
+            currentActionBattle = 0;
+            currentActionBattleMove = 0;
+            currentChooseTarget = 0;
+            currentDialogue = 0;
+            currentMultiChoice = 0;
+            currentTalkTarget = 0;
+
+            onBattleOver(true);
         }
-        
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
     }
 
+    //-----------------------------Battle------------------------------------------
+
+
+    //Handle State
     private void Update()
     {
-        if(state == BattleState.PlayerChoose)
+        switch (state)
         {
-            HandleActionSelection();
-        }
-        else if(state == BattleState.PlayerBattle)
-        {
-            HandleBattleSelection();
-        }
-        else if(state == BattleState.PlayerMove)
-        {
-            HandleBattleMoveSelection();
-        }
-        else if(state == BattleState.ChooseTarget)
-        {
-            HandleChooseTargetSelection();
+            case BattleState.PlayerChoose:
+                HandleActionSelection();
+                break;
+            case BattleState.PlayerBattle:
+                HandleBattleSelection();
+                break;
+            case BattleState.PlayerMove:
+                HandleBattleMoveSelection();
+                break;
+            case BattleState.ChooseTarget:
+                HandleChooseTargetSelection();
+                break;
+            case BattleState.ChooseTalkTarget:
+                HandleTalkTarget();
+                break;
+            case BattleState.GhostDialogue:
+                if (Input.GetKeyDown(confirmBtn))
+                {
+                    NextDialogue();
+                }
+                break;
+            case BattleState.MultiChoice:
+                HandleMultiChoice();
+                break;
+            case BattleState.ChooseBonus:
+                HandleBonusChoice();
+                break;
+            default:
+                break;
         }
     }
 
+    //Action Panel
     private void HandleActionSelection()
     {
         if (Input.GetKeyDown(KeyCode.D))
@@ -257,14 +343,31 @@ public class BattleSystem : MonoBehaviour
         {
             if (currentAction == 0)
             {
+                //Battle
                 state = BattleState.PlayerBattle;
                 playerHud.Fight();   
             }
+            else if(currentAction == 1)
+            {
+                //Talk
+                state = BattleState.ChooseTalkTarget; 
+            }
             else if (currentAction == 2)
-                RunAway();
+            {
+                //Run
+                if(!eventBattle)
+                    RunAway();
+                else
+                {
+                    state = BattleState.Busy;
+                    StartCoroutine(FailedToRun(BattleState.PlayerChoose)); 
+                }
+
+            }
         }        
     }
 
+    //Battle Panel
     private void HandleBattleSelection()
     {
         if (Input.GetKeyDown(KeyCode.D))
@@ -295,8 +398,8 @@ public class BattleSystem : MonoBehaviour
             if (currentActionBattle == 0)
             {
                 //attack
-                state = BattleState.PlayerBattle;
-                playerHud.Fight();
+                currentActionBattleMove = 4;
+                state = BattleState.ChooseTarget;
             }
             else if(currentActionBattle == 1)
             {
@@ -311,6 +414,7 @@ public class BattleSystem : MonoBehaviour
             else if (currentActionBattle == 3)
             {
                 //back
+                currentAction = 0;
                 state = BattleState.PlayerChoose;
                 playerHud.CloseFight();
             }
@@ -323,8 +427,11 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
+    //Move Panel
     private void HandleBattleMoveSelection()
     {
+        ghostTarget[currentChooseTarget].GetComponent<BattleHud>().DeactivateTarget();
+
         if (Input.GetKeyDown(KeyCode.D))
         {
             if (currentActionBattleMove < 3)
@@ -350,69 +457,305 @@ public class BattleSystem : MonoBehaviour
 
         if (Input.GetKeyDown(confirmBtn))
         {
-            state = BattleState.ChooseTarget;
-            //PlayerMove(currentActionBattleMove);
+            var moveType = moveSet.getCurrentMoves()[currentActionBattleMove].getMoveBase().getTargetType();
+            if (moveType == targetType.Enemy)
+            {
+                state = BattleState.ChooseTarget;
+            }
+            else if (moveType == targetType.Aoe)
+            {
+                PlayerMove(currentActionBattleMove);
+            }
+            else if(moveType == targetType.Debuff)
+            {
+                state = BattleState.ChooseTarget;
+            }
+            else
+            {
+                PlayerMove(currentActionBattleMove);
+            }
         }
         else if (Input.GetKeyDown(backBtn))
         {
+            currentActionBattle = 0;
             state = BattleState.PlayerBattle;
             playerHud.CloseSkill();
         }
     }
 
+    //Target Panel
     private void HandleChooseTargetSelection()
     {
         if(ghostTarget.Count != 1)
         {
             if (Input.GetKeyDown(KeyCode.D))
             {
-                if(currentChooseTarget < targetNumber.Count - 1)
+                if(currentChooseTarget < ghostTarget.Count - 1)
                     currentChooseTarget++;
-                /*if (currentChooseTarget == ghostTarget.Count - 1)
-                    currentChooseTarget = targetNumber[0];
-                else if (currentChooseTarget < ghostTarget.Count)
-                    currentChooseTarget = targetNumber[currentChooseTarget + 1];*/
+               
             }
             else if (Input.GetKeyDown(KeyCode.A))
             {
                 if (currentChooseTarget > 0)
-                    currentChooseTarget--;
-                /*if (currentChooseTarget == 0)
-                    currentChooseTarget = targetNumber[targetNumber.Count - 1];
-                else if (currentChooseTarget > 0)
-                    currentChooseTarget = targetNumber[currentChooseTarget - 1];*/
+                    currentChooseTarget--;            
             }
         }
         else
         {
             currentChooseTarget = 0;
         }
-        Debug.Log("currentChooseTarget " + currentChooseTarget.ToString());
-        Debug.Log(ghostTarget[currentChooseTarget].name);
 
-        /*
-        for (int i = 0; i < enemies.Length; i++)
+        for (int i = 0; i < ghostTarget.Count; i++)
         {
-            if (i == currentChooseTarget)
+            if (currentChooseTarget == i)
             {
-                ghostTarget[currentChooseTarget].GetComponent<BattleHud>().ActivateTarget();
-                Debug.Log(ghostTarget[currentChooseTarget].name);
+                ghostTarget[i].GetComponent<BattleHud>().ActivateTarget();
             }
             else
             {
-                ghostTarget[currentChooseTarget].GetComponent<BattleHud>().DeactivateTarget();
+                ghostTarget[i].GetComponent<BattleHud>().DeactivateTarget();
             }
         }
-        */
+        
         if (Input.GetKeyDown(confirmBtn))
         {
             PlayerMove(currentActionBattleMove);
         }
         else if (Input.GetKeyDown(backBtn))
         {
-            state = BattleState.PlayerMove;
-            
+            currentActionBattleMove = 0;
+            ghostTarget[currentChooseTarget].gameObject.GetComponent<BattleHud>().DeactivateTarget();
+
+            state = BattleState.PlayerMove;            
         }
     }
+
+    //Choose Talk Target Panel
+    private void HandleTalkTarget()
+    {
+        if (ghostTarget.Count != 1)
+        {
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                if (currentTalkTarget < ghostTarget.Count - 1)
+                    currentTalkTarget++;
+
+            }
+            else if (Input.GetKeyDown(KeyCode.A))
+            {
+                if (currentTalkTarget > 0)
+                    currentTalkTarget--;
+            }
+        }
+        else
+        {
+            currentTalkTarget = 0;
+        }
+
+        for (int i = 0; i < ghostTarget.Count; i++)
+        {
+            if (currentTalkTarget == i)
+            {
+                ghostTarget[i].GetComponent<BattleHud>().ActivateTarget();
+            }
+            else
+            {
+                ghostTarget[i].GetComponent<BattleHud>().DeactivateTarget();
+            }
+        }
+
+        if (Input.GetKeyDown(confirmBtn))
+        {
+            //TODO: Start Talking
+            if (!talkToGhost)
+            {
+                talkToGhost = true;
+                StartGhostDialogue(currentTalkTarget);
+            }
+            else if(talkToGhost)
+            {
+                dialogueBox.ActivateDialogue();
+                if(failToPersuade)
+                    StartCoroutine(dialogueBox.TypeDialogue("The Ghost are enraged"));
+                else if(!failToPersuade)
+                    StartCoroutine(dialogueBox.TypeDialogue("udh ngmong kaka"));
+            }
+
+        }
+        else if (Input.GetKeyDown(backBtn))
+        {
+            currentActionBattleMove = 0;
+            ghostTarget[currentTalkTarget].gameObject.GetComponent<BattleHud>().DeactivateTarget();
+            currentTalkTarget = 0;
+            
+            state = BattleState.PlayerChoose;
+        }
+    }
+
+    //Ghost Multi Choice Panel
+    private void HandleMultiChoice()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            if (currentMultiChoice < 1)
+                currentMultiChoice++;
+        }
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (currentMultiChoice > 0)
+                currentMultiChoice--;
+        }
+
+        playerHud.UpdateMultiChoiceAction(currentMultiChoice);
+
+        if (Input.GetKeyDown(confirmBtn))
+        {
+            NextMultiDialogue();
+            playerHud.CloseMulti();
+        }
+    }
+
+    //Choose Bonus Panel
+    private void HandleBonusChoice()
+    {
+
+    }
+
+
+    //-------------------------------Dialogue------------------------------------------------
+
+    private void StartGhostDialogue(int talkTarget)
+    {
+        currentMultiChoice = 0;
+        dialogueBox.ActivateDialogue();
+        GhostBase ghost = ghostTarget[talkTarget].Ghost.Base;
+        int dialogueSize = ghost.getGhostDialogue().Count;
+
+        int randomIndex = UnityEngine.Random.Range(0, dialogueSize);
+        dialogueBase = ghostTarget[talkTarget].Ghost.Base.getGhostDialogue()[randomIndex];
+
+        if (dialogueBase.ghostLines[dialogueIndex].multiChoices.Length > 0)
+        {
+            //TODO: Show choice
+            state = BattleState.MultiChoice;
+            StartCoroutine(TypeDialogue(BattleState.MultiChoice, dialogueBase.ghostLines[dialogueIndex].text));
+            playerHud.OpenMulti();
+            playerHud.UpdateChoice(dialogueBase.ghostLines[dialogueIndex].multiChoices);
+        }
+        else
+        {
+            StartCoroutine(TypeDialogue(BattleState.GhostDialogue, dialogueBase.ghostLines[dialogueIndex].text));
+        }
+    }
+
+    private void NextDialogue()
+    {
+       
+        if (dialogueBase.ghostLines[dialogueIndex].nextText > 0)
+            dialogueIndex = dialogueBase.ghostLines[dialogueIndex].nextText;
+        else if (dialogueBase.ghostLines[dialogueIndex].nextText == -1 && dialogueBase.ghostLines[dialogueIndex].end)
+        {
+            if (dialogueBase.ghostLines[dialogueIndex].success)
+            {
+                //Berhasil Persuade
+                //TODO: Get bonus
+                StartCoroutine(StartBonus("You Successfully persuaded the ghost!"));
+                PlayerBonus(dialogueBase.bonusType, dialogueBase.bonus);
+                StartCoroutine(PersuadeSucces());
+                playerHud.UpdateUI();
+            }
+            else
+            {
+                //Gagal Persuade
+                failToPersuade = true;
+                StartCoroutine(EndTalk("U Fail :("));
+            }
+
+            return;
+        }
+
+        GhostLine ghostLine = dialogueBase.ghostLines[dialogueIndex];
+
+        if (ghostLine.multiChoices.Length > 0)
+        {
+            //TODO: Show Stats Update
+            state = BattleState.MultiChoice;
+            StartCoroutine(TypeDialogue(BattleState.MultiChoice, ghostLine.text));
+            playerHud.OpenMulti();
+            playerHud.UpdateChoice(ghostLine.multiChoices);
+        }
+        else
+        {
+            failToPersuade = true;
+            StartCoroutine(TypeDialogue(BattleState.GhostDialogue, ghostLine.text));
+        }
+        
+  
+    }
+
+    IEnumerator TypeDialogue(BattleState prevState, String text)
+    {
+        state = BattleState.Busy;
+        yield return dialogueBox.TypeGhostDialogue(text);
+        state = prevState;
+    }
+
+    IEnumerator EndTalk(string text)
+    {
+        state = BattleState.Busy;
+        yield return dialogueBox.TypeGhostDialogue(text);
+        yield return new WaitForSeconds(1f);
+        state = BattleState.PlayerChoose;
+        dialogueBox.CloseDialogue();
+    }
+
+    IEnumerator StartBonus(string text)
+    {
+        state = BattleState.Busy;
+        yield return dialogueBox.TypeGhostDialogue(text);
+        yield return new WaitForSeconds(1f);
+        dialogueBox.CloseDialogue();
+        state = BattleState.PlayerChoose;
+
+    }
+
+    IEnumerator FailedToRun(BattleState prevState)
+    {
+        dialogueBox.ActivateDialogue();
+        yield return dialogueBox.TypeDialogue("Dark power prevents your escapes.");
+        state = prevState;
+    }
+
+    private void NextMultiDialogue()
+    {
+        StartCoroutine(TypeDialogue(BattleState.GhostDialogue, dialogueBase.ghostLines[dialogueIndex].multiChoices[currentMultiChoice].responseText));
+        dialogueIndex = dialogueBase.ghostLines[dialogueIndex].multiChoices[currentMultiChoice].nextText;
+    }
+
+    private void PlayerBonus(BonusStat statType, int value)
+    {
+        switch (statType)
+        {
+            case BonusStat.MP:
+                PlayerStat.maxMana += value;
+                break;
+        }
+    }
+
+    IEnumerator PersuadeSucces()
+    {
+        ghostTarget[currentTalkTarget].Ghost.alive = false;
+        ghostTarget[currentTalkTarget].GetComponent<BattleHud>().Dead();
+        ghostTarget.RemoveAt(currentTalkTarget);
+        if (ghostTarget.Count != 0)
+            currentTalkTarget = 0;
+        else
+        {
+            onBattleOver(true);
+        }
+        yield return new WaitForSeconds(.5f);
+    }
+
+    //-------------------------------Dialogue------------------------------------------------
 
 }

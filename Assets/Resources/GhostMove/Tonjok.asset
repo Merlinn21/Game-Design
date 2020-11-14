@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Tonjok
   m_EditorClassIdentifier: 
   moveName: Tonjok
-  baseDmg: 21
+  baseDmg: 75
   acc: 100
-  cost: 2
+  cost: 1
   costType: 0
-  targetType: 1
-  moveType: 6
+  targetType: 0
+  moveType: 1

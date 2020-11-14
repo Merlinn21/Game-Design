@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Curse
   m_EditorClassIdentifier: 
   moveName: Curse
-  baseDmg: 20
+  baseDmg: 40
   acc: 100
   cost: 5
   costType: 1
-  targetType: 3
-  moveType: 4
+  targetType: 2
+  moveType: 0
