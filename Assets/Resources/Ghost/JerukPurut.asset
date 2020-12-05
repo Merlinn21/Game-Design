@@ -28,3 +28,4 @@ MonoBehaviour:
   bonusValue: 4
   giveMove:
     moveBase: {fileID: 11400000, guid: 78f823e82917efd4697367ad8d7fd7b8, type: 2}
+  expBase: 75

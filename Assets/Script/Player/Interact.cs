@@ -12,17 +12,21 @@ public class Interact : MonoBehaviour
     {
         if(other.CompareTag("Object") && Input.GetKeyDown(interactButton))
         {
-            //TODO: Open Door
             ObjectTrigger obj = other.gameObject.GetComponent<ObjectTrigger>();
             gm.StartDialogue(obj.dialogue);
 
             if (obj.isKey)
             {
                 obj.door.SetActive(false);
-                obj.doorDialogue.SetActive(false);
                 other.gameObject.SetActive(false);
             }
 
+        }
+
+        if(other.CompareTag("Door") && Input.GetKeyDown(interactButton) && gm.state == GameState.FreeRoam)
+        {
+            Door door = other.gameObject.GetComponent<Door>();
+            door.StartDialogue();
         }
     }
 }

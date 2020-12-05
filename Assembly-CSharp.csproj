@@ -71,6 +71,7 @@
     <Compile Include="Assets\Script\Battle\BattleHud.cs" />
     <Compile Include="Assets\Script\Battle\BattleSystem.cs" />
     <Compile Include="Assets\Script\Battle\BattleUnit.cs" />
+    <Compile Include="Assets\Script\Battle\PlayerUnit.cs" />
     <Compile Include="Assets\Script\Dialogue\Character.cs" />
     <Compile Include="Assets\Script\Dialogue\Dialogue.cs" />
     <Compile Include="Assets\Script\Dialogue\DialogueEvent.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Assets\Script\Ghost\GhostParty.cs" />
     <Compile Include="Assets\Script\Movement\CollisionDetector.cs" />
     <Compile Include="Assets\Script\Movement\GridMovement.cs" />
+    <Compile Include="Assets\Script\Object\Door.cs" />
     <Compile Include="Assets\Script\Object\ObjectTrigger.cs" />
     <Compile Include="Assets\Script\Player\Interact.cs" />
     <Compile Include="Assets\Script\Player\PlayerHud.cs" />
@@ -296,6 +298,9 @@
     </Reference>
     <Reference Include="UnityEditor">
       <HintPath>D:/Unity/2019.4.3f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>D:/Unity/Repositories/Game Design/Assets/Plugins/Demigiant/DOTween/DOTween.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>D:/Unity/2019.4.3f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -757,7 +762,12 @@
       <HintPath>D:/Unity/Repositories/Game Design/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup></ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{DF94AE61-9FE9-BF1D-8714-F61E3C7D0C43}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -8,11 +8,12 @@ public enum BattleState
 {
     Start, PlayerChoose, PlayerMove, PlayerBattle, EnemyMove,
     Busy, ChooseTarget, ChooseTalkTarget, GhostDialogue, MultiChoice,
-    ChooseBonus
+    Bonus
 }
 
 public class BattleSystem : MonoBehaviour
 {
+    [SerializeField] private PlayerUnit player;
     [SerializeField] private GhostParty[] party;
     [SerializeField] private GhostParty eventParty;
     [SerializeField] private BattleUnit[] enemies;
@@ -46,6 +47,8 @@ public class BattleSystem : MonoBehaviour
     private GhostDialogueBase dialogueBase;
     private int dialogueIndex = 0;
 
+    private int totalExp;
+
     public void Awake()
     {
         this.gameObject.SetActive(false);
@@ -53,11 +56,14 @@ public class BattleSystem : MonoBehaviour
 
     public IEnumerator SetupBattle()
     {
+        totalExp = 0;
         currentAction = 0;
         currentActionBattle = 0;
         currentActionBattleMove = 0;
         currentChooseTarget = 0;
         currentTalkTarget = 0;
+        currentMultiChoice = 0;
+        dialogueIndex = 0;
         talkToGhost = false;
         dialogueBox.ActivateDialogue();
         state = BattleState.Start;
@@ -138,14 +144,15 @@ public class BattleSystem : MonoBehaviour
 
         var move = moveSet.getCurrentMoves()[moveNumber];
         dialogueBox.ActivateDialogue();
-
         //------------------------Player Move-------------------------------
+        targetType moveType = move.getMoveBase().getTargetType();
 
-        if (move.getMoveBase().getTargetType() == targetType.Enemy)
+        if (moveType == targetType.Enemy)
         {
+            player.PlayZoomInAnimation(ghostTarget[currentChooseTarget].GetPosition());
+            ghostTarget[currentChooseTarget].PlayHitAnimation();
             int dmg = ghostTarget[currentChooseTarget].Ghost.TakeDmg(move.getMoveBase());
             ghostTarget[currentChooseTarget].GetComponent<BattleHud>().UpdateUI(ghostTarget[currentChooseTarget].Ghost);
-
             if (move.getMoveBase().getMoveName() != "Attack")
             {               
                 yield return dialogueBox.TypeDialogue($"You used {move.getMoveBase().getMoveName()} for {dmg.ToString()} Damage");
@@ -154,13 +161,15 @@ public class BattleSystem : MonoBehaviour
             {
                 yield return dialogueBox.TypeDialogue($"You Attack the enemies for {dmg.ToString()} Damage");
             }
+            
+            player.PlayZoomOutAnimation();
         }
-
-        if(move.getMoveBase().getTargetType() == targetType.Aoe)
+        if(moveType == targetType.Aoe)
         {
             int dmg = 0;
             for(int i = 0; i < ghostTarget.Count; i++)
             {
+                ghostTarget[i].PlayHitAnimation();
                 dmg = ghostTarget[i].Ghost.TakeDmg(move.getMoveBase());
                 ghostTarget[i].GetComponent<BattleHud>().UpdateUI(ghostTarget[i].Ghost);
             }
@@ -168,28 +177,38 @@ public class BattleSystem : MonoBehaviour
             yield return dialogueBox.TypeDialogue($"AOE DEEPS {move.getMoveBase().getMoveName()} for {dmg.ToString()} Damage");
 
         }
+        if(moveType == targetType.Self)
+        {
+            //heal persen
+            var heal = (move.getMoveBase().getBaseDmg() * PlayerStat.maxHealth) / 100;
+
+            PlayerStat.health += (int)heal;
+
+            if (PlayerStat.health >= PlayerStat.maxHealth)
+            {
+                PlayerStat.health = PlayerStat.maxHealth;
+            }
+
+            yield return dialogueBox.TypeDialogue($"You healed for {heal.ToString()} HP");
+        }
 
         //------------------------Player Move-------------------------------
 
         var moveBase = moveSet.getCurrentMoves()[moveNumber].getMoveBase();
-        if (moveBase.getCostType() == costType.Mana)
-        {
-            PlayerStat.mana -= (int)moveBase.getCost();
-        }
-        else
-        {
-            var cost = Mathf.Round((moveBase.getCost() + 1 * PlayerStat.health / 100));
+        player.MinusCost(moveBase);
 
-            PlayerStat.health -= (int)cost;
-        }
 
-        if (ghostTarget[currentChooseTarget].Ghost.HP <= 0)
+        for(int i = 0; i < ghostTarget.Count; i++)
         {
-            dialogueBox.ActivateDialogue();
-            yield return dialogueBox.TypeDialogue($"{ghostTarget[currentChooseTarget].Ghost.Base.getName()} go brrrrrr");
-            yield return DeadEnemies();
+            if (ghostTarget[i].Ghost.HP <= 0)
+            {
+                i = 0;
+                dialogueBox.ActivateDialogue();
+                yield return dialogueBox.TypeDialogue($"{ghostTarget[i].Ghost.Base.getName()} go brrrrrr");
+                yield return DeadEnemies();
+            }
         }
-
+        
         yield return new WaitForSeconds(waitDialogue);
         StartCoroutine(EnemyMove());
         
@@ -212,6 +231,7 @@ public class BattleSystem : MonoBehaviour
             //AOE or Single
             if(move.Base.getTargetType() == targetType.Enemy || move.Base.getTargetType() == targetType.Aoe)
             {
+                player.PlayHitAnimation();
                 int dmg = ghostTarget[i].Ghost.GiveDmg(move.Base);
                 dialogueBox.ActivateDialogue();
                 yield return dialogueBox.TypeDialogue($"{ghostTarget[i].Ghost.Base.getName()} used {move.Base.getMoveName()} for {dmg.ToString()} Damage");
@@ -252,8 +272,13 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator DeadEnemies()
     {
-        ghostTarget[currentChooseTarget].Ghost.alive = false;
-        ghostTarget[currentChooseTarget].GetComponent<BattleHud>().Dead();
+        BattleUnit deadGhost = ghostTarget[currentChooseTarget];
+
+
+        totalExp += deadGhost.Ghost.GiveExp();
+
+        deadGhost.Ghost.alive = false;
+        deadGhost.GetComponent<BattleHud>().Dead();
         ghostTarget.RemoveAt(currentChooseTarget);
         if (ghostTarget.Count != 0)
             currentChooseTarget = 0;
@@ -269,6 +294,7 @@ public class BattleSystem : MonoBehaviour
             currentTalkTarget = 0;
 
             onBattleOver(true);
+            Debug.Log(totalExp);
         }
         yield return new WaitForSeconds(.5f);
     }
@@ -305,7 +331,7 @@ public class BattleSystem : MonoBehaviour
             case BattleState.MultiChoice:
                 HandleMultiChoice();
                 break;
-            case BattleState.ChooseBonus:
+            case BattleState.Bonus:
                 HandleBonusChoice();
                 break;
             default:
@@ -618,7 +644,24 @@ public class BattleSystem : MonoBehaviour
     //Choose Bonus Panel
     private void HandleBonusChoice()
     {
-
+        if (Input.GetKeyDown(confirmBtn))
+        {
+            if (dialogueBase.ghostLines[dialogueIndex].success)
+            {
+                //Berhasil Persuade
+                //TODO: Get bonus
+                StartCoroutine(StartBonus("You Successfully persuaded the ghost!", dialogueBase.bonusType, dialogueBase.bonus));
+                PlayerBonus(dialogueBase.bonusType, dialogueBase.bonus);
+                StartCoroutine(PersuadeSucces());
+                playerHud.UpdateUI();
+            }
+            else
+            {
+                //Gagal Persuade
+                failToPersuade = true;
+                StartCoroutine(EndTalk("U Fail :("));
+            }
+        }
     }
 
 
@@ -626,6 +669,7 @@ public class BattleSystem : MonoBehaviour
 
     private void StartGhostDialogue(int talkTarget)
     {
+        player.PlayZoomInAnimation(ghostTarget[talkTarget].GetPosition());
         currentMultiChoice = 0;
         dialogueBox.ActivateDialogue();
         GhostBase ghost = ghostTarget[talkTarget].Ghost.Base;
@@ -650,30 +694,11 @@ public class BattleSystem : MonoBehaviour
 
     private void NextDialogue()
     {
-       
         if (dialogueBase.ghostLines[dialogueIndex].nextText > 0)
-            dialogueIndex = dialogueBase.ghostLines[dialogueIndex].nextText;
-        else if (dialogueBase.ghostLines[dialogueIndex].nextText == -1 && dialogueBase.ghostLines[dialogueIndex].end)
         {
-            if (dialogueBase.ghostLines[dialogueIndex].success)
-            {
-                //Berhasil Persuade
-                //TODO: Get bonus
-                StartCoroutine(StartBonus("You Successfully persuaded the ghost!"));
-                PlayerBonus(dialogueBase.bonusType, dialogueBase.bonus);
-                StartCoroutine(PersuadeSucces());
-                playerHud.UpdateUI();
-            }
-            else
-            {
-                //Gagal Persuade
-                failToPersuade = true;
-                StartCoroutine(EndTalk("U Fail :("));
-            }
-
-            return;
+            dialogueIndex = dialogueBase.ghostLines[dialogueIndex].nextText;
         }
-
+       
         GhostLine ghostLine = dialogueBase.ghostLines[dialogueIndex];
 
         if (ghostLine.multiChoices.Length > 0)
@@ -686,11 +711,16 @@ public class BattleSystem : MonoBehaviour
         }
         else
         {
-            failToPersuade = true;
-            StartCoroutine(TypeDialogue(BattleState.GhostDialogue, ghostLine.text));
+            if(ghostLine.nextText == -1 && ghostLine.end == true)
+            {
+                StartCoroutine(TypeDialogue(BattleState.Bonus, ghostLine.text));
+            }
+            else
+            {
+                StartCoroutine(TypeDialogue(BattleState.GhostDialogue, ghostLine.text));
+
+            }
         }
-        
-  
     }
 
     IEnumerator TypeDialogue(BattleState prevState, String text)
@@ -703,19 +733,25 @@ public class BattleSystem : MonoBehaviour
     IEnumerator EndTalk(string text)
     {
         state = BattleState.Busy;
+        player.PlayZoomOutAnimation();
         yield return dialogueBox.TypeGhostDialogue(text);
         yield return new WaitForSeconds(1f);
         state = BattleState.PlayerChoose;
         dialogueBox.CloseDialogue();
     }
 
-    IEnumerator StartBonus(string text)
+    IEnumerator StartBonus(string text, BonusStat bonusStat, int bonusValue)
     {
         state = BattleState.Busy;
         yield return dialogueBox.TypeGhostDialogue(text);
         yield return new WaitForSeconds(1f);
+        yield return dialogueBox.TypeGhostDialogue($"+{bonusValue} {bonusStat.ToString()}");
+        yield return new WaitForSeconds(1f);
         dialogueBox.CloseDialogue();
-        state = BattleState.PlayerChoose;
+        if (ghostTarget.Count > 0)
+            state = BattleState.PlayerChoose;
+        else
+            onBattleOver(true);
 
     }
 
@@ -739,20 +775,32 @@ public class BattleSystem : MonoBehaviour
             case BonusStat.MP:
                 PlayerStat.maxMana += value;
                 break;
+            case BonusStat.HP:
+                PlayerStat.maxHealth += value;
+                break;
+            case BonusStat.Attack:
+                PlayerStat.atk += value;
+                break;
+            case BonusStat.Defense:
+                PlayerStat.def += value;
+                break;
+            case BonusStat.SAttack:
+                PlayerStat.satk += value;
+                break;
+            case BonusStat.SDefense:
+                PlayerStat.sdef += value;
+                break;
         }
     }
 
     IEnumerator PersuadeSucces()
     {
+        player.PlayZoomOutAnimation();
         ghostTarget[currentTalkTarget].Ghost.alive = false;
         ghostTarget[currentTalkTarget].GetComponent<BattleHud>().Dead();
         ghostTarget.RemoveAt(currentTalkTarget);
         if (ghostTarget.Count != 0)
             currentTalkTarget = 0;
-        else
-        {
-            onBattleOver(true);
-        }
         yield return new WaitForSeconds(.5f);
     }
 

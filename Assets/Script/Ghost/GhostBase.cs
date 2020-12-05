@@ -21,6 +21,7 @@ public class GhostBase : ScriptableObject
     [SerializeField] private Stat bonusStatType;
     [SerializeField] private int bonusValue;
     [SerializeField] private Move giveMove;
+    [SerializeField] private int expBase;
 
     public string getName() { return ghostName; }
     public Sprite getSprite() { return sprite; }
@@ -32,6 +33,7 @@ public class GhostBase : ScriptableObject
     public int getSDef() { return sdef; }
     public List<Move> getMoveList() { return moveList; }
     public List<GhostDialogueBase> getGhostDialogue() { return ghostDialogues; }
+    public int getBaseExp() { return expBase; }
 }
 [System.Serializable]
 public class Move

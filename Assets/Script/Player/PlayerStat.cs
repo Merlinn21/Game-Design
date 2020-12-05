@@ -26,5 +26,8 @@ public class PlayerStat :MonoBehaviour
     static public int move2 = 1;
     static public int move3 = 2;
     static public int move4 = 3;
+
+    static public int level = 1;
+    static public int exp = 0;
 }
 

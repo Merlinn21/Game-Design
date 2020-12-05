@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private DialogueTrigger dialogueTrigger;
     [SerializeField] private Camera mainCamera;
 
-    GameState state;
+    public GameState state;
 
     private void Start()
     {
@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     public void EndBattle(bool win)
     {
         state = GameState.FreeRoam;
+        Debug.Log(PlayerStat.exp);
         battleSystem.gameObject.SetActive(false);
         mainCamera.gameObject.SetActive(true);
     }

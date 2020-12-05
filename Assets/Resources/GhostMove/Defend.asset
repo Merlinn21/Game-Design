@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Defend
   m_EditorClassIdentifier: 
   moveName: Defend
-  baseDmg: 10
+  baseDmg: 20
   acc: 100
   cost: -1
-  costType: 1
+  costType: 0
   targetType: 3
   moveType: 1

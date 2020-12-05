@@ -8,6 +8,7 @@ public class Ghost
     public int Level { get; set; }
     public int HP { get; set; }
     public bool alive = true;
+    public int Exp { get; set; }
 
     public List<GhostMove> moveList { get; set; }
     public Dictionary<Stat, int> Stats { get; private set; }
@@ -17,7 +18,7 @@ public class Ghost
     {
         Base = ghostBase;
         Level = level;
-        
+        Exp = Base.getBaseExp();
 
         moveList = new List<GhostMove>();
         foreach (var move in Base.getMoveList())
@@ -153,5 +154,13 @@ public class Ghost
         }
 
         return (int)heal;
+    }
+
+    public int GiveExp()
+    {
+        // ((base * enemy level)/5) * ((2*L)^2.5) / ((enemy level + current level + 10)^2.5) + 1
+        var exp = ((Exp * Level) / 5) * (Mathf.Pow((2 * Level), 2.5f)
+                   / Mathf.Pow((Level + PlayerStat.level + 10), 2.5f)) + 1;
+        return (int)exp;
     }
 }
