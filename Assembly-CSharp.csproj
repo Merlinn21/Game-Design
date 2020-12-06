@@ -94,6 +94,7 @@
     <Compile Include="Assets\Script\Player\PlayerMoveSet.cs" />
     <Compile Include="Assets\Script\Player\PlayerStat.cs" />
     <Compile Include="Assets\Script\Player\StatModifier.cs" />
+    <Compile Include="Assets\Script\SceneTransition.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\Pixelation\Shaders\Chunky.shader" />

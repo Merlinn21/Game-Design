@@ -77,10 +77,4 @@ public class PlayerUnit : MonoBehaviour
         sequence2.Append(battleCamera.DOOrthoSize(cameraOriginalSize, zoomOutDuration));
 
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            PlayHitAnimation();
-    }
 }

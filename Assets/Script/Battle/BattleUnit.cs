@@ -46,7 +46,6 @@ public class BattleUnit : MonoBehaviour
         sequence.Append(sprite.DOFade(255, 0.8f));
         sequence.Append(sprite.DOFade(0, fadeInSpeed));
         sequence.Append(sprite.DOFade(255, fadeOutSpeed));
-
     }
 
     public Vector3 GetPosition() { return originalPos; }

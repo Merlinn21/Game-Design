@@ -7,6 +7,7 @@ public enum GameState
 {
     FreeRoam,
     Battle,
+    Transition,
     Dialogue
 }
 public class GameManager : MonoBehaviour
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BattleSystem battleSystem;
     [SerializeField] private DialogueTrigger dialogueTrigger;
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private Dialogue startDialogue;
 
     public GameState state;
 
@@ -24,6 +26,8 @@ public class GameManager : MonoBehaviour
         battleSystem.onBattleOver += EndBattle;
         playerMove.onDialogue += StartDialogue;
         dialogueTrigger.onDialogueOver += EndDialogue;
+
+        StartDialogue(startDialogue);
     }
 
     public void StartBattle(bool randomBattle)
@@ -33,7 +37,6 @@ public class GameManager : MonoBehaviour
         battleSystem.transform.GetChild(0).gameObject.SetActive(true);
         battleSystem.transform.GetChild(1).gameObject.SetActive(true);
         mainCamera.gameObject.SetActive(false);
-
         battleSystem.StartBattle(randomBattle);
     }
  

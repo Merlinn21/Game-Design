@@ -231,6 +231,7 @@ public class BattleSystem : MonoBehaviour
             //AOE or Single
             if(move.Base.getTargetType() == targetType.Enemy || move.Base.getTargetType() == targetType.Aoe)
             {
+                state = BattleState.Busy;
                 player.PlayHitAnimation();
                 int dmg = ghostTarget[i].Ghost.GiveDmg(move.Base);
                 dialogueBox.ActivateDialogue();
@@ -239,6 +240,7 @@ public class BattleSystem : MonoBehaviour
 
             if(move.Base.getTargetType() == targetType.Self)
             {
+                state = BattleState.Busy;
                 int heal = ghostTarget[i].Ghost.GiveHeal(move.Base);
                 dialogueBox.ActivateDialogue();
                 yield return dialogueBox.TypeDialogue($"{ghostTarget[i].Ghost.Base.getName()} used {move.Base.getMoveName()} and healed {heal.ToString()} HP");
@@ -248,6 +250,7 @@ public class BattleSystem : MonoBehaviour
 
             //-------------------------------------Ghost Move-------------------------------------------
 
+            state = BattleState.EnemyMove;
             playerHud.UpdateUI();
             ghostTarget[i].GetComponent<BattleHud>().UpdateUI(ghostTarget[i].Ghost);
             yield return new WaitForSeconds(waitDialogue);
@@ -300,7 +303,6 @@ public class BattleSystem : MonoBehaviour
     }
 
     //-----------------------------Battle------------------------------------------
-
 
     //Handle State
     private void Update()
