@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6a00bafd5d49b74083c9ee5563a18b3, type: 3}
+  m_Name: IntroDialogue
+  m_EditorClassIdentifier: 
+  charLeft: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+  charRight: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+  lines:
+  - character: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+    text: '"13 Kliwon 1999"'
+  - character: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+    text: "Malam ini merupakan malam yang kelam\r"
+  - character: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+    text: "Semua orang tampak sudah terlelap di sepinya malam\r"
+  - character: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+    text: "Tapi tidak bagi mereka,\r"
+  - character: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+    text: "Tanpa disadari ini waktunya mereka untuk berpesta\r"
+  - character: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+    text: "Ya layaknya tuan dan puan yang saat ini saling bercanda\r"
+  - character: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+    text: "Sebaiknya kamu berhati-hati\r"
+  - character: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+    text: Agar tidak dapat bala berkali-kali
+  - character: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+    text: Dara merupakan paranormal yang terkenal di Jogja
+  - character: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+    text: Pada satu malam Dara mendapatkan pesan dari seseorang
+  - character: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+    text: "Berisi permintaan tolong dari seseorang\r"
+  - character: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+    text: Setelah melihat itu Dara langsung bergegas untuk pergi
+  ghostParty: {fileID: 0}
+  freeRoam: 0
+  background: {fileID: 0}
+  nextSceneName: IntroScene 1
+  inGameDialogue: 0

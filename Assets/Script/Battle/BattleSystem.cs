@@ -21,10 +21,13 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private PlayerMoveSet moveSet;
     [SerializeField] private BattleDialogue dialogueBox;
 
-    [SerializeField]private List<BattleUnit> ghostTarget;
+    [SerializeField] private List<BattleUnit> ghostTarget;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip textSFX;
     public float waitDialogue = 1f;
     public BattleState state;
     private bool change = false;
+    private bool attack = false;
 
     //Untuk UI
     private int currentAction = 0;
@@ -39,6 +42,11 @@ public class BattleSystem : MonoBehaviour
 
     public KeyCode confirmBtn;
     public KeyCode backBtn;
+
+    private KeyCode right = KeyCode.RightArrow;
+    private KeyCode left = KeyCode.LeftArrow;
+    private KeyCode up = KeyCode.UpArrow;
+    private KeyCode down = KeyCode.DownArrow;
 
     private bool eventBattle;
     private bool talkToGhost;
@@ -143,6 +151,7 @@ public class BattleSystem : MonoBehaviour
         state = BattleState.Busy;
 
         var move = moveSet.getCurrentMoves()[moveNumber];
+        audioSource.PlayOneShot(move.getMoveBase().getAudio());
         dialogueBox.ActivateDialogue();
         //------------------------Player Move-------------------------------
         targetType moveType = move.getMoveBase().getTargetType();
@@ -151,6 +160,7 @@ public class BattleSystem : MonoBehaviour
         {
             player.PlayZoomInAnimation(ghostTarget[currentChooseTarget].GetPosition());
             ghostTarget[currentChooseTarget].PlayHitAnimation();
+
             int dmg = ghostTarget[currentChooseTarget].Ghost.TakeDmg(move.getMoveBase());
             ghostTarget[currentChooseTarget].GetComponent<BattleHud>().UpdateUI(ghostTarget[currentChooseTarget].Ghost);
             if (move.getMoveBase().getMoveName() != "Attack")
@@ -167,6 +177,7 @@ public class BattleSystem : MonoBehaviour
         if(moveType == targetType.Aoe)
         {
             int dmg = 0;
+           
             for(int i = 0; i < ghostTarget.Count; i++)
             {
                 ghostTarget[i].PlayHitAnimation();
@@ -227,9 +238,9 @@ public class BattleSystem : MonoBehaviour
             }
             //-------------------------------------Ghost Move-------------------------------------------
             var move = ghostTarget[i].Ghost.getRandomMove();
-            
+            audioSource.PlayOneShot(move.Base.getAudio());
             //AOE or Single
-            if(move.Base.getTargetType() == targetType.Enemy || move.Base.getTargetType() == targetType.Aoe)
+            if (move.Base.getTargetType() == targetType.Enemy || move.Base.getTargetType() == targetType.Aoe)
             {
                 state = BattleState.Busy;
                 player.PlayHitAnimation();
@@ -344,22 +355,22 @@ public class BattleSystem : MonoBehaviour
     //Action Panel
     private void HandleActionSelection()
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(right))
         {
             if (currentAction < 3)
                 currentAction++;
         }
-        else if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(left))
         {
             if (currentAction > 0)
                 currentAction--;
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(down))
         {
             if (currentAction < 2)
                 currentAction += 2;
         }
-        else if (Input.GetKeyDown(KeyCode.W))
+        else if (Input.GetKeyDown(up))
         {
             if (currentAction > 1)
                 currentAction -= 2;
@@ -398,22 +409,22 @@ public class BattleSystem : MonoBehaviour
     //Battle Panel
     private void HandleBattleSelection()
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(right))
         {
             if (currentActionBattle < 3)
                 currentActionBattle++;
         }
-        else if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(left))
         {
             if (currentActionBattle > 0)
                 currentActionBattle--;
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(down))
         {
             if (currentActionBattle < 2)
                 currentActionBattle += 2;
         }
-        else if (Input.GetKeyDown(KeyCode.W))
+        else if (Input.GetKeyDown(up))
         {
             if (currentActionBattle > 1)
                 currentActionBattle -= 2;
@@ -428,6 +439,7 @@ public class BattleSystem : MonoBehaviour
                 //attack
                 currentActionBattleMove = 4;
                 state = BattleState.ChooseTarget;
+                attack = true;
             }
             else if(currentActionBattle == 1)
             {
@@ -460,22 +472,22 @@ public class BattleSystem : MonoBehaviour
     {
         ghostTarget[currentChooseTarget].GetComponent<BattleHud>().DeactivateTarget();
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(right))
         {
             if (currentActionBattleMove < 3)
                 currentActionBattleMove++;
         }
-        else if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(left))
         {
             if (currentActionBattleMove > 0)
                 currentActionBattleMove--;
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(down))
         {
             if (currentActionBattleMove < 2)
                 currentActionBattleMove += 2;
         }
-        else if (Input.GetKeyDown(KeyCode.W))
+        else if (Input.GetKeyDown(up))
         {
             if (currentActionBattleMove > 1)
                 currentActionBattleMove -= 2;
@@ -516,13 +528,13 @@ public class BattleSystem : MonoBehaviour
     {
         if(ghostTarget.Count != 1)
         {
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(right))
             {
                 if(currentChooseTarget < ghostTarget.Count - 1)
                     currentChooseTarget++;
                
             }
-            else if (Input.GetKeyDown(KeyCode.A))
+            else if (Input.GetKeyDown(left))
             {
                 if (currentChooseTarget > 0)
                     currentChooseTarget--;            
@@ -554,7 +566,13 @@ public class BattleSystem : MonoBehaviour
             currentActionBattleMove = 0;
             ghostTarget[currentChooseTarget].gameObject.GetComponent<BattleHud>().DeactivateTarget();
 
-            state = BattleState.PlayerMove;            
+            if (attack)
+            {
+                state = BattleState.PlayerBattle;
+                attack = false;
+            }
+            else
+                state = BattleState.PlayerMove;            
         }
     }
 
@@ -563,13 +581,13 @@ public class BattleSystem : MonoBehaviour
     {
         if (ghostTarget.Count != 1)
         {
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(right))
             {
                 if (currentTalkTarget < ghostTarget.Count - 1)
                     currentTalkTarget++;
 
             }
-            else if (Input.GetKeyDown(KeyCode.A))
+            else if (Input.GetKeyDown(left))
             {
                 if (currentTalkTarget > 0)
                     currentTalkTarget--;
@@ -604,9 +622,9 @@ public class BattleSystem : MonoBehaviour
             {
                 dialogueBox.ActivateDialogue();
                 if(failToPersuade)
-                    StartCoroutine(dialogueBox.TypeDialogue("The Ghost are enraged"));
+                    StartCoroutine(TypeDialogue(BattleState.ChooseTalkTarget, "The Ghost are enraged"));
                 else if(!failToPersuade)
-                    StartCoroutine(dialogueBox.TypeDialogue("udh ngmong kaka"));
+                    StartCoroutine(TypeDialogue(BattleState.ChooseTalkTarget ,"udh ngmong kaka"));
             }
 
         }
@@ -623,12 +641,12 @@ public class BattleSystem : MonoBehaviour
     //Ghost Multi Choice Panel
     private void HandleMultiChoice()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(down))
         {
             if (currentMultiChoice < 1)
                 currentMultiChoice++;
         }
-        else if (Input.GetKeyDown(KeyCode.W))
+        else if (Input.GetKeyDown(up))
         {
             if (currentMultiChoice > 0)
                 currentMultiChoice--;
@@ -702,7 +720,9 @@ public class BattleSystem : MonoBehaviour
         }
        
         GhostLine ghostLine = dialogueBase.ghostLines[dialogueIndex];
-
+        audioSource.PlayOneShot(textSFX);
+        audioSource.PlayOneShot(textSFX);
+        audioSource.PlayOneShot(textSFX);
         if (ghostLine.multiChoices.Length > 0)
         {
             //TODO: Show Stats Update
@@ -730,6 +750,8 @@ public class BattleSystem : MonoBehaviour
         state = BattleState.Busy;
         yield return dialogueBox.TypeGhostDialogue(text);
         state = prevState;
+        if (prevState == BattleState.ChooseTalkTarget)
+            dialogueBox.CloseDialogue();
     }
 
     IEnumerator EndTalk(string text)

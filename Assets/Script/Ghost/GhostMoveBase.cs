@@ -33,6 +33,7 @@ public class GhostMoveBase : ScriptableObject
     [SerializeField] private costType costType;
     [SerializeField] private targetType targetType;
     [SerializeField] private moveType moveType;
+    [SerializeField] private AudioClip audioSfx;
 
     public string getMoveName() { return moveName; }
     public float getBaseDmg() { return baseDmg; }
@@ -41,4 +42,5 @@ public class GhostMoveBase : ScriptableObject
     public costType getCostType() { return costType; }
     public targetType getTargetType() { return targetType; }
     public moveType GetMoveType() { return moveType; }
+    public AudioClip getAudio() { return audioSfx; }
 }

@@ -10,6 +10,8 @@ public class DialogueTrigger : MonoBehaviour
     private GhostParty eventParty;
     [SerializeField] private GameObject speakerLeft;
     [SerializeField] private GameObject speakerRight;
+    [SerializeField] private GameObject background;
+    [SerializeField] SceneTransition scene;
 
     private DialogueUI UIleft;
     private DialogueUI UIright;
@@ -17,13 +19,13 @@ public class DialogueTrigger : MonoBehaviour
     private int activeLineIndex = 0;
     public event Action<bool, GhostParty> onDialogueOver;
     public KeyCode confirmButton = KeyCode.F;
+    public AudioSource audio;
 
     public TypingState typingState; 
 
     public void SetDialogue(Dialogue _dialogue)
     {
         dialogue = _dialogue;
-        
     }
 
 
@@ -31,6 +33,11 @@ public class DialogueTrigger : MonoBehaviour
     {
         UIleft = speakerLeft.GetComponent<DialogueUI>();
         UIright = speakerRight.GetComponent<DialogueUI>();
+        
+        if(dialogue.background != null)
+        {
+            background.SetActive(true);
+        }
 
         UIleft.Speaker = dialogue.getCharLeft();
         UIright.Speaker = dialogue.getCharRight();
@@ -41,7 +48,10 @@ public class DialogueTrigger : MonoBehaviour
     public void HandleUpdate()
     {
         if (Input.GetKeyDown(confirmButton) && typingState == TypingState.Finished)
+        {
             NextLine();
+            audio.Play();
+        }
     }
 
     public void NextLine()
@@ -50,24 +60,34 @@ public class DialogueTrigger : MonoBehaviour
         { 
             DisplayLine();
         }
-        else if(dialogue.getFreeRoam())
+        else if (dialogue.inGameDialogue)
         {
-            UIleft.HideUI();
-            UIright.HideUI();
+            if (dialogue.getFreeRoam())
+            {
+                UIleft.HideUI();
+                UIright.HideUI();
 
-            activeLineIndex = 0;
+                activeLineIndex = 0;
 
-            onDialogueOver(true, null);
+                onDialogueOver(true, null);
+            }
+            else if (!dialogue.getFreeRoam())
+            {
+                UIleft.HideUI();
+                UIright.HideUI();
+
+                activeLineIndex = 0;
+                eventParty = dialogue.ghostParty;
+                onDialogueOver(false, eventParty);
+            }
         }
-        else if (!dialogue.getFreeRoam())
+        else if(!dialogue.inGameDialogue)
         {
-            UIleft.HideUI();
-            UIright.HideUI();
-
-            activeLineIndex = 0;
-            eventParty = dialogue.ghostParty;
-            onDialogueOver(false, eventParty);
+            speakerLeft.SetActive(false);
+            speakerRight.SetActive(false);
+            StartCoroutine(scene.LoadNextScene(dialogue.nextSceneName));
         }
+
     }
 
     public void DisplayLine()

@@ -75,6 +75,7 @@
     <Compile Include="Assets\Script\Dialogue\Character.cs" />
     <Compile Include="Assets\Script\Dialogue\Dialogue.cs" />
     <Compile Include="Assets\Script\Dialogue\DialogueEvent.cs" />
+    <Compile Include="Assets\Script\Dialogue\DialogueScene.cs" />
     <Compile Include="Assets\Script\Dialogue\DialogueTrigger.cs" />
     <Compile Include="Assets\Script\Dialogue\DialogueUI.cs" />
     <Compile Include="Assets\Script\GameManager.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Assets\Script\Ghost\GhostMove.cs" />
     <Compile Include="Assets\Script\Ghost\GhostMoveBase.cs" />
     <Compile Include="Assets\Script\Ghost\GhostParty.cs" />
+    <Compile Include="Assets\Script\MainMenuManager.cs" />
     <Compile Include="Assets\Script\Movement\CollisionDetector.cs" />
     <Compile Include="Assets\Script\Movement\GridMovement.cs" />
     <Compile Include="Assets\Script\Object\Door.cs" />

@@ -43,7 +43,7 @@ public class BattleUnit : MonoBehaviour
     public void PlayHitAnimation()
     {
         var sequence = DOTween.Sequence();
-        sequence.Append(sprite.DOFade(255, 0.8f));
+        sequence.Append(sprite.DOFade(255, 0.4f));
         sequence.Append(sprite.DOFade(0, fadeInSpeed));
         sequence.Append(sprite.DOFade(255, fadeOutSpeed));
     }

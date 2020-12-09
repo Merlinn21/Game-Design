@@ -27,6 +27,12 @@ public class GameManager : MonoBehaviour
         playerMove.onDialogue += StartDialogue;
         dialogueTrigger.onDialogueOver += EndDialogue;
 
+        StartCoroutine(FirstDialogue());
+    }
+
+    IEnumerator FirstDialogue()
+    {
+        yield return new WaitForSeconds(1.5f);
         StartDialogue(startDialogue);
     }
 

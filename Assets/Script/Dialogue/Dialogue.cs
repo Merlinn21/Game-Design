@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public struct Line
@@ -9,7 +10,6 @@ public struct Line
 
     [TextArea(2, 5)]
     public string text;
-    
 }
 
 [CreateAssetMenu(fileName = "Dialogue", menuName = "Dialogue/Create new Dialogue")]
@@ -20,6 +20,10 @@ public class Dialogue : ScriptableObject
     public Line[] lines;
     public GhostParty ghostParty;
     [SerializeField] private bool freeRoam;
+
+    public Image background;
+    public string nextSceneName;
+    public bool inGameDialogue;
 
     public Character getCharLeft() { return charLeft; }
     public Character getCharRight() { return charRight; }

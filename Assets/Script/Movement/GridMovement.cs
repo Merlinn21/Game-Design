@@ -18,6 +18,7 @@ public class GridMovement : MonoBehaviour
     [SerializeField] private float gridMoveSize;
 
     [SerializeField] private float timeToRotate;
+    [SerializeField] private AudioSource audioSource;
     private Quaternion targetRot;
     private float currAngle;
 
@@ -32,6 +33,11 @@ public class GridMovement : MonoBehaviour
 
     private bool onEvent;
 
+    private KeyCode right = KeyCode.RightArrow;
+    private KeyCode left = KeyCode.LeftArrow;
+    private KeyCode up = KeyCode.UpArrow;
+    private KeyCode down = KeyCode.DownArrow;
+
     private void Awake()
     {
         targetRot = transform.rotation;
@@ -43,19 +49,19 @@ public class GridMovement : MonoBehaviour
         if (!isMoving && !isRotating)
         {
             CheckWall();
-            if (Input.GetKey(KeyCode.W) && forward)
+            if (Input.GetKey(up) && forward)
             {
                 StartCoroutine(MovePlayer(new Vector3(gridMoveSize, 0, 0), nextPos));
             }
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(left))
             {
                 StartCoroutine(RotatePlayer(new Vector3(0,0,90)));
             }
-            if (Input.GetKey(KeyCode.S) && back)
+            if (Input.GetKey(down) && back)
             {
                 StartCoroutine(MovePlayer(new Vector3(gridMoveSize, 0, 0), prevPos));
             }
-            if (Input.GetKey(KeyCode.D))
+            if (Input.GetKey(right))
             {     
                 StartCoroutine(RotatePlayer(new Vector3(0, 0, -90)));
             }
@@ -67,6 +73,7 @@ public class GridMovement : MonoBehaviour
         isMoving = true;
         float elapsedTime = 0;
 
+        audioSource.Play();
         currPos = transform.position;
         Vector3 targetPos = pos.position;
         while (elapsedTime < timeToMove)

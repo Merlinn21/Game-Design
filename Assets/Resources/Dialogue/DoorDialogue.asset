@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DoorDialogue
   m_EditorClassIdentifier: 
   charLeft: {fileID: 11400000, guid: 73af8b4e13f862545ba58a2ac71784f7, type: 2}
-  charRight: {fileID: 11400000, guid: ff8b56cc87a6e9b4b8c9be98ee833694, type: 2}
+  charRight: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
   lines:
   - character: {fileID: 11400000, guid: 73af8b4e13f862545ba58a2ac71784f7, type: 2}
     text: The door is locked
@@ -21,3 +21,6 @@ MonoBehaviour:
     text: me need key
   ghostParty: {fileID: 0}
   freeRoam: 1
+  background: {fileID: 0}
+  nextSceneName: 
+  inGameDialogue: 0

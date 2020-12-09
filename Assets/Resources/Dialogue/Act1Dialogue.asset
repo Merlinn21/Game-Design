@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6a00bafd5d49b74083c9ee5563a18b3, type: 3}
+  m_Name: Act1Dialogue
+  m_EditorClassIdentifier: 
+  charLeft: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+  charRight: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+  lines:
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: (SMA Gunung Kawi)
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: "Wah besar juga ya sekolahnya,meskipun terlihat megah tetapi aura negatifnya
+      besar juga\r"
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: (Terdengar bisikan)
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: "\u201CLunga saka kene\u201D\r"
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: 'Hmm baru saja sampai sudah disambut lagi
+
+'
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: "(Terlihat sosok  yang terselimuti oleh kabut malam)\r"
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: "(Bayangan terlihat semakin dekat)\r"
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: (Dan mendekat)
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: "(Hingaa\u2026)\r"
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: "(Ternyata itu adalah ibu guru di SMA Gunung kawi)\r"
+  - character: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+    text: 'Permisi maaf mba ini saya gak enak jadi manggil larut malam gini mana
+      jauh lagi ya.
+
+'
+  - character: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+    text: Perkenalkan saya Bu Agnes, guru biologi di SMA ini.Saya dapet no mba dari
+      OB sekolah Pak Udin katanya mba bisa bantu buat hal begituan hehe.
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: "Saya Dara, saya terima sms dari Bapak kelihatannya sangat mencekam makanya
+      saya langsung kesini\r.\n"
+  - character: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+    text: "Iya mba , saya juga panik,maka dari itu saya langsung memanggil mba Dara\r"
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: "Gapapa kok Bu udah biasa juga.Jadi apa yang sebenernya terjadi Bu?\r"
+  - character: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+    text: ' Jadi belakang ini anak-anak lagi kaya ada acara osis gitukan.'
+  - character: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+    text: Jadinya anak-anak ngerjain tugas ngedekor ama apala itu ampe larut disekolah.Tapi
+      tiba-tiba ada kejadian gak enak.
+  - character: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+    text: Jadi tuh  ada satu anak pengen ke toilet nah, dia pergi sendiri tuh ke
+      toilet yang ada di belakang sekolah.
+  - character: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+    text: Mana toilet belakang sekolah itu jarang kepake.
+  - character: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+    text: Temennya pada nungguin tuh 5 menit kok gak balik-balik, 10 menit juga belum,
+      sampai udah hampir 30 menit anak itu gabalik lagi.
+  - character: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+    text: Nah jadi temennya yang satunya nyamper lah ke toilet sono.Tiba-tiba temennya
+      teriak keras banget sampai kedengeran ke ruang guru.
+  - character: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+    text: 'Saat itu saya masih di sekolah, jadi saya langsung lari ke toilet belakang
+      tuh.hufft saya jadi merinding lagi mba...
+
+'
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: "Jadi apa yang terjadi di toilet itu bu?\r"
+  - character: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+    text: Ada tulisan.....
+  - character: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+    text: yang ditulis pake darah di dinding  tulisannya.
+  - character: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+    text: "\u201CKowe bakal mati kabeh\u201D"
+  - character: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+    text: "dan yang teris dari anak itu cuman ini\r"
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: "(Bu Euis memberikan barang tersebut)\r"
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: "(Ternyata segumpal melati)\r"
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: '(Melati tersebut keliatan seperti baru saja dipetik, wanginya juga sangat
+      tercium)
+
+'
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: 'Tidak biasanya ada meninggalkan jejak seperti ini.Kalo gitu saya langsung
+      masuk aja ya Bu biar anak tersebut bisa selamat.
+
+'
+  - character: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+    text: 'Oke mba boleh tapi.. saya disini aja ya mba ama satpam saya gak berani
+      ama yang begituan
+
+'
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: Iya Bu gapapa kok lebih aman disini juga kok.Ya Udah de bu saya masuk ya.
+  - character: {fileID: 11400000, guid: 80591c04df77aa84b99f0edd378ceb61, type: 2}
+    text: 'Ini kunci-kunci sekolah yang ada mana tau perlu
+
+'
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: "Baik Bu terimakasih banyak\r"
+  ghostParty: {fileID: 0}
+  freeRoam: 0
+  background: {fileID: 0}
+  nextSceneName: SampleScene
+  inGameDialogue: 0

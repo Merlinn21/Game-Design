@@ -8,6 +8,9 @@ public class DialogueUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text fullName;
     [SerializeField] private TMP_Text dialogue;
+    [SerializeField] private TMP_Text dialogue2;
+    [SerializeField] private GameObject nameBox;
+    [SerializeField] private GameObject portraitBox;
     [SerializeField] private Image portrait;
     [SerializeField] private float typeSpeed = 4f;
     [SerializeField] private DialogueTrigger trigger;
@@ -19,8 +22,22 @@ public class DialogueUI : MonoBehaviour
         set
         {
             speaker = value;
-            portrait.sprite = speaker.getPotrait();
-            fullName.text = speaker.getFullName();
+            if(speaker.getPotrait() != null)
+            {
+                nameBox.SetActive(true);
+                portraitBox.SetActive(true);
+                dialogue.enabled = true;
+                dialogue2.enabled = false;
+                portrait.sprite = speaker.getPotrait();
+                fullName.text = speaker.getFullName();
+            }              
+            else
+            {
+                dialogue.enabled = false;
+                dialogue2.enabled = true;
+                nameBox.SetActive(false);
+                portraitBox.SetActive(false);
+            }
         }
     }
 
@@ -51,13 +68,29 @@ public class DialogueUI : MonoBehaviour
 
     public IEnumerator TypeDialogue(string dialogueText)
     {
-        dialogue.text = "";
-        foreach (var letter in dialogueText.ToCharArray())
+        if(speaker.getPotrait() != null)
         {
-            dialogue.text += letter;
-            yield return new WaitForSeconds(1f / typeSpeed);
+            dialogue.text = "";
+            foreach (var letter in dialogueText.ToCharArray())
+            {
+                dialogue.text += letter;
+                yield return new WaitForSeconds(1f / typeSpeed);
+            }
+            yield return new WaitForSeconds(0.5f);
+            trigger.typingState = TypingState.Finished;
         }
-        yield return new WaitForSeconds(0.5f);
-        trigger.typingState = TypingState.Finished;
+        else
+        {
+            dialogue2.text = "";
+            foreach (var letter in dialogueText.ToCharArray())
+            {
+                dialogue2.text += letter;
+                yield return new WaitForSeconds(1f / typeSpeed);
+            }
+            yield return new WaitForSeconds(0.5f);
+            trigger.typingState = TypingState.Finished;
+        }
+
+        
     }
 }
