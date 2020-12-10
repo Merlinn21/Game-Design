@@ -18,6 +18,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Dialogue startDialogue;
     [SerializeField] private GameObject battleTransition;
+    [SerializeField] private AudioSource exploreAudio;
+    [SerializeField] private AudioSource battleAudio;
+
+    AudioScript audioScript = new AudioScript();
 
     public GameState state;
 
@@ -28,6 +32,8 @@ public class GameManager : MonoBehaviour
         playerMove.onDialogue += StartDialogue;
         dialogueTrigger.onDialogueOver += EndDialogue;
 
+
+        StartCoroutine(audioScript.FadeIn(exploreAudio, 0.5f));
         battleTransition.SetActive(false);
         StartCoroutine(FirstDialogue());
     }
@@ -41,6 +47,7 @@ public class GameManager : MonoBehaviour
     public void StartBattle(bool randomBattle)
     {
         battleTransition.SetActive(true);
+
         state = GameState.Battle;       
         battleSystem.gameObject.SetActive(true);
         battleSystem.transform.GetChild(0).gameObject.SetActive(true);
@@ -52,6 +59,9 @@ public class GameManager : MonoBehaviour
     public void EndBattle(bool win)
     {
         state = GameState.FreeRoam;
+        AudioScript audioScript = new AudioScript();
+        StartCoroutine(audioScript.FadeOut(battleAudio, 0.3f));
+        StartCoroutine(audioScript.FadeIn(exploreAudio, 0.3f));
         battleTransition.SetActive(false);
         Debug.Log(PlayerStat.exp);
         battleSystem.gameObject.SetActive(false);

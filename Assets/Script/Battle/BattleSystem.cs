@@ -23,7 +23,10 @@ public class BattleSystem : MonoBehaviour
 
     [SerializeField] private List<BattleUnit> ghostTarget;
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioSource battleAudio;
+    [SerializeField] private AudioSource exploreAudio;
     [SerializeField] private AudioClip textSFX;
+    [SerializeField] private AudioClip uiSFX;
     [SerializeField] private SimpleBlit blit;
     [SerializeField] private BattleTransition transition;
     public float waitDialogue = 1f;
@@ -58,6 +61,7 @@ public class BattleSystem : MonoBehaviour
     private int dialogueIndex = 0;
 
     private int totalExp;
+    AudioScript audioScript = new AudioScript();
 
     public void Awake()
     {
@@ -85,11 +89,11 @@ public class BattleSystem : MonoBehaviour
             enemies[i].GetComponent<BattleHud>().SetData(enemies[i].Ghost);
             enemies[i].GetComponent<BattleHud>().Alive();
 
-            if(enemies[i].Ghost.Base.getName() != "NoGhost")
+            if (enemies[i].Ghost.Base.getName() != "NoGhost")
             {
                 ghostTarget.Add(enemies[i]);
             }
-        }        
+        }
 
         yield return dialogueBox.TypeDialogue("Evil spirit gathered");
         yield return new WaitForSeconds(waitDialogue);
@@ -99,6 +103,9 @@ public class BattleSystem : MonoBehaviour
 
     public IEnumerator StartTransition()
     {
+        StartCoroutine(audioScript.FadeOut(exploreAudio, 0.3f));
+        StartCoroutine(audioScript.FadeIn(battleAudio, 0.3f));
+
         blit.enabled = true;
         transition.fadeState = "in";
         yield return new WaitForSeconds(2.2f);
@@ -130,7 +137,7 @@ public class BattleSystem : MonoBehaviour
     private void RandomizeGhost()
     {
         int random = Mathf.FloorToInt(UnityEngine.Random.Range(0, party.Length));
-        for(int i = 0; i < party[random].ghostParty.Length; i++)
+        for (int i = 0; i < party[random].ghostParty.Length; i++)
         {
             int ghostLvl = UnityEngine.Random.Range(PlayerStat.lvl - 2, PlayerStat.lvl + 3);
             enemies[i].Setup(party[random].ghostParty[i], ghostLvl);
@@ -175,21 +182,21 @@ public class BattleSystem : MonoBehaviour
             int dmg = ghostTarget[currentChooseTarget].Ghost.TakeDmg(move.getMoveBase());
             ghostTarget[currentChooseTarget].GetComponent<BattleHud>().UpdateUI(ghostTarget[currentChooseTarget].Ghost);
             if (move.getMoveBase().getMoveName() != "Attack")
-            {               
+            {
                 yield return dialogueBox.TypeDialogue($"You used {move.getMoveBase().getMoveName()} for {dmg.ToString()} Damage");
             }
             else
             {
                 yield return dialogueBox.TypeDialogue($"You Attack the enemies for {dmg.ToString()} Damage");
             }
-            
+
             player.PlayZoomOutAnimation();
         }
-        if(moveType == targetType.Aoe)
+        if (moveType == targetType.Aoe)
         {
             int dmg = 0;
-           
-            for(int i = 0; i < ghostTarget.Count; i++)
+
+            for (int i = 0; i < ghostTarget.Count; i++)
             {
                 ghostTarget[i].PlayHitAnimation();
                 dmg = ghostTarget[i].Ghost.TakeDmg(move.getMoveBase());
@@ -199,7 +206,7 @@ public class BattleSystem : MonoBehaviour
             yield return dialogueBox.TypeDialogue($"AOE DEEPS {move.getMoveBase().getMoveName()} for {dmg.ToString()} Damage");
 
         }
-        if(moveType == targetType.Self)
+        if (moveType == targetType.Self)
         {
             //heal persen
             var heal = (move.getMoveBase().getBaseDmg() * PlayerStat.maxHealth) / 100;
@@ -220,7 +227,7 @@ public class BattleSystem : MonoBehaviour
         player.MinusCost(moveBase);
 
 
-        for(int i = 0; i < ghostTarget.Count; i++)
+        for (int i = 0; i < ghostTarget.Count; i++)
         {
             if (ghostTarget[i].Ghost.HP <= 0)
             {
@@ -230,17 +237,17 @@ public class BattleSystem : MonoBehaviour
                 yield return DeadEnemies();
             }
         }
-        
+
         yield return new WaitForSeconds(waitDialogue);
         StartCoroutine(EnemyMove());
-        
+
     }
 
 
     IEnumerator EnemyMove()
     {
         state = BattleState.EnemyMove;
-        
+
         for (int i = 0; i < ghostTarget.Count; i++)
         {
             if (ghostTarget[i].Ghost.Base.getName() == "NoGhost" || enemies[i].Ghost.alive == false)
@@ -260,7 +267,7 @@ public class BattleSystem : MonoBehaviour
                 yield return dialogueBox.TypeDialogue($"{ghostTarget[i].Ghost.Base.getName()} used {move.Base.getMoveName()} for {dmg.ToString()} Damage");
             }
 
-            if(move.Base.getTargetType() == targetType.Self)
+            if (move.Base.getTargetType() == targetType.Self)
             {
                 state = BattleState.Busy;
                 int heal = ghostTarget[i].Ghost.GiveHeal(move.Base);
@@ -317,6 +324,8 @@ public class BattleSystem : MonoBehaviour
             currentDialogue = 0;
             currentMultiChoice = 0;
             currentTalkTarget = 0;
+            StartCoroutine(audioScript.FadeOut(battleAudio, 0.3f));
+            StartCoroutine(audioScript.FadeIn(exploreAudio, 0.3f));
 
             onBattleOver(true);
             Debug.Log(totalExp);
@@ -361,6 +370,13 @@ public class BattleSystem : MonoBehaviour
             default:
                 break;
         }
+
+        if (Input.GetKeyDown(right) || Input.GetKeyDown(left) || Input.GetKeyDown(up) || Input.GetKeyDown(down))
+            audioSource.PlayOneShot(uiSFX);
+        
+        if (Input.GetKeyDown(confirmBtn) || Input.GetKeyDown(backBtn))
+            audioSource.PlayOneShot(textSFX);
+
     }
 
     //Action Panel

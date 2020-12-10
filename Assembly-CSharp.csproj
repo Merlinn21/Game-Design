@@ -68,6 +68,7 @@
     <Compile Include="Assets\Pixelation\Scripts\Chunky.cs" />
     <Compile Include="Assets\Pixelation\Scripts\Pixelation.cs" />
     <Compile Include="Assets\PokemonTransition\BattleTransitions\SimpleBlit.cs" />
+    <Compile Include="Assets\Script\AudioScript.cs" />
     <Compile Include="Assets\Script\Battle\BattleDialogue.cs" />
     <Compile Include="Assets\Script\Battle\BattleHud.cs" />
     <Compile Include="Assets\Script\Battle\BattleSystem.cs" />

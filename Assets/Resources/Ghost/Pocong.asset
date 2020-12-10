@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pocong
   m_EditorClassIdentifier: 
   ghostName: Pocong
-  sprite: {fileID: 21300000, guid: 0869fe83512f1fd46a07f1e109697536, type: 3}
+  sprite: {fileID: -5049800890095444113, guid: 4c757f1c8ca237b43b1a829ddf8db814, type: 3}
   maxHP: 95
   maxMana: 50
   atk: 60

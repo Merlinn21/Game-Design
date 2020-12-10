@@ -85,6 +85,8 @@ public class DialogueTrigger : MonoBehaviour
         {
             speakerLeft.SetActive(false);
             speakerRight.SetActive(false);
+            typingState = TypingState.Finished;
+            audio.volume = 0;
             StartCoroutine(scene.LoadNextScene(dialogue.nextSceneName));
         }
 
