@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private DialogueTrigger dialogueTrigger;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Dialogue startDialogue;
+    [SerializeField] private GameObject battleTransition;
 
     public GameState state;
 
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
         playerMove.onDialogue += StartDialogue;
         dialogueTrigger.onDialogueOver += EndDialogue;
 
+        battleTransition.SetActive(false);
         StartCoroutine(FirstDialogue());
     }
 
@@ -38,7 +40,8 @@ public class GameManager : MonoBehaviour
 
     public void StartBattle(bool randomBattle)
     {
-        state = GameState.Battle;
+        battleTransition.SetActive(true);
+        state = GameState.Battle;       
         battleSystem.gameObject.SetActive(true);
         battleSystem.transform.GetChild(0).gameObject.SetActive(true);
         battleSystem.transform.GetChild(1).gameObject.SetActive(true);
@@ -49,6 +52,7 @@ public class GameManager : MonoBehaviour
     public void EndBattle(bool win)
     {
         state = GameState.FreeRoam;
+        battleTransition.SetActive(false);
         Debug.Log(PlayerStat.exp);
         battleSystem.gameObject.SetActive(false);
         mainCamera.gameObject.SetActive(true);
@@ -70,6 +74,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            battleTransition.SetActive(true);
             state = GameState.Battle;
             battleSystem.gameObject.SetActive(true);
             battleSystem.transform.GetChild(0).gameObject.SetActive(true);

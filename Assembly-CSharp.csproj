@@ -67,11 +67,13 @@
     <Compile Include="Assets\Pixelation\Example\Scripts\PointLight.cs" />
     <Compile Include="Assets\Pixelation\Scripts\Chunky.cs" />
     <Compile Include="Assets\Pixelation\Scripts\Pixelation.cs" />
+    <Compile Include="Assets\PokemonTransition\BattleTransitions\SimpleBlit.cs" />
     <Compile Include="Assets\Script\Battle\BattleDialogue.cs" />
     <Compile Include="Assets\Script\Battle\BattleHud.cs" />
     <Compile Include="Assets\Script\Battle\BattleSystem.cs" />
     <Compile Include="Assets\Script\Battle\BattleUnit.cs" />
     <Compile Include="Assets\Script\Battle\PlayerUnit.cs" />
+    <Compile Include="Assets\Script\BattleTransition.cs" />
     <Compile Include="Assets\Script\Dialogue\Character.cs" />
     <Compile Include="Assets\Script\Dialogue\Dialogue.cs" />
     <Compile Include="Assets\Script\Dialogue\DialogueEvent.cs" />
@@ -103,6 +105,7 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\Pixelation\Shaders\Pixelation.shader" />
+    <None Include="Assets\PokemonTransition\New Amplify Shader.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
@@ -111,6 +114,7 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Pixelation\Readme.txt" />
+    <None Include="Assets\PokemonTransition\BattleTransitions\BattleTransitions.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\Asset\3D\note.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />

@@ -24,6 +24,8 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private List<BattleUnit> ghostTarget;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip textSFX;
+    [SerializeField] private SimpleBlit blit;
+    [SerializeField] private BattleTransition transition;
     public float waitDialogue = 1f;
     public BattleState state;
     private bool change = false;
@@ -76,6 +78,7 @@ public class BattleSystem : MonoBehaviour
         dialogueBox.ActivateDialogue();
         state = BattleState.Start;
 
+        StartCoroutine(StartTransition());
         ghostTarget = new List<BattleUnit>();
         for (int i = 0; i < enemies.Length; i++)
         {
@@ -92,6 +95,14 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(waitDialogue);
         dialogueBox.CloseDialogue();
         PlayerAction();
+    }
+
+    public IEnumerator StartTransition()
+    {
+        blit.enabled = true;
+        transition.fadeState = "in";
+        yield return new WaitForSeconds(2.2f);
+        blit.enabled = false;
     }
 
     public void StartBattle(bool _randomBattle)
