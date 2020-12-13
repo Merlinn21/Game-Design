@@ -28,5 +28,11 @@ public class Interact : MonoBehaviour
             Door door = other.gameObject.GetComponent<Door>();
             door.StartDialogue();
         }
+
+        if (other.CompareTag("Jalangkung") && Input.GetKeyDown(interactButton) && gm.state == GameState.FreeRoam)
+        {
+            Door door = other.gameObject.GetComponent<Door>();
+            door.JalangkungDialogue();
+        }
     }
 }

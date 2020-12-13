@@ -10,7 +10,7 @@ public class CollisionDetector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Wall") || other.CompareTag("Object") || other.CompareTag("Door"))
+        if (other.CompareTag("Wall") || other.CompareTag("Object") || other.CompareTag("Door") || other.CompareTag("Jalangkung"))
         {
             isWall = true;
         }
@@ -18,7 +18,7 @@ public class CollisionDetector : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Wall") || other.CompareTag("Object") || other.CompareTag("Door"))
+        if (other.CompareTag("Wall") || other.CompareTag("Object") || other.CompareTag("Door") || other.CompareTag("Jalangkung"))
         {
             isWall = true;
         }
@@ -26,7 +26,7 @@ public class CollisionDetector : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Wall") || other.CompareTag("Object") || other.CompareTag("Door"))
+        if (other.CompareTag("Wall") || other.CompareTag("Object") || other.CompareTag("Door") || other.CompareTag("Jalangkung"))
         {
             isWall = false;
         }

@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ghostName: Pocong
   sprite: {fileID: -5049800890095444113, guid: 4c757f1c8ca237b43b1a829ddf8db814, type: 3}
-  maxHP: 95
+  maxHP: 80
   maxMana: 50
-  atk: 60
+  atk: 55
   satk: 20
   def: 80
   sdef: 95

@@ -26,6 +26,12 @@ TextureImporter:
   - first:
       213: 8389788275517743235
     second: pocong_2-Sheet_7
+  - first:
+      213: -5768263361584861568
+    second: pocong_2-Sheet_0
+  - first:
+      213: 4563138426300957989
+    second: pocong_2-Sheet_1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -69,7 +75,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 128
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -149,8 +155,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f6fd86f68d08be9b0800000000000000
-      internalID: -5049800890095444113
+      spriteID: 08e65d1c80303ffa0800000000000000
+      internalID: -5768263361584861568
       vertices: []
       indices: 
       edges: []
@@ -170,8 +176,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e04d77323d5075ee0800000000000000
-      internalID: -1272541965317581810
+      spriteID: 5258a90e836835f30800000000000000
+      internalID: 4563138426300957989
       vertices: []
       indices: 
       edges: []

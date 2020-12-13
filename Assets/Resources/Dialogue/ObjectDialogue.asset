@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6a00bafd5d49b74083c9ee5563a18b3, type: 3}
   m_Name: ObjectDialogue
   m_EditorClassIdentifier: 
-  charLeft: {fileID: 11400000, guid: 73af8b4e13f862545ba58a2ac71784f7, type: 2}
-  charRight: {fileID: 11400000, guid: ff8b56cc87a6e9b4b8c9be98ee833694, type: 2}
+  charLeft: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+  charRight: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
   lines:
-  - character: {fileID: 11400000, guid: 73af8b4e13f862545ba58a2ac71784f7, type: 2}
-    text: Found the item
-  - character: {fileID: 11400000, guid: 73af8b4e13f862545ba58a2ac71784f7, type: 2}
-    text: Test
-  ghostParty: {fileID: 0}
-  freeRoam: 1
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: Ketemu kunci nya
+  - character: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+    text: Tidak secepat itu anak muda
+  ghostParty: {fileID: 11400000, guid: 824671530bb46014cae5d7fe7c33d2cf, type: 2}
+  freeRoam: 0
+  background: {fileID: 0}
+  nextSceneName: 
+  inGameDialogue: 1

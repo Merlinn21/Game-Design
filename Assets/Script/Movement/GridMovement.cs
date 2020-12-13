@@ -146,7 +146,6 @@ public class GridMovement : MonoBehaviour
         {
             Collider2D[] collider = new Collider2D[20];
             Physics2D.OverlapCircleNonAlloc(transform.position, 0.1f, collider, eventLayer);
-
             DialogueEvent dialogueEvent = collider [0].GetComponent<DialogueEvent>();
             dialogueEvent.Deactivate();
             onDialogue(dialogueEvent.dialogue);

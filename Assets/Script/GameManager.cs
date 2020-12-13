@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(audioScript.FadeIn(exploreAudio, 0.5f));
         battleTransition.SetActive(false);
-        StartCoroutine(FirstDialogue());
+        //StartCoroutine(FirstDialogue());
     }
 
     IEnumerator FirstDialogue()

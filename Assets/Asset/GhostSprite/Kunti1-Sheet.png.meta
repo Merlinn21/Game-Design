@@ -5,6 +5,18 @@ TextureImporter:
   - first:
       213: -6818259472479469808
     second: Kunti1-Sheet_0
+  - first:
+      213: 9031594262874233197
+    second: Kunti1-Sheet_1
+  - first:
+      213: -3623307139362807692
+    second: Kunti1-Sheet_0
+  - first:
+      213: 1538248911147295342
+    second: Kunti1-Sheet_1
+  - first:
+      213: -6300719058063883820
+    second: Kunti1-Sheet_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -112,7 +124,49 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Kunti1-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 2
+        width: 53
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01f3b6c622da061a0800000000000000
+      internalID: -6818259472479469808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kunti1-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 0
+        width: 53
+        height: 109
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d691312712ba65d70800000000000000
+      internalID: 9031594262874233197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

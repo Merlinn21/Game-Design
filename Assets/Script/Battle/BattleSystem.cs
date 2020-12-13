@@ -232,7 +232,7 @@ public class BattleSystem : MonoBehaviour
             if (ghostTarget[i].Ghost.HP <= 0)
             {        
                 dialogueBox.ActivateDialogue();
-                yield return dialogueBox.TypeDialogue($"{ghostTarget[i].Ghost.Base.getName()} go brrrrrr");
+                yield return dialogueBox.TypeDialogue($"{ghostTarget[i].Ghost.Base.getName()} berhasil ditaklukan");
                 yield return DeadEnemies();
                 i = 0;
             }
