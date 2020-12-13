@@ -183,11 +183,11 @@ public class BattleSystem : MonoBehaviour
             ghostTarget[currentChooseTarget].GetComponent<BattleHud>().UpdateUI(ghostTarget[currentChooseTarget].Ghost);
             if (move.getMoveBase().getMoveName() != "Attack")
             {
-                yield return dialogueBox.TypeDialogue($"You used {move.getMoveBase().getMoveName()} for {dmg.ToString()} Damage");
+                yield return dialogueBox.TypeDialogue($"Dara menggunakan {move.getMoveBase().getMoveName()} sebanyak {dmg.ToString()} Damage");
             }
             else
             {
-                yield return dialogueBox.TypeDialogue($"You Attack the enemies for {dmg.ToString()} Damage");
+                yield return dialogueBox.TypeDialogue($"Dara menyerang musuh sebanyak {dmg.ToString()} Damage");
             }
 
             player.PlayZoomOutAnimation();
@@ -203,7 +203,7 @@ public class BattleSystem : MonoBehaviour
                 ghostTarget[i].GetComponent<BattleHud>().UpdateUI(ghostTarget[i].Ghost);
             }
 
-            yield return dialogueBox.TypeDialogue($"AOE DEEPS {move.getMoveBase().getMoveName()} for {dmg.ToString()} Damage");
+            yield return dialogueBox.TypeDialogue($"Dara menyerang semua musuh dengan {dmg.ToString()} Damage");
 
         }
         if (moveType == targetType.Self)
@@ -218,7 +218,7 @@ public class BattleSystem : MonoBehaviour
                 PlayerStat.health = PlayerStat.maxHealth;
             }
 
-            yield return dialogueBox.TypeDialogue($"You healed for {heal.ToString()} HP");
+            yield return dialogueBox.TypeDialogue($"Darah kamu pulih {heal.ToString()} HP");
         }
 
         //------------------------Player Move-------------------------------
@@ -264,7 +264,7 @@ public class BattleSystem : MonoBehaviour
                 player.PlayHitAnimation();
                 int dmg = ghostTarget[i].Ghost.GiveDmg(move.Base);
                 dialogueBox.ActivateDialogue();
-                yield return dialogueBox.TypeDialogue($"{ghostTarget[i].Ghost.Base.getName()} used {move.Base.getMoveName()} for {dmg.ToString()} Damage");
+                yield return dialogueBox.TypeDialogue($"{ghostTarget[i].Ghost.Base.getName()} menggunakan {move.Base.getMoveName()} sebesar {dmg.ToString()} Damage");
             }
 
             if (move.Base.getTargetType() == targetType.Self)
@@ -272,10 +272,8 @@ public class BattleSystem : MonoBehaviour
                 state = BattleState.Busy;
                 int heal = ghostTarget[i].Ghost.GiveHeal(move.Base);
                 dialogueBox.ActivateDialogue();
-                yield return dialogueBox.TypeDialogue($"{ghostTarget[i].Ghost.Base.getName()} used {move.Base.getMoveName()} and healed {heal.ToString()} HP");
+                yield return dialogueBox.TypeDialogue($"{ghostTarget[i].Ghost.Base.getName()} menggunakan {move.Base.getMoveName()} dan pulih sebesar {heal.ToString()} HP");
             }
-
-
 
             //-------------------------------------Ghost Move-------------------------------------------
 
@@ -289,7 +287,7 @@ public class BattleSystem : MonoBehaviour
         if (PlayerStat.health <= 0)
         {
             dialogueBox.ActivateDialogue();
-            yield return dialogueBox.TypeDialogue("Ded");
+            yield return dialogueBox.TypeDialogue("Kamu telah gagal");
             onBattleOver(false);
         }
 
