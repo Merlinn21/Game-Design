@@ -230,11 +230,11 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < ghostTarget.Count; i++)
         {
             if (ghostTarget[i].Ghost.HP <= 0)
-            {
-                i = 0;
+            {        
                 dialogueBox.ActivateDialogue();
                 yield return dialogueBox.TypeDialogue($"{ghostTarget[i].Ghost.Base.getName()} go brrrrrr");
                 yield return DeadEnemies();
+                i = 0;
             }
         }
 
@@ -306,7 +306,6 @@ public class BattleSystem : MonoBehaviour
     {
         BattleUnit deadGhost = ghostTarget[currentChooseTarget];
 
-
         totalExp += deadGhost.Ghost.GiveExp();
 
         deadGhost.Ghost.alive = false;
@@ -371,10 +370,10 @@ public class BattleSystem : MonoBehaviour
                 break;
         }
 
-        if (Input.GetKeyDown(right) || Input.GetKeyDown(left) || Input.GetKeyDown(up) || Input.GetKeyDown(down))
+        if (Input.GetKeyDown(right) || Input.GetKeyDown(left) || Input.GetKeyDown(up) || Input.GetKeyDown(down) && state != BattleState.Busy)
             audioSource.PlayOneShot(uiSFX);
         
-        if (Input.GetKeyDown(confirmBtn) || Input.GetKeyDown(backBtn))
+        if (Input.GetKeyDown(confirmBtn) || Input.GetKeyDown(backBtn) && state != BattleState.Busy)
             audioSource.PlayOneShot(textSFX);
 
     }
@@ -649,9 +648,9 @@ public class BattleSystem : MonoBehaviour
             {
                 dialogueBox.ActivateDialogue();
                 if(failToPersuade)
-                    StartCoroutine(TypeDialogue(BattleState.ChooseTalkTarget, "The Ghost are enraged"));
-                else if(!failToPersuade)
-                    StartCoroutine(TypeDialogue(BattleState.ChooseTalkTarget ,"udh ngmong kaka"));
+                    StartCoroutine(TypeDialogue(BattleState.ChooseTalkTarget, "The Ghost are enraged!"));
+                else if(!failToPersuade || eventBattle)
+                    StartCoroutine(TypeDialogue(BattleState.ChooseTalkTarget ,"The Ghost are not Willing to Talk"));
             }
 
         }

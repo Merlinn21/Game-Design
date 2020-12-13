@@ -19,3 +19,4 @@ MonoBehaviour:
   costType: 1
   targetType: 1
   moveType: 0
+  audioSfx: {fileID: 8300000, guid: 03e873d7b39174750ac766510f9e503f, type: 3}

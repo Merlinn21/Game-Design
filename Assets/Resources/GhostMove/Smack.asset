@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Smack
   m_EditorClassIdentifier: 
   moveName: Smack
-  baseDmg: 35
+  baseDmg: 40
   acc: 100
   cost: 1
   costType: 0

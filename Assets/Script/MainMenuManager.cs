@@ -14,11 +14,14 @@ public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private List<Button> buttonList;
     [SerializeField] SceneTransition scene;
+    [SerializeField] private GameObject settingObject;
+    [SerializeField] private GameObject transitionObj;
 
     private KeyCode up = KeyCode.UpArrow;
     private KeyCode down = KeyCode.DownArrow;
 
     public KeyCode confirmButton = KeyCode.F;
+    public KeyCode backButton = KeyCode.X;
 
     private int currentMultiChoice = 0;
 
@@ -29,6 +32,15 @@ public class MainMenuManager : MonoBehaviour
     private MenuState state = MenuState.MainMenu;
 
     private void Update()
+    {
+        if (state == MenuState.MainMenu)
+            HandleMain();
+        else if (state == MenuState.Setting)
+            HandleSetting();
+        
+    }
+
+    private void HandleMain()
     {
         if (Input.GetKeyDown(down) && state == MenuState.MainMenu)
         {
@@ -50,19 +62,33 @@ public class MainMenuManager : MonoBehaviour
             {
                 menuSfx.PlayOneShot(enterGame);
                 state = MenuState.Busy;
-                StartCoroutine(scene.LoadNextScene(nextSceneName));            
+                StartCoroutine(scene.LoadNextScene(nextSceneName));
             }
             else if (currentMultiChoice == 1)
             {
                 //TODO: Open Setting
+                state = MenuState.Setting;
+                transitionObj.SetActive(false);
+                settingObject.SetActive(true);
             }
             else if (currentMultiChoice == 2)
             {
                 Application.Quit();
             }
         }
-        
     }
+
+    private void HandleSetting()
+    {
+        if (Input.GetKeyDown(backButton))
+        {
+            //TODO: Close Setting
+            transitionObj.SetActive(true);
+            settingObject.SetActive(false);
+            state = MenuState.MainMenu;
+        }
+    }
+
 
     public void UpdateChooseMenu(int index)
     {
