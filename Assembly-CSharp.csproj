@@ -98,6 +98,7 @@
     <Compile Include="Assets\Script\Player\PlayerItem.cs" />
     <Compile Include="Assets\Script\Player\PlayerMoveSet.cs" />
     <Compile Include="Assets\Script\Player\PlayerStat.cs" />
+    <Compile Include="Assets\Script\Player\PlayerStatWindow.cs" />
     <Compile Include="Assets\Script\Player\StatModifier.cs" />
     <Compile Include="Assets\Script\SceneTransition.cs" />
     <Compile Include="Assets\Script\SettingMenu.cs" />

@@ -31,6 +31,8 @@ public class PlayerHud : MonoBehaviour
     public UnityEvent onSkillClose;
     public UnityEvent onMultiOpen;
     public UnityEvent onMultiClose;
+    public UnityEvent onJournalOpen;
+    public UnityEvent onJournalClose;
 
     [Space]
     [Header("Button List")]
@@ -71,6 +73,8 @@ public class PlayerHud : MonoBehaviour
     public void CloseSkill(){ onSkillClose.Invoke();}
     public void OpenMulti() { onMultiOpen.Invoke(); }
     public void CloseMulti() { onMultiClose.Invoke(); }
+    public void OpenJournal() { onJournalOpen.Invoke(); }
+    public void CloseJournal() { onJournalClose.Invoke(); }
 
     public void UpdateUI()
     {

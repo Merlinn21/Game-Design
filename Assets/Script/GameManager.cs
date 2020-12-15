@@ -8,7 +8,9 @@ public enum GameState
     FreeRoam,
     Battle,
     Transition,
-    Dialogue
+    Dialogue,
+    Setting,
+    Status
 }
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +22,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject battleTransition;
     [SerializeField] private AudioSource exploreAudio;
     [SerializeField] private AudioSource battleAudio;
+    [SerializeField] private GameObject statWindow;
+
+    public KeyCode confirmBtn = KeyCode.F;
+    public KeyCode backBtn = KeyCode.X;
+    public KeyCode escBtn = KeyCode.Escape;
+    public KeyCode statBtn = KeyCode.S;
 
     AudioScript audioScript = new AudioScript();
 
@@ -56,7 +64,7 @@ public class GameManager : MonoBehaviour
         battleSystem.StartBattle(randomBattle);
     }
  
-    public void EndBattle(bool win)
+    public void EndBattle(bool win , int exp)
     {
         state = GameState.FreeRoam;
         AudioScript audioScript = new AudioScript();
@@ -66,6 +74,23 @@ public class GameManager : MonoBehaviour
         Debug.Log(PlayerStat.exp);
         battleSystem.gameObject.SetActive(false);
         mainCamera.gameObject.SetActive(true);
+
+        if (win)
+        {
+            //TODO: SHOW EXP PROGRESS
+            PlayerStat.exp += exp;
+
+            if(PlayerStat.exp >= PlayerStat.maxExp)
+            {
+                PlayerStat.maxExp += 15;
+                PlayerStat.exp = 0;
+            }
+            OpenStat();
+        }
+        else
+        {
+            //Game Over
+        }
     }
 
     public void StartDialogue(Dialogue dialogue)
@@ -98,17 +123,41 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(state == GameState.FreeRoam)
+        if (state == GameState.FreeRoam)
         {
             playerMove.HandleUpdate();
-        }
-        else if(state == GameState.Battle)
-        {
 
+            if (Input.GetKeyDown(escBtn))
+            {
+                //Pause
+                state = GameState.Setting;
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                state = GameState.Status;
+                OpenStat();
+            }
         }
-        else if(state == GameState.Dialogue)
+        else if (state == GameState.Dialogue)
         {
             dialogueTrigger.HandleUpdate();
         }
+        else if (state == GameState.Status)
+        {
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                state = GameState.FreeRoam;
+                statWindow.SetActive(false);
+            }
+        }
+
+        
+    }
+
+    private void OpenStat()
+    {
+        statWindow.SetActive(true);
+        PlayerStatWindow window = statWindow.gameObject.GetComponent<PlayerStatWindow>();
+        window.UpdateUI();
     }
 }

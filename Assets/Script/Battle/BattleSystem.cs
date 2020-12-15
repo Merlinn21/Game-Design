@@ -8,7 +8,7 @@ public enum BattleState
 {
     Start, PlayerChoose, PlayerMove, PlayerBattle, EnemyMove,
     Busy, ChooseTarget, ChooseTalkTarget, GhostDialogue, MultiChoice,
-    Bonus
+    Bonus, Journal
 }
 
 public class BattleSystem : MonoBehaviour
@@ -43,7 +43,7 @@ public class BattleSystem : MonoBehaviour
     private int currentTalkTarget;
     private int currentMultiChoice;
 
-    public event Action<bool> onBattleOver;
+    public event Action<bool, int> onBattleOver;
 
     public KeyCode confirmBtn;
     public KeyCode backBtn;
@@ -131,7 +131,7 @@ public class BattleSystem : MonoBehaviour
 
     public void RunAway()
     {
-        onBattleOver(true);
+        onBattleOver(true, 0);
     }
 
     private void RandomizeGhost()
@@ -287,8 +287,8 @@ public class BattleSystem : MonoBehaviour
         if (PlayerStat.health <= 0)
         {
             dialogueBox.ActivateDialogue();
-            yield return dialogueBox.TypeDialogue("Kamu telah gagal");
-            onBattleOver(false);
+            yield return dialogueBox.TypeDialogue("You died");
+            onBattleOver(false, 0);
         }
 
         state = BattleState.PlayerBattle;
@@ -324,7 +324,7 @@ public class BattleSystem : MonoBehaviour
             StartCoroutine(audioScript.FadeOut(battleAudio, 0.3f));
             StartCoroutine(audioScript.FadeIn(exploreAudio, 0.3f));
 
-            onBattleOver(true);
+            onBattleOver(true, totalExp);
             Debug.Log(totalExp);
         }
         yield return new WaitForSeconds(.5f);
@@ -339,6 +339,13 @@ public class BattleSystem : MonoBehaviour
         {
             case BattleState.PlayerChoose:
                 HandleActionSelection();
+                break;
+            case BattleState.Journal:
+                if (Input.GetKeyDown(backBtn))
+                {
+                    state = BattleState.PlayerChoose;
+                    playerHud.CloseJournal();
+                }
                 break;
             case BattleState.PlayerBattle:
                 HandleBattleSelection();
@@ -425,7 +432,11 @@ public class BattleSystem : MonoBehaviour
                     state = BattleState.Busy;
                     StartCoroutine(FailedToRun(BattleState.PlayerChoose)); 
                 }
-
+            }
+            else if(currentAction == 3)
+            {
+                state = BattleState.Journal;
+                playerHud.OpenJournal();
             }
         }        
     }
@@ -799,7 +810,7 @@ public class BattleSystem : MonoBehaviour
         if (ghostTarget.Count > 0)
             state = BattleState.PlayerChoose;
         else
-            onBattleOver(true);
+            onBattleOver(true, totalExp);
 
     }
 

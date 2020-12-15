@@ -14,6 +14,8 @@ public class Ghost
     public Dictionary<Stat, int> Stats { get; private set; }
     public Dictionary<Stat, int> StatBoost { get; private set; }
 
+    
+
     public Ghost(GhostBase ghostBase, int level)
     {
         Base = ghostBase;

@@ -29,5 +29,6 @@ public class PlayerStat :MonoBehaviour
 
     static public int level = 1;
     static public int exp = 0;
+    static public int maxExp = 100;
 }
 
