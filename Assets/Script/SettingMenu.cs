@@ -11,23 +11,52 @@ public class SettingMenu : MonoBehaviour
     public GameObject[] sfxBars;
 
     private float volCheck;
+    private int musicVol;
+    private int sfxVol;
+
+    private int currentMusicVol;
+    private int currentSfxVol;
+
+    private void Start()
+    {
+        SetVolume(getMusicVol());
+        SetSfx(getSfxVol());
+    }
+
+    public int getMusicVol()
+    {
+        musicVol = PlayerPrefs.GetInt("Music_Volume");
+        Debug.Log(musicVol);
+        return musicVol;
+    }
+
+    public int getSfxVol()
+    {
+        sfxVol = PlayerPrefs.GetInt("SFX_Volume");
+        return sfxVol;
+    }
+
+    public int getCurrentMusicVol()
+    {
+        return currentMusicVol;
+    }
+
+    public int getCurrentSfxVol()
+    {
+        return currentSfxVol;
+    }
 
     public void SetVolume(float volume)
     {
         audioMixer.SetFloat("music",volume);
+        currentMusicVol = (int)volume;
         VolBar();
     }
 
     public void SetSfx(float sfx)
     {
         audioMixer.SetFloat("sfx", sfx);
-        SfxBar();
-    }
-
-    private void Start()
-    {
-        //TODO: PlayerPref ambil setting
-        VolBar();
+        currentSfxVol = (int)sfx;
         SfxBar();
     }
 

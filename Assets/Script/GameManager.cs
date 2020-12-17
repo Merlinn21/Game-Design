@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public enum GameState
@@ -10,7 +11,8 @@ public enum GameState
     Transition,
     Dialogue,
     Setting,
-    Status
+    Status,
+    Menu
 }
 public class GameManager : MonoBehaviour
 {
@@ -23,12 +25,27 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource exploreAudio;
     [SerializeField] private AudioSource battleAudio;
     [SerializeField] private GameObject statWindow;
+    [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject settingPanel;
+    [SerializeField] private AudioSource uiAudioSource;
+    [SerializeField] private AudioClip menuSFX;
+    [SerializeField] private AudioClip confirmSFX;
+    [SerializeField] private GameObject transitionUI;
+    [SerializeField] private SettingMenu setting;
 
-    public KeyCode confirmBtn = KeyCode.F;
-    public KeyCode backBtn = KeyCode.X;
-    public KeyCode escBtn = KeyCode.Escape;
-    public KeyCode statBtn = KeyCode.S;
+    private KeyCode confirmBtn = KeyCode.F;
+    private KeyCode backBtn = KeyCode.X;
+    private KeyCode escBtn = KeyCode.Escape;
+    private KeyCode statBtn = KeyCode.S;
 
+    private KeyCode up = KeyCode.UpArrow;
+    private KeyCode down = KeyCode.DownArrow;
+    private int currentPauseChoice = 0;
+    private int currentSettingChoice = 0;
+    public Pause pause;
+
+    int saveMusicVol;
+    int saveSfxVol;
     AudioScript audioScript = new AudioScript();
 
     public GameState state;
@@ -130,7 +147,8 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(escBtn))
             {
                 //Pause
-                state = GameState.Setting;
+                state = GameState.Menu;
+                pausePanel.SetActive(true);
             }
             else if (Input.GetKeyDown(KeyCode.S))
             {
@@ -150,6 +168,15 @@ public class GameManager : MonoBehaviour
                 statWindow.SetActive(false);
             }
         }
+        else if(state == GameState.Menu)
+        {
+            HandlePauseUpdate();
+        }
+        else if(state == GameState.Setting)
+        {
+            HandleSetting();
+        }
+        
 
         
     }
@@ -159,5 +186,94 @@ public class GameManager : MonoBehaviour
         statWindow.SetActive(true);
         PlayerStatWindow window = statWindow.gameObject.GetComponent<PlayerStatWindow>();
         window.UpdateUI();
+    }
+
+    private void HandlePauseUpdate()
+    {
+        if (Input.GetKeyDown(down))
+        {
+            if (currentPauseChoice < 2)
+                currentPauseChoice++;
+            uiAudioSource.PlayOneShot(menuSFX);
+        }
+        else if (Input.GetKeyDown(up))
+        {
+            if (currentPauseChoice > 0)
+                currentPauseChoice--;
+            uiAudioSource.PlayOneShot(menuSFX);
+
+        }
+        pause.UpdatePauseAction(currentPauseChoice);
+
+        if (Input.GetKeyDown(confirmBtn))
+        {
+            uiAudioSource.PlayOneShot(confirmSFX);
+            if (currentPauseChoice == 0)
+            {
+                //RESUME
+                pausePanel.SetActive(false);
+                state = GameState.FreeRoam;
+            }
+            else if (currentPauseChoice == 1)
+            {
+                //TODO: Open Setting
+                state = GameState.Setting;
+                settingPanel.SetActive(true);
+                transitionUI.GetComponent<Image>().enabled = false;
+                
+            }
+            else if (currentPauseChoice == 2)
+            {
+                Application.Quit();
+            }
+        }
+    }
+
+    private void HandleSetting()
+    {
+        if (Input.GetKeyDown(down))
+        {
+            if (currentSettingChoice < 1)
+                currentSettingChoice++;
+            uiAudioSource.PlayOneShot(menuSFX);
+        }
+        else if (Input.GetKeyDown(up))
+        {
+            if (currentSettingChoice > 0)
+                currentSettingChoice--;
+            uiAudioSource.PlayOneShot(menuSFX);
+
+        }
+
+        pause.UpdateSettingAction(currentSettingChoice);
+        if (Input.GetKeyDown(backBtn))
+        {
+            //TODO: Close Setting
+            settingPanel.SetActive(false);
+            transitionUI.GetComponent<Image>().enabled = true;
+            state = GameState.Menu;
+        }
+        else if (Input.GetKeyDown(confirmBtn))
+        {
+            if(currentSettingChoice == 0)
+            {
+                saveMusicVol = setting.getCurrentMusicVol();
+                saveSfxVol = setting.getCurrentSfxVol();
+                PlayerPrefs.SetInt("Music_Volume", saveMusicVol);
+                PlayerPrefs.SetInt("Sfx_Volume", saveSfxVol);
+                PlayerPrefs.Save();
+                settingPanel.SetActive(false);
+                transitionUI.GetComponent<Image>().enabled = true;
+                state = GameState.Menu;
+            }
+            else
+            {
+                setting.SetVolume(saveMusicVol);
+                setting.SetSfx(saveSfxVol);
+                settingPanel.SetActive(false);
+                transitionUI.GetComponent<Image>().enabled = true;
+                state = GameState.Menu;
+            }
+        }
     }
 }

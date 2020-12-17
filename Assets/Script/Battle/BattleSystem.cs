@@ -281,7 +281,6 @@ public class BattleSystem : MonoBehaviour
             playerHud.UpdateUI();
             ghostTarget[i].GetComponent<BattleHud>().UpdateUI(ghostTarget[i].Ghost);
             yield return new WaitForSeconds(waitDialogue);
-            dialogueBox.CloseDialogue();
         }
 
         if (PlayerStat.health <= 0)

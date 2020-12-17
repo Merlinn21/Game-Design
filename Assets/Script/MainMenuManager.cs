@@ -13,6 +13,7 @@ public enum MenuState
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private List<Button> buttonList;
+    [SerializeField] private List<GameObject> settingList;
     [SerializeField] SceneTransition scene;
     [SerializeField] private GameObject settingObject;
     [SerializeField] private GameObject transitionObj;
@@ -24,20 +25,23 @@ public class MainMenuManager : MonoBehaviour
     public KeyCode backButton = KeyCode.X;
 
     private int currentMultiChoice = 0;
+    private int currentSettingChoice = 0;
 
     public string nextSceneName;
     public AudioSource menuSfx;
     public AudioClip menuNavigate;
     public AudioClip enterGame;
+    public SettingMenu setting;
     private MenuState state = MenuState.MainMenu;
 
+    int saveMusicVol;
+    int saveSfxVol;
     private void Update()
     {
         if (state == MenuState.MainMenu)
             HandleMain();
         else if (state == MenuState.Setting)
-            HandleSetting();
-        
+            HandleSetting();        
     }
 
     private void HandleMain()
@@ -80,12 +84,52 @@ public class MainMenuManager : MonoBehaviour
 
     private void HandleSetting()
     {
+        if (Input.GetKeyDown(down))
+        {
+            if (currentSettingChoice < 1)
+                currentSettingChoice++;
+            menuSfx.PlayOneShot(menuNavigate);
+        }
+        else if (Input.GetKeyDown(up))
+        {
+            if (currentSettingChoice > 0)
+                currentSettingChoice--;
+            menuSfx.PlayOneShot(menuNavigate);
+
+        }
+        UpdateSettingAction(currentSettingChoice);
+
         if (Input.GetKeyDown(backButton))
         {
             //TODO: Close Setting
             transitionObj.SetActive(true);
             settingObject.SetActive(false);
             state = MenuState.MainMenu;
+        }
+        else if (Input.GetKeyDown(confirmButton))
+        {
+            if(currentSettingChoice == 0)
+            {
+                //TODO: save setting
+                saveMusicVol = setting.getCurrentMusicVol();
+                saveSfxVol = setting.getCurrentSfxVol();
+                PlayerPrefs.SetInt("Music_Volume", saveMusicVol);
+                PlayerPrefs.SetInt("SFX_Volume", saveSfxVol);
+                PlayerPrefs.Save();
+                settingObject.SetActive(false);
+                transitionObj.SetActive(true);
+                state = MenuState.MainMenu;
+
+            }
+            else if(currentSettingChoice == 1)
+            {
+                //TODO: close setting
+                setting.SetVolume(saveMusicVol);
+                setting.SetSfx(saveSfxVol);
+                settingObject.SetActive(false);
+                transitionObj.SetActive(true);
+                state = MenuState.MainMenu;
+            }
         }
     }
 
@@ -101,6 +145,21 @@ public class MainMenuManager : MonoBehaviour
             else
             {
                 buttonList[i].GetComponentInChildren<TMP_Text>().color = Color.black;
+            }
+        }
+    }
+
+    public void UpdateSettingAction(int index)
+    {
+        for (int i = 0; i < settingList.Count; i++)
+        {
+            if (i == index)
+            {
+                settingList[i].GetComponentInChildren<TMP_Text>().color = Color.blue;
+            }
+            else
+            {
+                settingList[i].GetComponentInChildren<TMP_Text>().color = Color.black;
             }
         }
     }

@@ -93,6 +93,7 @@
     <Compile Include="Assets\Script\Movement\GridMovement.cs" />
     <Compile Include="Assets\Script\Object\Door.cs" />
     <Compile Include="Assets\Script\Object\ObjectTrigger.cs" />
+    <Compile Include="Assets\Script\Pause.cs" />
     <Compile Include="Assets\Script\Player\Interact.cs" />
     <Compile Include="Assets\Script\Player\PlayerHud.cs" />
     <Compile Include="Assets\Script\Player\PlayerItem.cs" />
