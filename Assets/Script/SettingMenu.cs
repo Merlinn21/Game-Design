@@ -74,19 +74,19 @@ public class SettingMenu : MonoBehaviour
 
         switch (volCheck)
         {
-            case 0:
+            case -10:
                 index = 4;
                 break;
-            case -4:
+            case -15:
                 index = 3;
                 break;
-            case -8:
+            case -20:
                 index = 2;
                 break;
-            case -12:
+            case -25:
                 index = 1;
                 break;
-            case -16:
+            case -30:
                 index = 0;
                 break;
             default:
@@ -114,19 +114,19 @@ public class SettingMenu : MonoBehaviour
 
         switch (volCheck)
         {
-            case 0:
+            case -10:
                 index = 4;
                 break;
-            case -4:
+            case -15:
                 index = 3;
                 break;
-            case -8:
+            case -20:
                 index = 2;
                 break;
-            case -12:
+            case -25:
                 index = 1;
                 break;
-            case -16:
+            case -30:
                 index = 0;
                 break;
             default:

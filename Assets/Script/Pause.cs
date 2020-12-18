@@ -7,6 +7,7 @@ public class Pause : MonoBehaviour
 {
     [SerializeField] private List<TMP_Text> pauseList;
     [SerializeField] private List<GameObject> settingList;
+    [SerializeField] private List<TMP_Text> gameOverList;
     [SerializeField] private GameObject transitionUI;
     private int currentPauseChoice = 0;
 
@@ -36,6 +37,21 @@ public class Pause : MonoBehaviour
             else
             {
                 settingList[i].GetComponentInChildren<TMP_Text>().color = Color.black;
+            }
+        }
+    }
+
+    public void UpdateGameOverAction(int index)
+    {
+        for (int i = 0; i < gameOverList.Count; i++)
+        {
+            if (i == index)
+            {
+                gameOverList[i].color = Color.blue;
+            }
+            else
+            {
+                gameOverList[i].color = Color.white;
             }
         }
     }

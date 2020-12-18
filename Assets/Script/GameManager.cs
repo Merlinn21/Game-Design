@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public enum GameState
@@ -12,28 +13,42 @@ public enum GameState
     Dialogue,
     Setting,
     Status,
-    Menu
+    Menu,
+    GameOver
 }
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GridMovement playerMove;
-    [SerializeField] private BattleSystem battleSystem;
-    [SerializeField] private DialogueTrigger dialogueTrigger;
-    [SerializeField] private Camera mainCamera;
-    [SerializeField] private Dialogue startDialogue;
+    [Header("UI GAME OBJECT")]
     [SerializeField] private GameObject battleTransition;
-    [SerializeField] private AudioSource exploreAudio;
-    [SerializeField] private AudioSource battleAudio;
     [SerializeField] private GameObject statWindow;
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject settingPanel;
+    [SerializeField] private GameObject transitionUI;
+    [SerializeField] private GameObject gameOverPanel;
+
+    [Space]
+    [Header("Audio")]
+    [SerializeField] private AudioSource exploreAudio;
+    [SerializeField] private AudioSource battleAudio;
     [SerializeField] private AudioSource uiAudioSource;
     [SerializeField] private AudioClip menuSFX;
     [SerializeField] private AudioClip confirmSFX;
-    [SerializeField] private GameObject transitionUI;
-    [SerializeField] private SettingMenu setting;
 
-    private KeyCode confirmBtn = KeyCode.F;
+    [Space]
+    [Header("Other Script")]
+    [SerializeField] private GridMovement playerMove;
+    [SerializeField] private BattleSystem battleSystem;
+    [SerializeField] private DialogueTrigger dialogueTrigger;
+    [SerializeField] private Dialogue startDialogue;
+    [SerializeField] private SettingMenu setting;
+    [SerializeField] private SceneTransition scene;
+
+    [Space]
+    [Header("GameObject")]
+    [SerializeField] private Camera mainCamera;
+    public GameState state;
+
+    private KeyCode confirmBtn = KeyCode.Z;
     private KeyCode backBtn = KeyCode.X;
     private KeyCode escBtn = KeyCode.Escape;
     private KeyCode statBtn = KeyCode.S;
@@ -42,13 +57,14 @@ public class GameManager : MonoBehaviour
     private KeyCode down = KeyCode.DownArrow;
     private int currentPauseChoice = 0;
     private int currentSettingChoice = 0;
+    private int currentGameOverChoice = 0;
     public Pause pause;
 
     int saveMusicVol;
     int saveSfxVol;
     AudioScript audioScript = new AudioScript();
 
-    public GameState state;
+
 
     private void Start()
     {
@@ -83,12 +99,13 @@ public class GameManager : MonoBehaviour
  
     public void EndBattle(bool win , int exp)
     {
-        state = GameState.FreeRoam;
+        state = GameState.Status;
+        transitionUI.SetActive(false);
+        transitionUI.SetActive(true);
         AudioScript audioScript = new AudioScript();
         StartCoroutine(audioScript.FadeOut(battleAudio, 0.3f));
         StartCoroutine(audioScript.FadeIn(exploreAudio, 0.3f));
         battleTransition.SetActive(false);
-        Debug.Log(PlayerStat.exp);
         battleSystem.gameObject.SetActive(false);
         mainCamera.gameObject.SetActive(true);
 
@@ -101,12 +118,14 @@ public class GameManager : MonoBehaviour
             {
                 PlayerStat.maxExp += 15;
                 PlayerStat.exp = 0;
-            }
-            OpenStat();
+                OpenStat();
+            }      
         }
         else
         {
             //Game Over
+            gameOverPanel.SetActive(true);
+            state = GameState.GameOver;        
         }
     }
 
@@ -140,45 +159,45 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (state == GameState.FreeRoam)
+        switch (state)
         {
-            playerMove.HandleUpdate();
+            case GameState.FreeRoam:
+                playerMove.HandleUpdate();
 
-            if (Input.GetKeyDown(escBtn))
-            {
-                //Pause
-                state = GameState.Menu;
-                pausePanel.SetActive(true);
-            }
-            else if (Input.GetKeyDown(KeyCode.S))
-            {
-                state = GameState.Status;
-                OpenStat();
-            }
-        }
-        else if (state == GameState.Dialogue)
-        {
-            dialogueTrigger.HandleUpdate();
-        }
-        else if (state == GameState.Status)
-        {
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                state = GameState.FreeRoam;
-                statWindow.SetActive(false);
-            }
-        }
-        else if(state == GameState.Menu)
-        {
-            HandlePauseUpdate();
-        }
-        else if(state == GameState.Setting)
-        {
-            HandleSetting();
-        }
-        
+                if (Input.GetKeyDown(escBtn))
+                {
+                    //Pause
+                    state = GameState.Menu;
+                    pausePanel.SetActive(true);
+                }
+                else if (Input.GetKeyDown(KeyCode.S))
+                {
+                    state = GameState.Status;
+                    OpenStat();
+                }
+                break;
+            case GameState.Dialogue:
+                dialogueTrigger.HandleUpdate();
+                break;
+            case GameState.Status:
+                if (Input.GetKeyDown(KeyCode.X))
+                {
+                    state = GameState.FreeRoam;
+                    statWindow.SetActive(false);
+                }
+                break;
+            case GameState.Menu:
+                HandlePauseUpdate();
+                break;
+            case GameState.Setting:
+                HandleSetting();
+                break;
+            case GameState.GameOver:
+                gameOverPanel.SetActive(true);
+                HandleGameOver();
+                break;
 
-        
+        }
     }
 
     private void OpenStat()
@@ -273,6 +292,39 @@ public class GameManager : MonoBehaviour
                 settingPanel.SetActive(false);
                 transitionUI.GetComponent<Image>().enabled = true;
                 state = GameState.Menu;
+            }
+        }
+    }
+
+    private void HandleGameOver()
+    {
+        if (Input.GetKeyDown(down))
+        {
+            if (currentGameOverChoice < 2)
+                currentGameOverChoice++;
+            uiAudioSource.PlayOneShot(menuSFX);
+        }
+        else if (Input.GetKeyDown(up))
+        {
+            if (currentGameOverChoice > 0)
+                currentGameOverChoice--;
+            uiAudioSource.PlayOneShot(menuSFX);
+
+        }
+
+        pause.UpdateGameOverAction(currentGameOverChoice);
+
+        if (Input.GetKeyDown(confirmBtn))
+        {
+            if(currentGameOverChoice == 0)
+            {
+                //Retry
+                StartCoroutine(scene.LoadNextScene(SceneManager.GetActiveScene().name));
+            }
+            else if(currentGameOverChoice == 1)
+            {
+                //Edxit
+                Application.Quit();
             }
         }
     }

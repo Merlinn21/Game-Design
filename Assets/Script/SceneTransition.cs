@@ -9,6 +9,7 @@ public class SceneTransition : MonoBehaviour
     public float waitTransition = 0.5f;
     AudioScript audioScript = new AudioScript();
     public AudioSource audioSource;
+
     public IEnumerator LoadNextScene(string nextSceneName)
     {
         anim.SetTrigger("End");

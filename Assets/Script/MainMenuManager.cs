@@ -21,7 +21,7 @@ public class MainMenuManager : MonoBehaviour
     private KeyCode up = KeyCode.UpArrow;
     private KeyCode down = KeyCode.DownArrow;
 
-    public KeyCode confirmButton = KeyCode.F;
+    public KeyCode confirmButton = KeyCode.Z;
     public KeyCode backButton = KeyCode.X;
 
     private int currentMultiChoice = 0;

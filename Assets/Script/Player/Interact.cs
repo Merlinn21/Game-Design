@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Interact : MonoBehaviour
 {
-    [SerializeField] private GameManager gm; 
-    [SerializeField] private KeyCode interactButton = KeyCode.F;
+    [SerializeField] private GameManager gm;
+    [SerializeField] private KeyCode interactButton = KeyCode.Z;
 
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.CompareTag("Object") && Input.GetKeyDown(interactButton))
+        if (other.CompareTag("Object") && Input.GetKeyDown(interactButton))
         {
             ObjectTrigger obj = other.gameObject.GetComponent<ObjectTrigger>();
             gm.StartDialogue(obj.dialogue);
@@ -23,7 +23,7 @@ public class Interact : MonoBehaviour
 
         }
 
-        if(other.CompareTag("Door") && Input.GetKeyDown(interactButton) && gm.state == GameState.FreeRoam)
+        if (other.CompareTag("Door") || other.CompareTag("Stair") && Input.GetKeyDown(interactButton) && gm.state == GameState.FreeRoam)
         {
             Door door = other.gameObject.GetComponent<Door>();
             door.StartDialogue();

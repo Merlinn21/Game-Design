@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23663366f88b2f34eafdc01dbe09b75c, type: 3}
+  m_Name: ButaIjoDialogue
+  m_EditorClassIdentifier: 
+  ghostLines:
+  - textId: 0
+    nextText: 1
+    text: Kau mencoba berbincang dengan Buto Ijo
+    multiChoices: []
+    end: 0
+    success: 0
+  - textId: 1
+    nextText: -1
+    text: Mwahahahaha apakah kau ingin mencoba adu panco dengan denganku??
+    multiChoices:
+    - nextText: 0
+      choiceText: 'siapa takut ! '
+      responseText: '*Dara Kalah Panco !'
+    - nextText: 0
+      choiceText: huh berhenti membuang waktu ku !
+      responseText: Pecundang!! enyahlah dari pandangan ku dasar mahluk lemah!
+    end: 0
+    success: 0
+  bonus: 0
+  bonusType: 0

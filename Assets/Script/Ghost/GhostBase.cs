@@ -48,5 +48,5 @@ public enum Stat
     Attack,
     SAttack,
     Defense,
-    SDefense
+    SDefense,
 }

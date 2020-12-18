@@ -95,8 +95,9 @@ public class BattleSystem : MonoBehaviour
             }
         }
 
+        yield return new WaitForSeconds(2);
         yield return dialogueBox.TypeDialogue("Evil spirit gathered");
-        yield return new WaitForSeconds(waitDialogue);
+
         dialogueBox.CloseDialogue();
         PlayerAction();
     }
@@ -129,8 +130,10 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(SetupBattle());
     }
 
-    public void RunAway()
+    IEnumerator RunAway()
     {
+        dialogueBox.ActivateDialogue();
+        yield return dialogueBox.TypeDialogue("Dara berhasil lari dari musuh");
         onBattleOver(true, 0);
     }
 
@@ -203,7 +206,7 @@ public class BattleSystem : MonoBehaviour
                 ghostTarget[i].GetComponent<BattleHud>().UpdateUI(ghostTarget[i].Ghost);
             }
 
-            yield return dialogueBox.TypeDialogue($"Dara menyerang semua musuh dengan {dmg.ToString()} Damage");
+            yield return dialogueBox.TypeDialogue("Dara menyerang semua musuh");
 
         }
         if (moveType == targetType.Self)
@@ -225,15 +228,26 @@ public class BattleSystem : MonoBehaviour
 
         var moveBase = moveSet.getCurrentMoves()[moveNumber].getMoveBase();
         player.MinusCost(moveBase);
-
+        List<bool> deadGhostIndex = new List<bool>();
 
         for (int i = 0; i < ghostTarget.Count; i++)
         {
+            bool status = false;
             if (ghostTarget[i].Ghost.HP <= 0)
-            {        
+            {
+                status = true;
+            }
+            deadGhostIndex.Add(status);
+        }
+
+        for (int i = 0; i < deadGhostIndex.Count; i++)
+        {       
+            if (deadGhostIndex[i] == true)
+            { 
                 dialogueBox.ActivateDialogue();
                 yield return dialogueBox.TypeDialogue($"{ghostTarget[i].Ghost.Base.getName()} berhasil ditaklukan");
-                yield return DeadEnemies();
+                yield return DeadEnemies(i);
+                deadGhostIndex.RemoveAt(i);
                 i = 0;
             }
         }
@@ -299,15 +313,15 @@ public class BattleSystem : MonoBehaviour
 
     }
 
-    IEnumerator DeadEnemies()
+    IEnumerator DeadEnemies(int index)
     {
-        BattleUnit deadGhost = ghostTarget[currentChooseTarget];
+        BattleUnit deadGhost = ghostTarget[index];
 
         totalExp += deadGhost.Ghost.GiveExp();
 
         deadGhost.Ghost.alive = false;
         deadGhost.GetComponent<BattleHud>().Dead();
-        ghostTarget.RemoveAt(currentChooseTarget);
+        ghostTarget.RemoveAt(index);
         if (ghostTarget.Count != 0)
             currentChooseTarget = 0;
         else
@@ -322,9 +336,9 @@ public class BattleSystem : MonoBehaviour
             currentTalkTarget = 0;
             StartCoroutine(audioScript.FadeOut(battleAudio, 0.3f));
             StartCoroutine(audioScript.FadeIn(exploreAudio, 0.3f));
-
+            dialogueBox.ActivateDialogue();
+            yield return dialogueBox.TypeDialogue("Dara berhasil mengalahkan semua musuh");
             onBattleOver(true, totalExp);
-            Debug.Log(totalExp);
         }
         yield return new WaitForSeconds(.5f);
     }
@@ -424,12 +438,12 @@ public class BattleSystem : MonoBehaviour
             else if (currentAction == 2)
             {
                 //Run
-                if(!eventBattle)
-                    RunAway();
+                if (!eventBattle)
+                    StartCoroutine(RunAway());
                 else
                 {
                     state = BattleState.Busy;
-                    StartCoroutine(FailedToRun(BattleState.PlayerChoose)); 
+                    StartCoroutine(FailedToRun(BattleState.PlayerChoose));
                 }
             }
             else if(currentAction == 3)
