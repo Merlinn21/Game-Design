@@ -24,10 +24,10 @@ MonoBehaviour:
     text: Mwahahahaha apakah kau ingin mencoba adu panco dengan denganku??
     multiChoices:
     - nextText: 0
-      choiceText: 'siapa takut ! '
+      choiceText: 'Siapa takut ! '
       responseText: '*Dara Kalah Panco !'
     - nextText: 0
-      choiceText: huh berhenti membuang waktu ku !
+      choiceText: Huh berhenti membuang waktu ku !
       responseText: Pecundang!! enyahlah dari pandangan ku dasar mahluk lemah!
     end: 0
     success: 0

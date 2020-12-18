@@ -70,6 +70,9 @@ public class BattleSystem : MonoBehaviour
 
     public IEnumerator SetupBattle()
     {
+        playerHud.CloseSkill();
+        playerHud.CloseFight();
+        playerHud.OpenChoose();
         totalExp = 0;
         currentAction = 0;
         currentActionBattle = 0;
@@ -96,7 +99,7 @@ public class BattleSystem : MonoBehaviour
         }
 
         yield return new WaitForSeconds(2);
-        yield return dialogueBox.TypeDialogue("Evil spirit gathered");
+        yield return dialogueBox.TypeDialogue("Arwah jahat berkumpul");
 
         dialogueBox.CloseDialogue();
         PlayerAction();
@@ -132,6 +135,7 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator RunAway()
     {
+        state = BattleState.Busy;
         dialogueBox.ActivateDialogue();
         yield return dialogueBox.TypeDialogue("Dara berhasil lari dari musuh");
         onBattleOver(true, 0);
@@ -221,7 +225,7 @@ public class BattleSystem : MonoBehaviour
                 PlayerStat.health = PlayerStat.maxHealth;
             }
 
-            yield return dialogueBox.TypeDialogue($"Darah kamu pulih {heal.ToString()} HP");
+            yield return dialogueBox.TypeDialogue($"Dara memulihkan {heal.ToString()} HP");
         }
 
         //------------------------Player Move-------------------------------
@@ -264,10 +268,6 @@ public class BattleSystem : MonoBehaviour
 
         for (int i = 0; i < ghostTarget.Count; i++)
         {
-            if (ghostTarget[i].Ghost.Base.getName() == "NoGhost" || enemies[i].Ghost.alive == false)
-            {
-                continue;
-            }
             //-------------------------------------Ghost Move-------------------------------------------
             var move = ghostTarget[i].Ghost.getRandomMove();
             audioSource.PlayOneShot(move.Base.getAudio());
@@ -300,7 +300,7 @@ public class BattleSystem : MonoBehaviour
         if (PlayerStat.health <= 0)
         {
             dialogueBox.ActivateDialogue();
-            yield return dialogueBox.TypeDialogue("You died");
+            yield return dialogueBox.TypeDialogue("Dara gagal menyelamatkan sekolah!");
             onBattleOver(false, 0);
         }
 
@@ -327,6 +327,7 @@ public class BattleSystem : MonoBehaviour
         else
         {
             //TODO: SHOW +EXP 
+            state = BattleState.Busy;
             currentAction = 0;
             currentActionBattle = 0;
             currentActionBattleMove = 0;
@@ -718,7 +719,7 @@ public class BattleSystem : MonoBehaviour
             {
                 //Berhasil Persuade
                 //TODO: Get bonus
-                StartCoroutine(StartBonus("You Successfully persuaded the ghost!", dialogueBase.bonusType, dialogueBase.bonus));
+                StartCoroutine(StartBonus("Dara berhasil membujuk hantu!", dialogueBase.bonusType, dialogueBase.bonus));
                 PlayerBonus(dialogueBase.bonusType, dialogueBase.bonus);
                 StartCoroutine(PersuadeSucces());
                 playerHud.UpdateUI();
@@ -727,7 +728,7 @@ public class BattleSystem : MonoBehaviour
             {
                 //Gagal Persuade
                 failToPersuade = true;
-                StartCoroutine(EndTalk("U Fail :("));
+                StartCoroutine(EndTalk("Dara gagal membujuk hantu!"));
             }
         }
     }
@@ -830,7 +831,7 @@ public class BattleSystem : MonoBehaviour
     IEnumerator FailedToRun(BattleState prevState)
     {
         dialogueBox.ActivateDialogue();
-        yield return dialogueBox.TypeDialogue("Dark power prevents your escapes.");
+        yield return dialogueBox.TypeDialogue("Kekuatan jahat menghalangi kamu.");
         state = prevState;
     }
 

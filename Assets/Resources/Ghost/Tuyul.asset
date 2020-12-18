@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ghostName: Tuyul
   sprite: {fileID: 658104595607699516, guid: f50630d38fee0ed4fab470e549efb069, type: 3}
-  maxHP: 45
+  maxHP: 50
   maxMana: 20
   atk: 50
   satk: 50

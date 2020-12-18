@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ghostName: Kuntilanak
   sprite: {fileID: -2475258566335006092, guid: 2aa6debb7e2d47b4992fcad89441929a, type: 3}
-  maxHP: 60
+  maxHP: 55
   maxMana: 95
   atk: 30
-  satk: 65
+  satk: 80
   def: 40
   sdef: 55
   moveList:

@@ -99,7 +99,6 @@ public class GameManager : MonoBehaviour
  
     public void EndBattle(bool win , int exp)
     {
-        state = GameState.Status;
         transitionUI.SetActive(false);
         transitionUI.SetActive(true);
         AudioScript audioScript = new AudioScript();
@@ -108,14 +107,17 @@ public class GameManager : MonoBehaviour
         battleTransition.SetActive(false);
         battleSystem.gameObject.SetActive(false);
         mainCamera.gameObject.SetActive(true);
-
+        state = GameState.FreeRoam;
         if (win)
         {
             //TODO: SHOW EXP PROGRESS
+
             PlayerStat.exp += exp;
 
             if(PlayerStat.exp >= PlayerStat.maxExp)
             {
+                state = GameState.Status;
+                LevelUp();
                 PlayerStat.maxExp += 15;
                 PlayerStat.exp = 0;
                 OpenStat();
@@ -127,6 +129,17 @@ public class GameManager : MonoBehaviour
             gameOverPanel.SetActive(true);
             state = GameState.GameOver;        
         }
+    }
+
+    private void LevelUp()
+    {
+        PlayerStat.lvl += 1;
+        PlayerStat.atk += 3;
+        PlayerStat.def += 3;
+        PlayerStat.satk += 3;
+        PlayerStat.sdef += 3;
+        PlayerStat.maxMana += 3;
+        PlayerStat.maxHealth += 3;
     }
 
     public void StartDialogue(Dialogue dialogue)

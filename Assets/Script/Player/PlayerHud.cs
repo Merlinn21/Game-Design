@@ -25,6 +25,8 @@ public class PlayerHud : MonoBehaviour
     [Space]
     [Header("UnityEvent")]
     [Space]
+    public UnityEvent OnChooseClose;
+    public UnityEvent OnChooseOpen;
     public UnityEvent onFight;
     public UnityEvent onFightClose;
     public UnityEvent onSkillOpen;
@@ -68,6 +70,8 @@ public class PlayerHud : MonoBehaviour
     }
 
     public void Fight(){ onFight.Invoke();}
+    public void OpenChoose() { OnChooseOpen.Invoke(); }
+    public void CloseChoose() { OnChooseClose.Invoke(); }
     public void CloseFight() { onFightClose.Invoke(); }
     public void OpenSkill(){ onSkillOpen.Invoke();}
     public void CloseSkill(){ onSkillClose.Invoke();}

@@ -162,7 +162,7 @@ public class Ghost
     {
         // ((base * enemy level)/5) * ((2*L)^2.5) / ((enemy level + current level + 10)^2.5) + 1
         var exp = ((Exp * Level) / 5) * (Mathf.Pow((2 * Level), 2.5f)
-                   / Mathf.Pow((Level + PlayerStat.level + 10), 2.5f)) + 1;
+                   / Mathf.Pow((Level + PlayerStat.lvl + 10), 2.5f)) + 1;
         return (int)exp;
     }
 }

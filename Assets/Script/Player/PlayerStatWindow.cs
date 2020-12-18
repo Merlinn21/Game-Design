@@ -16,6 +16,7 @@ public class PlayerStatWindow : MonoBehaviour
     [SerializeField] private TMP_Text sdefText;
     [SerializeField] private TMP_Text expText;
     [SerializeField] private TMP_Text maxExpText;
+    [SerializeField] private TMP_Text lvlText;
 
     public void UpdateUI()
     {
@@ -29,5 +30,6 @@ public class PlayerStatWindow : MonoBehaviour
         sdefText.text = PlayerStat.sdef.ToString();
         expText.text = PlayerStat.exp.ToString();
         maxExpText.text = PlayerStat.maxExp.ToString();
+        lvlText.text = PlayerStat.lvl.ToString();
     }
 }

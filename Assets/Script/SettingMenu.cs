@@ -26,7 +26,6 @@ public class SettingMenu : MonoBehaviour
     public int getMusicVol()
     {
         musicVol = PlayerPrefs.GetInt("Music_Volume");
-        Debug.Log(musicVol);
         return musicVol;
     }
 

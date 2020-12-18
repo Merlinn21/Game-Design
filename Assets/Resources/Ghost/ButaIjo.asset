@@ -22,8 +22,8 @@ MonoBehaviour:
   sdef: 95
   moveList:
   - moveBase: {fileID: 11400000, guid: 337075d1251165a42bf4e68f30ef31bf, type: 2}
-  - moveBase: {fileID: 0}
-  - moveBase: {fileID: 0}
+  - moveBase: {fileID: 11400000, guid: 249749272762af544895da4339c2936e, type: 2}
+  - moveBase: {fileID: 11400000, guid: 08d736a5ded77334aac1cdf2ba5e5971, type: 2}
   ghostDialogues:
   - {fileID: 11400000, guid: 49927d82209a52246a2b396060088037, type: 2}
   bonusStatType: 0
