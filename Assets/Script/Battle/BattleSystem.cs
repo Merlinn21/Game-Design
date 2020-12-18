@@ -365,7 +365,6 @@ public class BattleSystem : MonoBehaviour
             else
                 StartCoroutine(scene.LoadNextScene("Main Menu"));
         }
-        yield return new WaitForSeconds(.5f);
     }
 
     //-----------------------------Battle------------------------------------------

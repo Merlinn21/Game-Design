@@ -6,10 +6,16 @@ public class Interact : MonoBehaviour
 {
     [SerializeField] private GameManager gm;
     [SerializeField] private KeyCode interactButton = KeyCode.Z;
+    [SerializeField] private GameObject interactPanel;
 
 
     private void OnTriggerStay(Collider other)
     {
+        if (other.CompareTag("Object"))
+        {
+            interactPanel.SetActive(true);
+        }
+
         if (other.CompareTag("Object") && Input.GetKeyDown(interactButton))
         {
             ObjectTrigger obj = other.gameObject.GetComponent<ObjectTrigger>();
@@ -33,6 +39,14 @@ public class Interact : MonoBehaviour
         {
             Door door = other.gameObject.GetComponent<Door>();
             door.JalangkungDialogue();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Object"))
+        {
+            interactPanel.SetActive(false);
         }
     }
 }

@@ -73,9 +73,10 @@ public class GameManager : MonoBehaviour
         playerMove.onDialogue += StartDialogue;
         dialogueTrigger.onDialogueOver += EndDialogue;
 
-
+        
         StartCoroutine(audioScript.FadeIn(exploreAudio, 0.5f));
         battleTransition.SetActive(false);
+        state = GameState.Dialogue;
         StartCoroutine(FirstDialogue());
     }
 

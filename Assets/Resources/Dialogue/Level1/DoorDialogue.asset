@@ -16,11 +16,11 @@ MonoBehaviour:
   charRight: {fileID: 11400000, guid: 00560518451227045809dbc762306363, type: 2}
   lines:
   - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
-    text: Ada pintu yang nutupin lagi..
+    text: Hmm... ada tembok mistis yang menghalangi.
   - character: {fileID: 11400000, guid: 00560518451227045809dbc762306363, type: 2}
-    text: Kunci nya pasti berada di daerah sini
+    text: Hmmm... di daerah sini pasti ada kunci untuk membuka tembok ini
   - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
-    text: Iya, harus dicari
+    text: Iya... Harus dicari dulu
   ghostParty: {fileID: 0}
   freeRoam: 1
   background: {fileID: 0}

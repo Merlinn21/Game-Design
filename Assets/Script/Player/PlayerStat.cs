@@ -9,8 +9,8 @@ public class PlayerStat :MonoBehaviour
     static int baseSAtk = 260;
     static int baseSDef = 210;
     static int baseDef = 210;
-    static int baseHealth = 420;
-    static int baseMana = 420;
+    static int baseHealth = 450;
+    static int baseMana = 450;
     static public int lvl = 5;
 
     static public int maxHealth = (((((baseHealth + 10) * 2) + 1) * lvl) / 100) + lvl + 10;
