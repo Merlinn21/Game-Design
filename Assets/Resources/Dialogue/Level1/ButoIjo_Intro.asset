@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6a00bafd5d49b74083c9ee5563a18b3, type: 3}
+  m_Name: ButoIjo_Intro
+  m_EditorClassIdentifier: 
+  charLeft: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+  charRight: {fileID: 11400000, guid: 1d95f2ac2587e094db10aa41f80db6e9, type: 2}
+  lines:
+  - character: {fileID: 11400000, guid: 1d95f2ac2587e094db10aa41f80db6e9, type: 2}
+    text: Berani juga kau datang kesini wahai makhluk lemah !
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: Enyahlah , aku harus ke lantai selanjutnya
+  - character: {fileID: 11400000, guid: 1d95f2ac2587e094db10aa41f80db6e9, type: 2}
+    text: Punya keberanian juga kau bicara seperti itu, akulah yang terkuat diantara
+      yang lainnya HAHAHAHA
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: Majulah kalau begitu !
+  ghostParty: {fileID: 11400000, guid: bc8d1c6041f1e504c9a5b93ab465d9b6, type: 2}
+  freeRoam: 0
+  background: {fileID: 0}
+  nextSceneName: 
+  inGameDialogue: 1

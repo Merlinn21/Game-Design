@@ -798,7 +798,7 @@ MonoBehaviour:
   speakerRight: {fileID: 979270565}
   background: {fileID: 1758761088}
   scene: {fileID: 1822356222}
-  confirmButton: 102
+  confirmButton: 122
   audio: {fileID: 409611719}
   typingState: 0
 --- !u!4 &409611717

@@ -11,7 +11,9 @@ public class Door : MonoBehaviour
     public void StartDialogue()
     {
         gm.state = GameState.Dialogue;
+        Debug.Log(dialogue.name);
         trigger.SetDialogue(dialogue);
+       
         trigger.StartDialogue();
     }
 

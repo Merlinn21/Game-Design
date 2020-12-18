@@ -18,7 +18,7 @@ public class DialogueTrigger : MonoBehaviour
 
     private int activeLineIndex = 0;
     public event Action<bool, GhostParty> onDialogueOver;
-    public KeyCode confirmButton = KeyCode.F;
+    public KeyCode confirmButton = KeyCode.Z;
     public AudioSource audio;
 
     public TypingState typingState; 
@@ -94,6 +94,7 @@ public class DialogueTrigger : MonoBehaviour
 
     public void DisplayLine()
     {
+        
         Line line = dialogue.lines[activeLineIndex];
         Character currChar = line.character;
 

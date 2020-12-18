@@ -23,13 +23,19 @@ MonoBehaviour:
     nextText: -1
     text: Mwahahahaha apakah kau ingin mencoba adu panco dengan denganku??
     multiChoices:
-    - nextText: 0
+    - nextText: 2
       choiceText: 'Siapa takut ! '
       responseText: '*Dara Kalah Panco !'
-    - nextText: 0
+    - nextText: 2
       choiceText: Huh berhenti membuang waktu ku !
-      responseText: Pecundang!! enyahlah dari pandangan ku dasar mahluk lemah!
+      responseText: Huh?????
     end: 0
+    success: 0
+  - textId: 2
+    nextText: -1
+    text: Pecundang!! enyahlah dari pandangan ku dasar mahluk lemah!
+    multiChoices: []
+    end: 1
     success: 0
   bonus: 0
   bonusType: 0

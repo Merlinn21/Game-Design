@@ -13,6 +13,7 @@ public class CollisionDetector : MonoBehaviour
         if (other.CompareTag("Wall") || other.CompareTag("Object") || other.CompareTag("Door") || other.CompareTag("Jalangkung") || other.CompareTag("Stair"))
         {
             isWall = true;
+            
         }
     }
 
@@ -21,6 +22,7 @@ public class CollisionDetector : MonoBehaviour
         if (other.CompareTag("Wall") || other.CompareTag("Object") || other.CompareTag("Door") || other.CompareTag("Jalangkung") || other.CompareTag("Stair"))
         {
             isWall = true;
+            Debug.Log(other.name);
         }
     }
 

@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23663366f88b2f34eafdc01dbe09b75c, type: 3}
+  m_Name: JerukPurutDialogue
+  m_EditorClassIdentifier: 
+  ghostLines:
+  - textId: 0
+    nextText: 1
+    text: Ugh........ Aku butuh bantuan
+    multiChoices: []
+    end: 0
+    success: 0
+  - textId: 1
+    nextText: -1
+    text: Ugh... Tolong bantu pegang kepalaku
+    multiChoices:
+    - nextText: 3
+      choiceText: Ewwww, Tidak terimakasih....
+      responseText: GRRRRRRRR... Berani-Berani nya kau !
+    - nextText: 2
+      choiceText: .....baiklah....
+      responseText: Terimakasih nona manis !
+    end: 0
+    success: 0
+  - textId: 2
+    nextText: -1
+    text: Terimalah pemberian ku...
+    multiChoices: []
+    end: 1
+    success: 1
+  - textId: 3
+    nextText: -1
+    text: GRRRRRRRRRRRR
+    multiChoices:
+    - nextText: 0
+      choiceText: Ewwww, Tidak terimakasih....
+      responseText: GRRRRRRRR... Berani-Berani nya kau !
+    - nextText: 0
+      choiceText: .....baiklah....
+      responseText: Terimakasih nona manis !
+    end: 1
+    success: 0
+  bonus: 3
+  bonusType: 4

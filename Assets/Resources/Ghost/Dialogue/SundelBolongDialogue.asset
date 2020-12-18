@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23663366f88b2f34eafdc01dbe09b75c, type: 3}
+  m_Name: SundelBolongDialogue
+  m_EditorClassIdentifier: 
+  ghostLines:
+  - textId: 0
+    nextText: 1
+    text: Kau mencoba berbincang dengan Sundel bolong
+    multiChoices: []
+    end: 0
+    success: 0
+  - textId: 1
+    nextText: -1
+    text: Apakah menurutmu Punggungku terlihat indah??
+    multiChoices:
+    - nextText: 3
+      choiceText: '*Huegh!!'
+      responseText: ...........
+    - nextText: 2
+      choiceText: Seindah gunung krakatau di pagi hari...
+      responseText: Benarkah???
+    end: 0
+    success: 0
+  - textId: 2
+    nextText: -1
+    text: Simpan lah ini...
+    multiChoices: []
+    end: 1
+    success: 1
+  - textId: 3
+    nextText: -1
+    text: Dasar Manusia bodoh !
+    multiChoices: []
+    end: 1
+    success: 0
+  bonus: 3
+  bonusType: 0

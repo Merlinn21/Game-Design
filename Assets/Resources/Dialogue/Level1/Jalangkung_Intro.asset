@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6a00bafd5d49b74083c9ee5563a18b3, type: 3}
+  m_Name: Jalangkung_Intro
+  m_EditorClassIdentifier: 
+  charLeft: {fileID: 11400000, guid: 00560518451227045809dbc762306363, type: 2}
+  charRight: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+  lines:
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: Hmm... Ada arwah yang aneh di sini...
+  - character: {fileID: 11400000, guid: 00560518451227045809dbc762306363, type: 2}
+    text: Sedang apa kau disini wahai anak muda???!?!?
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: Maju kamu aku tidak takut !!
+  - character: {fileID: 11400000, guid: 00560518451227045809dbc762306363, type: 2}
+    text: 'Hahaha aku datang kepada bukan untuk membuat masalah.Sebaliknya aku akan
+
+      membantu
+      menghadapi masalah ini.'
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: Aku tidak percaya!! Makhluk seperti kalian selalu memiliki tujuan lain
+  - character: {fileID: 11400000, guid: 00560518451227045809dbc762306363, type: 2}
+    text: 'Memang aku memiliki tujuan yaitu untuk mengalahkan orang yang telah mengganggu
+
+      sekolah
+      ini.Tetapi aku membutuhkan bantuanmu anak muda'
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: Baiklah kalau begitu..
+  - character: {fileID: 11400000, guid: 00560518451227045809dbc762306363, type: 2}
+    text: 'Aku akan menuntunmu di petualangan ini, datanglah ke ruang merah bila
+      kau membutuhkan
+
+      bantuan.'
+  - character: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+    text: '*temuilah jelangkung untuk memulihkan HP Dara.'
+  ghostParty: {fileID: 0}
+  freeRoam: 1
+  background: {fileID: 0}
+  nextSceneName: 
+  inGameDialogue: 1

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73a91efa53437ae4bbf5d6005809b786, type: 3}
+  m_Name: Barong
+  m_EditorClassIdentifier: 
+  ghostName: Barong
+  sprite: {fileID: 21300000, guid: 224723b127767fd48a9eff71006e07d5, type: 3}
+  maxHP: 90
+  maxMana: 40
+  atk: 90
+  satk: 90
+  def: 60
+  sdef: 60
+  moveList:
+  - moveBase: {fileID: 11400000, guid: f49e91ead82352741ba2cc91f9c77a56, type: 2}
+  - moveBase: {fileID: 11400000, guid: daf70167a1b77e34f94ffa7d0fb983fd, type: 2}
+  - moveBase: {fileID: 11400000, guid: f1efa3ed255cbbb4a96f06391a9c548f, type: 2}
+  - moveBase: {fileID: 11400000, guid: 337075d1251165a42bf4e68f30ef31bf, type: 2}
+  ghostDialogues:
+  - {fileID: 11400000, guid: 097541d193f2e394eb6c99e98c14c6be, type: 2}
+  bonusStatType: 0
+  bonusValue: 0
+  giveMove:
+    moveBase: {fileID: 0}
+  expBase: 100

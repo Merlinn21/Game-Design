@@ -44,4 +44,4 @@ MonoBehaviour:
     end: 1
     success: 0
   bonus: 3
-  bonusType: 5
+  bonusType: 1

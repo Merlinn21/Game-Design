@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6a00bafd5d49b74083c9ee5563a18b3, type: 3}
+  m_Name: Lvl3
+  m_EditorClassIdentifier: 
+  charLeft: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+  charRight: {fileID: 11400000, guid: e80c8db102803c34e800ea73418fd818, type: 2}
+  lines:
+  - character: {fileID: 11400000, guid: e80c8db102803c34e800ea73418fd818, type: 2}
+    text: Tak ku sangka kau bisa sampai kesini
+  - character: {fileID: 11400000, guid: e80c8db102803c34e800ea73418fd818, type: 2}
+    text: sedikit lagi ritual akan selesai dan penguasa gunung kawi akan terbangun
+  - character: {fileID: 11400000, guid: e80c8db102803c34e800ea73418fd818, type: 2}
+    text: dengan kekuatan penguasa gunung kawi, aku akan bisa menguasai dunia!
+  - character: {fileID: 11400000, guid: e80c8db102803c34e800ea73418fd818, type: 2}
+    text: HAHAHAHA, tak akan ku biarkan kau menggangu ritual ini!
+  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
+    text: Ritual ini akan berhenti disini!
+  ghostParty: {fileID: 11400000, guid: c8d97c8ee7b26ce44b55abcd16092c98, type: 2}
+  freeRoam: 0
+  background: {fileID: 0}
+  nextSceneName: 
+  inGameDialogue: 1

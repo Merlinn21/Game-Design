@@ -24,7 +24,7 @@ public class Interact : MonoBehaviour
         }
 
         if (other.CompareTag("Door") || other.CompareTag("Stair") && Input.GetKeyDown(interactButton) && gm.state == GameState.FreeRoam)
-        {
+        {        
             Door door = other.gameObject.GetComponent<Door>();
             door.StartDialogue();
         }

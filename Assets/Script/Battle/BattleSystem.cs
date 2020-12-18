@@ -29,10 +29,13 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private AudioClip uiSFX;
     [SerializeField] private SimpleBlit blit;
     [SerializeField] private BattleTransition transition;
+    [SerializeField] private GameObject bgPanel;
+    [SerializeField] private SceneTransition scene;
     public float waitDialogue = 1f;
     public BattleState state;
     private bool change = false;
     private bool attack = false;
+    private bool transitionState = false;
 
     //Untuk UI
     private int currentAction = 0;
@@ -61,6 +64,7 @@ public class BattleSystem : MonoBehaviour
     private int dialogueIndex = 0;
 
     private int totalExp;
+    private bool finalBattle = false;
     AudioScript audioScript = new AudioScript();
 
     public void Awake()
@@ -111,7 +115,18 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(audioScript.FadeIn(battleAudio, 0.3f));
 
         blit.enabled = true;
-        transition.fadeState = "in";
+        if (!transitionState)
+        {
+            transition.fadeState = "out";
+            transitionState = true;
+        }
+        else
+        {
+            transition.fadeState = "in";
+            transitionState = false;
+        }
+            
+
         yield return new WaitForSeconds(2.2f);
         blit.enabled = false;
     }
@@ -127,6 +142,12 @@ public class BattleSystem : MonoBehaviour
     public void StartEventBattle(GhostParty _ghostParty)
     {
         eventBattle = true;
+        if(bgPanel != null)
+        {
+            bgPanel.SetActive(false);
+            finalBattle = true;
+        }
+        
         playerHud.SetPlayerData();
         eventParty = _ghostParty;
         SetEventParty();
@@ -339,7 +360,10 @@ public class BattleSystem : MonoBehaviour
             StartCoroutine(audioScript.FadeIn(exploreAudio, 0.3f));
             dialogueBox.ActivateDialogue();
             yield return dialogueBox.TypeDialogue("Dara berhasil mengalahkan semua musuh");
-            onBattleOver(true, totalExp);
+            if (!finalBattle)
+                onBattleOver(true, totalExp);
+            else
+                StartCoroutine(scene.LoadNextScene("Main Menu"));
         }
         yield return new WaitForSeconds(.5f);
     }
@@ -394,6 +418,12 @@ public class BattleSystem : MonoBehaviour
         
         if (Input.GetKeyDown(confirmBtn) || Input.GetKeyDown(backBtn) && state != BattleState.Busy)
             audioSource.PlayOneShot(textSFX);
+
+        if (Input.GetKeyDown(KeyCode.End))
+        {
+            StartCoroutine(DeadEnemies(0));
+
+        }
 
     }
 

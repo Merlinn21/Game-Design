@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73a91efa53437ae4bbf5d6005809b786, type: 3}
+  m_Name: 02SundelBolong
+  m_EditorClassIdentifier: 
+  ghostName: Sundel Bolong
+  sprite: {fileID: 21300000, guid: 904ba257fd05bb34791a1e386aa2d7b9, type: 3}
+  maxHP: 50
+  maxMana: 0
+  atk: 95
+  satk: 80
+  def: 20
+  sdef: 25
+  moveList:
+  - moveBase: {fileID: 11400000, guid: 6f663d279d1870642a513076c066afae, type: 2}
+  - moveBase: {fileID: 11400000, guid: 78f823e82917efd4697367ad8d7fd7b8, type: 2}
+  ghostDialogues:
+  - {fileID: 11400000, guid: b6172f3f3d8dae24fa5e476d8ce7fe2c, type: 2}
+  bonusStatType: 0
+  bonusValue: 3
+  giveMove:
+    moveBase: {fileID: 0}
+  expBase: 60

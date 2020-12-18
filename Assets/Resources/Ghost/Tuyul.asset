@@ -26,7 +26,7 @@ MonoBehaviour:
   ghostDialogues:
   - {fileID: 11400000, guid: 878258c2588da23419d89dc69fed79eb, type: 2}
   bonusStatType: 0
-  bonusValue: 1
+  bonusValue: 3
   giveMove:
     moveBase: {fileID: 11400000, guid: 6e191290df7777341b7550b3aa65f6be, type: 2}
   expBase: 45

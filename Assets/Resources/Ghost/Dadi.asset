@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73a91efa53437ae4bbf5d6005809b786, type: 3}
+  m_Name: Dadi
+  m_EditorClassIdentifier: 
+  ghostName: Dadi
+  sprite: {fileID: 21300000, guid: 0cc5313b3e19f0e4c92b4f18d30ca0a4, type: 3}
+  maxHP: 100
+  maxMana: 100
+  atk: 100
+  satk: 100
+  def: 100
+  sdef: 100
+  moveList:
+  - moveBase: {fileID: 11400000, guid: 734251d12805d834080608b6d0cb3060, type: 2}
+  - moveBase: {fileID: 11400000, guid: 734251d12805d834080608b6d0cb3060, type: 2}
+  - moveBase: {fileID: 11400000, guid: 08d736a5ded77334aac1cdf2ba5e5971, type: 2}
+  - moveBase: {fileID: 11400000, guid: 9e944c42fead96e419220c4d3cc53caf, type: 2}
+  - moveBase: {fileID: 11400000, guid: daf70167a1b77e34f94ffa7d0fb983fd, type: 2}
+  ghostDialogues:
+  - {fileID: 11400000, guid: e101c444239b2e24b81c814d179e4643, type: 2}
+  bonusStatType: 1
+  bonusValue: 3
+  giveMove:
+    moveBase: {fileID: 0}
+  expBase: 200

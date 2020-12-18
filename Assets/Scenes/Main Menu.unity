@@ -2719,7 +2719,7 @@ MonoBehaviour:
   scene: {fileID: 1542543032}
   settingObject: {fileID: 1966730705}
   transitionObj: {fileID: 1975478242}
-  confirmButton: 102
+  confirmButton: 122
   backButton: 120
   nextSceneName: IntroScene
   menuSfx: {fileID: 1408438760}

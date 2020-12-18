@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23663366f88b2f34eafdc01dbe09b75c, type: 3}
+  m_Name: DaddiDialogue
+  m_EditorClassIdentifier: 
+  ghostLines:
+  - textId: 0
+    nextText: 1
+    text: . . . . . .
+    multiChoices:
+    - nextText: 1
+      choiceText: Daddi ! Cukup, Hentikan semua ini!
+      responseText: HA HA HA HA KAMU SUDAH TERLAMBAT DARA!
+    - nextText: 1
+      choiceText: Perbuatan yang kau lakukan hanya akan membawa mala metaka!
+      responseText: dengan mala petaka ini akan ku buat gunung ini jadi milik ku!
+    end: 0
+    success: 0
+  - textId: 1
+    nextText: -1
+    text: Kamu tidak mengerti apa apa, aku sudah menuggu kesempatan ini selama 200
+      tahun! jangan halangi jalan dukun ku!
+    multiChoices: []
+    end: 1
+    success: 0
+  bonus: 0
+  bonusType: 0

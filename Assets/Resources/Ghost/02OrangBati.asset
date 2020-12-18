@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73a91efa53437ae4bbf5d6005809b786, type: 3}
+  m_Name: 02OrangBati
+  m_EditorClassIdentifier: 
+  ghostName: Orang Bati
+  sprite: {fileID: 21300000, guid: 8e2eee7b38bbea545b1b568aa760d18e, type: 3}
+  maxHP: 120
+  maxMana: 50
+  atk: 20
+  satk: 20
+  def: 95
+  sdef: 80
+  moveList:
+  - moveBase: {fileID: 11400000, guid: 6e191290df7777341b7550b3aa65f6be, type: 2}
+  - moveBase: {fileID: 11400000, guid: fc05e5bbbf4656142a33e4f08b8177e0, type: 2}
+  - moveBase: {fileID: 11400000, guid: 337075d1251165a42bf4e68f30ef31bf, type: 2}
+  - moveBase: {fileID: 11400000, guid: 337075d1251165a42bf4e68f30ef31bf, type: 2}
+  ghostDialogues:
+  - {fileID: 11400000, guid: 543e1512d240cd14f8dd0e5d829a8da1, type: 2}
+  bonusStatType: 2
+  bonusValue: 3
+  giveMove:
+    moveBase: {fileID: 0}
+  expBase: 70

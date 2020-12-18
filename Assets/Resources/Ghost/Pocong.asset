@@ -23,10 +23,12 @@ MonoBehaviour:
   moveList:
   - moveBase: {fileID: 11400000, guid: 337075d1251165a42bf4e68f30ef31bf, type: 2}
   - moveBase: {fileID: 11400000, guid: cb2c24b8e8c475046bd67742e519e721, type: 2}
+  - moveBase: {fileID: 11400000, guid: cb2c24b8e8c475046bd67742e519e721, type: 2}
+  - moveBase: {fileID: 11400000, guid: 6e191290df7777341b7550b3aa65f6be, type: 2}
   ghostDialogues:
   - {fileID: 11400000, guid: 878258c2588da23419d89dc69fed79eb, type: 2}
-  bonusStatType: 2
-  bonusValue: 2
+  bonusStatType: 3
+  bonusValue: 3
   giveMove:
     moveBase: {fileID: 11400000, guid: cb2c24b8e8c475046bd67742e519e721, type: 2}
   expBase: 65

@@ -5,7 +5,7 @@ using UnityEngine;
 public class BattleTransition : MonoBehaviour
 {
     SimpleBlit blit;
-    float val = 1;
+    public float val = 1;
     public string fadeState = "none";
 
     void Start()

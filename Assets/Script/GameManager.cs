@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(audioScript.FadeIn(exploreAudio, 0.5f));
         battleTransition.SetActive(false);
-        //StartCoroutine(FirstDialogue());
+        StartCoroutine(FirstDialogue());
     }
 
     IEnumerator FirstDialogue()
@@ -292,7 +292,7 @@ public class GameManager : MonoBehaviour
                 saveMusicVol = setting.getCurrentMusicVol();
                 saveSfxVol = setting.getCurrentSfxVol();
                 PlayerPrefs.SetInt("Music_Volume", saveMusicVol);
-                PlayerPrefs.SetInt("Sfx_Volume", saveSfxVol);
+                PlayerPrefs.SetInt("SFX_Volume", saveSfxVol);
                 PlayerPrefs.Save();
                 settingPanel.SetActive(false);
                 transitionUI.GetComponent<Image>().enabled = true;

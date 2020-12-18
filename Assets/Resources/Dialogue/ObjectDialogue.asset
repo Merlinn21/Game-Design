@@ -18,8 +18,8 @@ MonoBehaviour:
   - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
     text: Ketemu kunci nya
   - character: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
-    text: Tidak secepat itu anak muda
-  ghostParty: {fileID: 11400000, guid: 824671530bb46014cae5d7fe7c33d2cf, type: 2}
+    text: Arwah jahat semakin terasa
+  ghostParty: {fileID: 11400000, guid: 0c1b6a8cc331ce442a29cf95f8ebf694, type: 2}
   freeRoam: 0
   background: {fileID: 0}
   nextSceneName: 

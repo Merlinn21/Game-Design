@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23663366f88b2f34eafdc01dbe09b75c, type: 3}
+  m_Name: OrangBatiDialogue
+  m_EditorClassIdentifier: 
+  ghostLines:
+  - textId: 0
+    nextText: 1
+    text: Grrrrrrrrr......
+    multiChoices: []
+    end: 0
+    success: 0
+  - textId: 1
+    nextText: -1
+    text: GrrrrhhUAwAs GrrrAAAAA Ughhhh
+    multiChoices:
+    - nextText: 2
+      choiceText: Huh?
+      responseText: GrrrAAAAA Ughhhh
+    - nextText: 3
+      choiceText: huaaahuaaahuaaa
+      responseText: .....................
+    end: 0
+    success: 0
+  - textId: 2
+    nextText: -1
+    text: (Orang Bati terlihat marah)
+    multiChoices: []
+    end: 1
+    success: 0
+  - textId: 3
+    nextText: -1
+    text: Orang Bati terlihat Senang
+    multiChoices: []
+    end: 1
+    success: 1
+  bonus: 3
+  bonusType: 2

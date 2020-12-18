@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: DoorDialogue
   m_EditorClassIdentifier: 
   charLeft: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
-  charRight: {fileID: 11400000, guid: e66cc6ff3dd64544d90f9790904799cf, type: 2}
+  charRight: {fileID: 11400000, guid: 00560518451227045809dbc762306363, type: 2}
   lines:
   - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
-    text: Loh kok ada dinding di lorong
+    text: Ada pintu yang nutupin lagi..
+  - character: {fileID: 11400000, guid: 00560518451227045809dbc762306363, type: 2}
+    text: Kunci nya pasti berada di daerah sini
   - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
-    text: Pasti ada sesuatu nih!
-  - character: {fileID: 11400000, guid: a89101238b347b84fb6d016a94ff897e, type: 2}
-    text: Mungkin di lorong satunya ada sesuatu
+    text: Iya, harus dicari
   ghostParty: {fileID: 0}
   freeRoam: 1
   background: {fileID: 0}
